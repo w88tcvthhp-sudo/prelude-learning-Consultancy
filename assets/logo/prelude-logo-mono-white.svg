@@ -1,0 +1,11 @@
+<svg width="1800" height="500" viewBox="0 0 1800 500" xmlns="http://www.w3.org/2000/svg">
+<rect width="1800" height="500" fill="black"/>
+<g transform="translate(160,250)">
+<circle cx="0" cy="0" r="92" stroke="white" stroke-width="5" fill="none"/>
+<line x1="-120" y1="0" x2="120" y2="0" stroke="white" stroke-width="5"/>
+<line x1="0" y1="-120" x2="0" y2="120" stroke="white" stroke-width="5"/>
+<circle cx="0" cy="0" r="18" fill="white"/>
+</g>
+<text x="340" y="245" font-size="112" fill="white" font-family="Helvetica, Arial, sans-serif" letter-spacing="16">PRELUDE</text>
+<text x="345" y="315" font-size="34" fill="white" font-family="Helvetica, Arial, sans-serif" letter-spacing="9">LEARNING &amp; CONSULTANCY</text>
+</svg>

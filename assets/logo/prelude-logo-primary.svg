@@ -1,0 +1,15 @@
+<svg width="1800" height="500" viewBox="0 0 1800 500" xmlns="http://www.w3.org/2000/svg">
+<rect width="1800" height="500" fill="#081D16"/>
+<g transform="translate(160,250)">
+<circle cx="0" cy="0" r="92" stroke="#C8A96A" stroke-width="5" fill="none"/>
+<line x1="-120" y1="0" x2="120" y2="0" stroke="#0E7A5A" stroke-width="5"/>
+<line x1="0" y1="-120" x2="0" y2="120" stroke="#C8A96A" stroke-width="5"/>
+<circle cx="0" cy="0" r="18" fill="#C8C6BD"/>
+<circle cx="0" cy="-92" r="7" fill="#C8A96A"/>
+<circle cx="92" cy="0" r="7" fill="#0E7A5A"/>
+<circle cx="0" cy="92" r="7" fill="#C8A96A"/>
+<circle cx="-92" cy="0" r="7" fill="#0E7A5A"/>
+</g>
+<text x="340" y="245" font-size="112" fill="#FFFFFF" font-family="Helvetica, Arial, sans-serif" letter-spacing="16">PRELUDE</text>
+<text x="345" y="315" font-size="34" fill="#0E7A5A" font-family="Helvetica, Arial, sans-serif" letter-spacing="9">LEARNING &amp; CONSULTANCY</text>
+</svg>

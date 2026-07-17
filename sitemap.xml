@@ -261,6 +261,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.prelude-learning.com/leadership-development-complete-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/why-promoting-technical-experts-fails.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/leadership-onboarding-week-one.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/succession-planning-critical-roles.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.prelude-learning.com/why-training-isnt-the-problem.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

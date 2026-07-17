@@ -629,7 +629,7 @@ home_body = f'''<header id="top">
   <div class="wrap hero-content">
     <div class="eyebrow reveal in">Capability · Learning · Workforce Development</div>
     <h1 class="reveal in" data-d="1">Solving Capability Problems <span class="gold">Training Alone Can't Fix.</span></h1>
-    <p class="hero-sub reveal in" data-d="2">Training is rarely the problem. Capability is. When readiness slips, compliance fails or managers aren't performing, the cause is almost never a missing course. As a capability, readiness and workforce development advisor, I diagnose the real problem first — then use learning as one of several tools to fix it. 15+ years, DSAT specialist, Active SC clearance.</p>
+    <p class="hero-sub reveal in" data-d="2">Training is rarely the problem. Capability is. When readiness slips, compliance fails or managers aren't performing, the cause is almost never a missing course. As a capability, readiness and workforce development advisor, I diagnose the real problem first — then use learning as one of several tools to fix it. 23+ years, DSAT specialist, Active SC clearance.</p>
     <div class="hero-actions reveal in" data-d="3">
       <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">View Case Studies</a>
@@ -1200,7 +1200,7 @@ professional_services_body = f'''<header class="page-hero">
 about_body = f'''<header class="page-hero">
   <div class="wrap">
     <div class="eyebrow reveal in">About</div>
-    <h1 class="reveal in" data-d="1">15+ years building capability where the stakes are real.</h1>
+    <h1 class="reveal in" data-d="1">23+ years building capability where the stakes are real.</h1>
     <p class="hero-sub reveal in" data-d="2">I'm Jason Smith. From Royal Navy operational leadership to advising large organisations on capability, readiness and assurance — I solve the problems training alone never fixes.</p>
   </div>
 </header>
@@ -1212,7 +1212,7 @@ about_body = f'''<header class="page-hero">
     <div class="reveal stack-gap">
       <div class="eyebrow">My background</div>
       <p>My career began in the Royal Navy, where I spent years in operational leadership — responsible for people, performance and readiness in demanding, high-pressure environments. There, capability isn't a slide in a deck; it's whether your team can deliver when it matters.</p>
-      <p>Over 15+ years I've moved from operational leadership into capability development and workforce performance — building training and assurance to exacting Defence standards, and learning to connect what happens on the ground with what the board needs to see.</p>
+      <p>Over 23+ years I've moved from operational leadership into capability development and workforce performance — building training and assurance to exacting Defence standards, and learning to connect what happens on the ground with what the board needs to see.</p>
       <p>Today I bring that perspective to Defence, Healthcare, Housing, the wider public sector and — through my time as a Korn Ferry consultant — professional services firms, as an independent capability advisor who has actually operated inside the environments my clients work in.</p>
     </div>
     <div class="reveal" data-d="2">
@@ -1260,7 +1260,7 @@ about_body = f'''<header class="page-hero">
     <div class="eyebrow reveal">By the numbers</div>
     <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Experience measured in outcomes.</p>
     <div class="metric-grid reveal" data-d="2">
-      <div class="metric"><div class="figure" data-count="15" data-suffix="+">15<span class="unit">+</span></div><div class="label">Years in capability, leadership &amp; readiness</div></div>
+      <div class="metric"><div class="figure" data-count="23" data-suffix="+">23<span class="unit">+</span></div><div class="label">Years in capability, leadership &amp; readiness</div></div>
       <div class="metric"><div class="figure" data-count="15000">15,000</div><div class="label">Staff supported across a single organisation</div></div>
       <div class="metric"><div class="figure" data-count="95" data-suffix="%">95<span class="unit">%</span></div><div class="label">Apprenticeship completion rate</div></div>
       <div class="metric"><div class="figure" data-count="25" data-suffix="%">25<span class="unit">%</span></div><div class="label">Operational performance improvement (up to)</div></div>
@@ -2622,7 +2622,7 @@ whoihelp_body = f'''<header class="page-hero">
 
 # ------------------------------------------------------------------ write
 page("index.html", "Jason Smith — Capability, Readiness &amp; Workforce Development Advisor | Prelude",
-     "Training is rarely the problem. Capability is. Jason Smith is a capability, readiness and workforce development advisor helping Defence and public sector organisations diagnose the real problem and build capability. DSAT specialist, 15+ years, Active SC.",
+     "Training is rarely the problem. Capability is. Jason Smith is a capability, readiness and workforce development advisor helping Defence and public sector organisations diagnose the real problem and build capability. DSAT specialist, 23+ years, Active SC.",
      home_body, "home")
 
 page("defence.html", "DSAT Consultant | JSP 822 &amp; Defence Training Governance | Prelude",
@@ -2656,7 +2656,7 @@ page("professional-services.html", "Professional Services Capability Consultancy
      breadcrumb="Professional Services", faq=PROFESSIONAL_SERVICES_FAQ)
 
 page("about.html", "About Jason Smith — Royal Navy Leader &amp; Capability Advisor | Prelude",
-     "15+ years building capability where the stakes are real: Royal Navy operational leadership, Defence capability specialism, Korn Ferry consultant, independent capability advisor.",
+     "23+ years building capability where the stakes are real: Royal Navy operational leadership, Defence capability specialism, Korn Ferry consultant, independent capability advisor.",
      about_body, "about", og="profile", breadcrumb="About")
 
 page("services.html", "Services — Capability &amp; Governance, Leadership &amp; Workforce, Learning Transformation | Prelude",

@@ -281,6 +281,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.prelude-learning.com/capability-development-complete-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/what-is-a-capability-framework.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/capability-vs-competency-explained.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/how-to-run-a-capability-readiness-review.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/multi-specialisation-capability-frameworks.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.prelude-learning.com/why-training-isnt-the-problem.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

@@ -162,8 +162,9 @@
       </div>
       <form class="capture-form" action="https://formspree.io/f/xeeyazed" method="POST">
         <input type="hidden" name="_subject" value="Prelude website: Resource request">
+        <input type="hidden" name="_next" value="https://www.prelude-learning.com/thank-you.html?from=resource">
         <div class="field"><label for="r-resource">Resource</label><select id="r-resource" name="resource"><option>The Capability Readiness Playbook&trade;</option><option>Capability Readiness Review</option><option>Defence Training Needs Analysis Checklist</option><option>Learning Governance Health Check</option><option>Workforce Capability Assessment</option></select></div>
-        <div class="field"><label for="r-email">Work email</label><input id="r-email" name="email" type="email" required placeholder="you@organisation.gov.uk"></div>
+        <div class="field"><label for="r-email">Work email</label><input id="r-email" name="email" type="email" required placeholder="you@organisation.gov.uk"><span class="field-error">Please enter a valid email address.</span></div>
         <button type="submit" class="btn btn-primary">Send it to me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </form>
     </div>

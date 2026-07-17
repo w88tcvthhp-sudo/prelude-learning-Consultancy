@@ -121,10 +121,11 @@ def article_schema(headline, description, canonical_url):
     }
     return json.dumps(data, indent=2)
 
-def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None):
+def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False):
     kw = f'\n<meta name="keywords" content="{keywords}">' if keywords else ""
     canonical_url = SITE_URL + "/" if filename == "index.html" else f"{SITE_URL}/{filename}"
     canonical = f'\n<link rel="canonical" href="{canonical_url}">'
+    robots = '\n<meta name="robots" content="noindex,follow">' if noindex else ""
     schema_scripts = f'<script type="application/ld+json">\n{ORG_SCHEMA_JSON}\n</script>'
     if breadcrumb:
         schema_scripts += f'\n<script type="application/ld+json">\n{breadcrumb_schema(canonical_url, breadcrumb)}\n</script>'
@@ -139,7 +140,7 @@ def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#081D16">
 <title>{title}</title>
-<meta name="description" content="{desc}">{kw}{canonical}
+<meta name="description" content="{desc}">{kw}{canonical}{robots}
 <meta property="og:type" content="{og}">
 <meta property="og:site_name" content="Prelude Learning &amp; Consultancy">
 <meta property="og:title" content="{title}">
@@ -543,8 +544,8 @@ def photo_grid(items, cols="3"):
     cls = "photo-grid" + (" cols-2" if cols == "2" else "")
     return f'<div class="{cls} reveal">{cells}</div>'
 
-def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None):
-    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article) + nav(active)
+def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False):
+    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex) + nav(active)
             + f'<main id="main">{body}</main>' + extra_body + footer())
     with open(filename, "w") as f:
         f.write(html)
@@ -2253,8 +2254,9 @@ insights_body = f'''<header class="page-hero">
       </div>
       <form class="capture-form" action="https://formspree.io/f/xeeyazed" method="POST">
         <input type="hidden" name="_subject" value="Prelude website: Resource request">
+        <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html?from=resource">
         <div class="field"><label for="r-resource">Resource</label><select id="r-resource" name="resource">{_res_opts}</select></div>
-        <div class="field"><label for="r-email">Work email</label><input id="r-email" name="email" type="email" required placeholder="you@organisation.gov.uk"></div>
+        <div class="field"><label for="r-email">Work email</label><input id="r-email" name="email" type="email" required placeholder="you@organisation.gov.uk"><span class="field-error">Please enter a valid email address.</span></div>
         <button type="submit" class="btn btn-primary">Send it to me {ARROW}</button>
       </form>
     </div>
@@ -2316,9 +2318,10 @@ contact_body = f'''<header class="page-hero" id="book">
       <p class="muted" style="margin-bottom:26px">I read every enquiry personally and aim to reply within one working day.</p>
       <form class="form" action="https://formspree.io/f/xeeyazed" method="POST">
         <input type="hidden" name="_subject" value="Prelude website: New capability enquiry">
+        <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html?from=contact">
         <div class="row">
-          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required placeholder="Your name"></div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@organisation.gov.uk"></div>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@organisation.gov.uk"><span class="field-error">Please enter a valid email address.</span></div>
         </div>
         <div class="row">
           <div class="field"><label for="org">Organisation</label><input id="org" name="organisation" type="text" placeholder="Your organisation"></div>
@@ -2326,7 +2329,7 @@ contact_body = f'''<header class="page-hero" id="book">
             <select id="sector" name="sector"><option>Defence</option><option>Healthcare / NHS</option><option>Housing</option><option>Public sector / Government</option><option>Other</option></select>
           </div>
         </div>
-        <div class="field"><label for="message">What capability challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you're trying to solve..."></textarea></div>
+        <div class="field"><label for="message">What capability challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you're trying to solve..."></textarea><span class="field-error">Please tell me a little about the challenge you're facing.</span></div>
         <button type="submit" class="btn btn-primary">Send enquiry {ARROW}</button>
         <p class="form-note">Prefer email? Write to <a href="mailto:jason.smith@prelude-learning.com" style="color:var(--gold)">jason.smith@prelude-learning.com</a>.</p>
       </form>
@@ -2673,6 +2676,46 @@ page("insights.html", "Insights &amp; Resources — DSAT, TNA, Capability &amp; 
 page("contact.html", "Contact — Discuss Your Capability Challenge | Jason Smith, Prelude",
      "Discuss your capability, readiness or training governance challenge with Jason Smith. A practical, problem-first conversation — no sales pitch. Defence, Healthcare, Housing and public sector.",
      contact_body, "contact", breadcrumb="Contact")
+
+# ================================================================== THANK YOU
+thank_you_body = f'''<header class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow reveal in">Sent</div>
+    <h1 class="reveal in" data-d="1" id="ty-heading">Message sent.</h1>
+    <p class="hero-sub reveal in" data-d="2" id="ty-sub">Thanks — I read every enquiry personally and aim to reply within one working day.</p>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow reveal">While you wait</div>
+    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Some places to keep exploring.</p>
+    <div class="feature-grid">
+      <div class="feature-card reveal"><h3>Case studies</h3><p>See the evidence behind the claims — real capability, governance and learning projects across Defence, Healthcare and Housing.</p></div>
+      <div class="feature-card reveal" data-d="1"><h3>Capability Readiness Review</h3><p>Not sure where your own problem sits? Take the ten-question self-assessment.</p></div>
+      <div class="feature-card reveal" data-d="2"><h3>Insights</h3><p>Practical thinking on DSAT, capability frameworks, leadership and readiness.</p></div>
+    </div>
+    <div style="margin-top:40px" class="reveal">
+      <a href="case-studies.html" class="btn btn-primary">View case studies {ARROW}</a>
+      <a href="index.html" class="btn btn-ghost" style="margin-left:14px">Back to homepage</a>
+    </div>
+  </div>
+</section>
+<script>
+(function(){{
+  var params = new URLSearchParams(location.search);
+  if (params.get('from') === 'resource') {{
+    document.getElementById('ty-heading').textContent = 'Resource on its way.';
+    document.getElementById('ty-sub').textContent = "Thanks — check your inbox shortly. If it doesn't arrive in a few minutes, check your spam folder or email jason.smith@prelude-learning.com directly.";
+  }}
+}})();
+</script>'''
+
+page("thank-you.html", "Thank You | Prelude Learning &amp; Consultancy",
+     "Your message has been sent to Prelude Learning &amp; Consultancy.",
+     thank_you_body, "", noindex=True)
 
 page("capability-readiness-review.html", "The Capability Readiness Review&trade; — Free Diagnostic | Prelude",
      "Find the real problem before you invest. A 10-question Capability Readiness Review self-assessment for Defence and public sector leaders — capability, leadership, process, governance, workforce or training.",

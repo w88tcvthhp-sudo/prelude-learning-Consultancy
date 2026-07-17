@@ -15,6 +15,7 @@
   --stone:#C8C6BD;
   --stone-dim:#B4B3AA;
   --gold:#C8A96A;
+  --error:#E68A7C;
   --paper:#f3f2ec;
   --display:'Satoshi',-apple-system,sans-serif;
   --body:'General Sans',-apple-system,sans-serif;
@@ -529,6 +530,9 @@ header.page-hero .hero-sub{max-width:680px}
 .field input::placeholder,.field textarea::placeholder{color:#6c6d66}
 .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--gold)}
 .field textarea{min-height:150px;resize:vertical}
+.field-error{display:none;color:var(--error);font-size:13px;line-height:1.4}
+.field input:user-invalid,.field textarea:user-invalid,.field select:user-invalid{border-color:var(--error)}
+.field input:user-invalid~.field-error,.field textarea:user-invalid~.field-error,.field select:user-invalid~.field-error{display:block}
 .form .btn{justify-content:center;width:100%}
 .form-note{font-size:13px;color:var(--stone-dim);margin-top:4px}
 
@@ -776,7 +780,7 @@ header.page-hero .hero-sub{max-width:680px}
 .rung .read{font-family:var(--display);font-size:13px;color:var(--gold)}
 
 /* ---- manifesto article ---- */
-.article{max-width:780px}
+.article{max-width:600px}
 .article h2{font-size:clamp(1.3rem,2.4vw,1.7rem);font-weight:500;margin:36px 0 12px;color:#fff}
 .article h2:first-child{margin-top:0}
 .article p{color:var(--stone);font-size:1.04rem;line-height:1.75;margin-bottom:8px}

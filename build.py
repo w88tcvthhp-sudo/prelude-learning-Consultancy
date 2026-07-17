@@ -121,7 +121,27 @@ def article_schema(headline, description, canonical_url):
     }
     return json.dumps(data, indent=2)
 
-def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False):
+def defined_term_set_schema(name, description, canonical_url, terms):
+    data = {
+        "@context": "https://schema.org",
+        "@type": "DefinedTermSet",
+        "name": name,
+        "description": description,
+        "url": canonical_url,
+        "hasDefinedTerm": [
+            {
+                "@type": "DefinedTerm",
+                "name": term,
+                "description": definition,
+                "url": f"{canonical_url}#{slug}",
+                "inDefinedTermSet": canonical_url
+            }
+            for slug, term, definition, _href, _label in terms
+        ]
+    }
+    return json.dumps(data, indent=2)
+
+def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False, terms=None):
     kw = f'\n<meta name="keywords" content="{keywords}">' if keywords else ""
     canonical_url = SITE_URL + "/" if filename == "index.html" else f"{SITE_URL}/{filename}"
     canonical = f'\n<link rel="canonical" href="{canonical_url}">'
@@ -129,6 +149,8 @@ def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=
     schema_scripts = f'<script type="application/ld+json">\n{ORG_SCHEMA_JSON}\n</script>'
     if breadcrumb:
         schema_scripts += f'\n<script type="application/ld+json">\n{breadcrumb_schema(canonical_url, breadcrumb)}\n</script>'
+    if terms:
+        schema_scripts += f'\n<script type="application/ld+json">\n{defined_term_set_schema(title, desc, canonical_url, terms)}\n</script>'
     if faq:
         schema_scripts += f'\n<script type="application/ld+json">\n{faq_schema(faq)}\n</script>'
     if article:
@@ -282,6 +304,7 @@ def footer():
         <a href="case-studies.html">Case Studies</a>
         <a href="why-training-isnt-the-problem.html">Manifesto</a>
         <a href="insights.html">Insights</a>
+        <a href="glossary.html">Glossary</a>
         <a href="about.html">About</a>
       </div>
       <div class="foot-domains">
@@ -544,8 +567,8 @@ def photo_grid(items, cols="3"):
     cls = "photo-grid" + (" cols-2" if cols == "2" else "")
     return f'<div class="{cls} reveal">{cells}</div>'
 
-def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False):
-    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex) + nav(active)
+def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False, terms=None):
+    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex, terms) + nav(active)
             + f'<main id="main">{body}</main>' + extra_body + footer())
     with open(filename, "w") as f:
         f.write(html)
@@ -1964,6 +1987,71 @@ cs_body = f'''<header class="page-hero">
 
 {cta("Recognise your organisation in any of these?", "If so, let's talk about what it would take to get the same result for you.", secondary=("Explore services", "services.html"))}'''
 
+# ================================================================== GLOSSARY
+# Each entry: (slug, term, definition, link_href, link_label)
+GLOSSARY_TERMS = [
+    ("active-sc-dv-clearance", "Active SC / DV Clearance", "UK Government security clearance levels — Security Check (SC) and the higher Developed Vetting (DV) — required to work on sensitive Defence and government programmes. Jason holds Active SC clearance and is a former DV holder.", "about.html", "About Jason's clearances"),
+    ("apprenticeship-funding-compliance", "Apprenticeship Funding Compliance", "The evidence and audit trail required to protect government-funded apprenticeship investment — proving that funded time, off-the-job training and progress tracking meet the rules, not just that someone eventually qualified.", "apprenticeships.html", "Apprenticeships service"),
+    ("capability-diagnostic-framework", "Capability Diagnostic Framework&trade;", "Prelude's framework for tracing performance from mission and outcomes down through required capability, behaviours and evidence — used to identify exactly which layer is missing when capability fails.", "defence.html", "See it applied on the Defence page"),
+    ("capability-framework", "Capability Framework", "A defined, consistent standard of competence for a role or specialisation, used for assessment, development and workforce planning. Unlike a job description, a capability framework is meant to be applied the same way by every assessor, not interpreted locally by every team.", "building-capability-frameworks.html", "Building Capability Frameworks"),
+    ("capability-improvement-approach", "Capability Improvement Approach&trade;", "Prelude's six-stage method for turning a capability problem into measurable performance: understand the mission, analyse the gap, identify root causes, design the right intervention, measure impact, and improve continuously.", "how-i-work.html", "How I Work"),
+    ("capability-readiness-maturity-model", "Capability Readiness Maturity Model&trade;", "Five stages of organisational capability maturity, from Reactive (ad-hoc, no evidence) through Compliant and Structured to Measured and Optimised. Most organisations can place themselves on this scale within one conversation.", "how-i-work.html", "How I Work"),
+    ("capability-readiness-review", "Capability Readiness Review&trade;", "Prelude's ten-question diagnostic for identifying which of six areas — capability, leadership, process, governance, workforce or training — a performance problem actually sits in, before any solution is designed.", "capability-readiness-review.html", "Take the free self-assessment"),
+    ("capability-vs-competency", "Capability vs Competency", "Related but distinct: competency usually describes an individual's skill or behaviour, while capability describes whether the organisation as a whole — people, governance, structure and process together — can reliably deliver the outcome. An organisation can have competent individuals and still lack capability.", "building-capability-frameworks.html", "Building Capability Frameworks"),
+    ("change-management", "Change Management", "The discipline of managing the human and structural side of organisational transformation — communication, adoption, resistance and sequencing — distinct from capability building, though the two need to work together for change to stick.", "services.html", "Explore services"),
+    ("cmi", "CMI", "The Chartered Management Institute — the UK's professional body for management and leadership, awarding recognised qualifications in leadership and coaching.", "about.html", "About Jason's qualifications"),
+    ("dsat", "DSAT", "The Defence Systems Approach to Training — the methodology set out in JSP 822 for designing, delivering and assuring training across UK Defence. In practice, it's a structured way of answering five questions: what capability is required, how will training be designed, developed and delivered to build it, and how will you know it worked.", "dsat-explained.html", "Read: DSAT Explained"),
+    ("evaluation-kirkpatrick", "Evaluation (Kirkpatrick Model)", "The standard four-level model for measuring training effectiveness: reaction, learning, behaviour and results. Most organisations measure only the first level (did people enjoy it) and call it evaluation — genuine evaluation asks whether behaviour and results actually changed.", "from-training-to-readiness.html", "Read: From Training to Readiness"),
+    ("jsp-822", "JSP 822", "The Ministry of Defence Joint Service Publication that sets out DSAT requirements — the policy document behind Defence training governance, assurance and audit.", "dsat-explained.html", "Read: DSAT Explained"),
+    ("learning-governance", "Learning Governance", "The decision rights and evidence trail behind how training and learning are assured, audited and held accountable — who owns which decision, and what evidence proves it was made well.", "training-governance-assurance.html", "Training Governance &amp; Assurance service"),
+    ("learning-strategy", "Learning Strategy", "The document connecting capability investment to organisational goals — what's being invested in, why, and how impact will be measured — as distinct from a training plan, which just lists what's being delivered.", "learning-strategy.html", "Learning Strategy service"),
+    ("lms", "LMS (Learning Management System)", "The platform used to deliver, track and report on training. An LMS produces data by default, but data isn't the same as trustworthy reporting — most LMS problems are configuration and information management issues, not platform failures.", "learning-technology-lessons.html", "Read: Learning Technology Lessons"),
+    ("organisational-development", "Organisational Development", "The discipline of improving how an organisation functions structurally — roles, governance, culture and process — rather than only developing individual skills. Capability work often surfaces organisational development needs that training alone can't address.", "services.html", "Explore services"),
+    ("performance-consulting", "Performance Consulting", "Diagnosing why organisational performance is falling short before prescribing a solution — testing whether the cause is genuinely a skills gap, or something structural, before recommending training, restructuring or anything else.", "from-training-to-readiness.html", "Read: From Training to Readiness"),
+    ("prelude-capability-model", "Prelude Capability Model&trade;", "Prelude's primary framework, tracing performance from mission and outcomes down through required capability, behaviours, skills and knowledge, governance and assurance, to performance evidence. When any layer is missing, capability fails — and no amount of training fixes it.", "how-i-work.html", "How I Work"),
+    ("prince2", "PRINCE2", "A structured project management methodology widely used across UK government and Defence programmes. Jason is a PRINCE2 Practitioner.", "about.html", "About Jason's qualifications"),
+    ("skills-framework", "Skills Framework", "A map of the specific skills required for particular roles — narrower and more operational than a capability framework, which sets the broader standard a role needs to meet. Skills frameworks are what make workforce planning and succession possible in practice.", "capability-framework-design.html", "Capability Framework Design service"),
+    ("succession-planning", "Succession Planning", "Preparing the pipeline for critical roles before a vacancy forces a rushed decision — identifying and developing likely successors ahead of need, rather than reacting when someone leaves.", "leadership-development.html", "Leadership Development service"),
+    ("tna", "TNA (Training Needs Analysis)", "The structured process of testing whether a performance gap is genuinely a training gap, or whether it's being held back by something else — unclear roles, weak governance, or a structure working against the outcome. A properly run TNA can conclude that training isn't the answer.", "training-needs-analysis.html", "Training Needs Analysis service"),
+    ("totara", "Totara", "An open-source Learning Management System, built on Moodle, widely used across UK healthcare and public sector organisations for its flexibility around compliance reporting and structured learning pathways.", "lms-optimisation.html", "LMS Optimisation service"),
+    ("training-governance", "Training Governance", "Governance applied specifically to training delivery and compliance — audit-ready evidence, clear decision rights, and defensible assurance that training is meeting the standard it's supposed to.", "training-governance-assurance.html", "Training Governance &amp; Assurance service"),
+    ("training-vs-capability-decision-model", "Training vs Capability Decision Model&trade;", "Prelude's test for whether a performance gap needs training or something structural: if the knowledge or skill is genuinely missing, it's a training problem. If it isn't, the real issue is usually structure, governance, leadership or process.", "why-training-isnt-the-problem.html", "Read the manifesto"),
+    ("workforce-planning", "Workforce Planning", "Aligning roles, skills and structure to actual operational demand, so an organisation is ready for what's coming, not just resourced for what's here today.", "workforce-planning.html", "Workforce Planning service"),
+]
+
+def glossary_body():
+    nav_chips = "".join(f'<a href="#{slug}" class="chip">{term}</a>' for slug, term, _d, _h, _l in GLOSSARY_TERMS)
+    items = ""
+    for slug, term, definition, href, label in GLOSSARY_TERMS:
+        items += f'''      <div class="glossary-item" id="{slug}">
+        <dt>{term}</dt>
+        <dd>{definition} <a class="read" href="{href}">{label} &rarr;</a></dd>
+      </div>
+'''
+    return f'''<header class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow reveal in">Insights</div>
+    <h1 class="reveal in" data-d="1">Capability &amp; Learning Glossary</h1>
+    <p class="hero-sub reveal in" data-d="2">Plain-English definitions of the terms used across this site — DSAT, TNA, capability frameworks and the rest — each linking through to where we cover it properly.</p>
+    <div class="glossary-nav reveal in" data-d="3">{nav_chips}</div>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<section>
+  <div class="wrap">
+    <dl class="glossary-list">
+{items}    </dl>
+  </div>
+</section>
+
+{cta("Want this thinking applied to your organisation?", "Insight is useful. Applied insight changes outcomes. Let's talk about yours.", secondary=("See the evidence", "case-studies.html"))}'''
+
+page("glossary.html", "Capability &amp; Learning Glossary — DSAT, TNA &amp; Key Terms Explained | Prelude",
+     "Plain-English definitions of DSAT, TNA, capability frameworks and the other terms used across Prelude's site — each linking through to a deeper article or service page.",
+     glossary_body(), "insights", breadcrumb="Glossary", terms=GLOSSARY_TERMS)
+
 # ================================================================== INSIGHT ARTICLES
 def insight_article_page(slug, category, title, h1, hero_sub, sections, faqs, related_slug, related_title):
     body_html = ""
@@ -2277,6 +2365,20 @@ insights_body = f'''<header class="page-hero">
         <a class="read" href="why-training-isnt-the-problem.html">Read the manifesto →</a>
       </div>
       <div class="fi-visual"><img src="assets/icons/capability.svg" alt=""></div>
+    </article>
+  </div>
+</section>
+
+<section style="padding-top:30px">
+  <div class="wrap">
+    <article class="featured-insight reveal" data-d="1">
+      <div>
+        <span class="ic-cat">Reference</span>
+        <h2>Capability &amp; Learning Glossary</h2>
+        <p>New to DSAT, TNA or capability frameworks? Start with the glossary — plain-English definitions of every term used across this site, each linking through to the article or service page that covers it properly.</p>
+        <a class="read" href="glossary.html">Browse the glossary →</a>
+      </div>
+      <div class="fi-visual"><img src="assets/icons/insight.svg" alt=""></div>
     </article>
   </div>
 </section>
@@ -2831,6 +2933,7 @@ SITEMAP_PAGES = [
     ("nato-royal-navy-training-modernisation.html", "0.7", "yearly"),
     ("capability-readiness-review.html", "0.8", "monthly"),
     ("insights.html", "0.7", "monthly"),
+    ("glossary.html", "0.7", "monthly"),
     ("dsat-explained.html", "0.7", "monthly"),
     ("training-needs-analysis-best-practice.html", "0.7", "monthly"),
     ("building-capability-frameworks.html", "0.7", "monthly"),

@@ -467,6 +467,8 @@ header.page-hero .hero-sub{max-width:680px}
 .case.hide{display:none}
 .case-aside .case-sector{font-family:var(--display);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
 .case-aside h3{font-size:1.45rem;font-weight:500;margin:14px 0 26px}
+.case-aside img{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:center}
+.case-hero-img{width:100%;height:auto;aspect-ratio:21/9;object-fit:cover;object-position:center}
 .case-metric{border:1px solid rgba(200,169,106,.22);border-radius:4px;background:rgba(200,169,106,.05);padding:24px}
 .case-metric .figure{font-family:var(--display);font-size:2.4rem;color:#fff;font-weight:500;line-height:1}
 .case-metric .figure .unit{color:var(--gold)}
@@ -696,6 +698,7 @@ header.page-hero .hero-sub{max-width:680px}
 /* ---- photo slots ---- */
 .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:46px}
 .photo-grid.cols-2{grid-template-columns:repeat(2,1fr)}
+.photo-grid img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center}
 .photo-frame.wide{aspect-ratio:16/9}
 .photo-frame.tall{aspect-ratio:3/4}
 .photo-frame .ph-cap{font-size:12px;letter-spacing:.06em;line-height:1.5;color:var(--stone)}

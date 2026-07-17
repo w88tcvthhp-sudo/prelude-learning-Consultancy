@@ -1676,7 +1676,7 @@ def case_study_page(slug, sector_label, title, metric_fig, metric_label,
 {proof()}
 <section style="padding-top:84px">
   <div class="wrap">
-    <img src="assets/photos/{photo_src}" alt="{photo_alt}" width="{photo_w}" height="{photo_h}" loading="lazy" style="width:100%;border-radius:6px" class="reveal">
+    <img src="assets/photos/{photo_src}" alt="{photo_alt}" width="{photo_w}" height="{photo_h}" loading="lazy" style="width:100%;border-radius:6px" class="case-hero-img reveal">
   </div>
 </section>
 

@@ -38,6 +38,16 @@
     });
   }
 
+  /* ---- Sectors nav dropdown: click-toggle (mobile/touch); desktop uses CSS :hover ---- */
+  document.querySelectorAll('.nav-item.has-dropdown').forEach(function (item) {
+    var btn = item.querySelector('.nav-drop-btn');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.toggle('open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  });
+
   /* ---- Scroll-reveal: fade/slide elements in as they enter view ---- */
   var revealEls = document.querySelectorAll('.reveal:not(.in)');
   if ('IntersectionObserver' in window) {
@@ -58,6 +68,34 @@
   /* ---- Current year in the footer ---- */
   var yr = document.getElementById('yr');
   if (yr) yr.textContent = new Date().getFullYear();
+
+  /* ---- Sticky CTA: appears after the hero, dismissible, hidden on contact/privacy ---- */
+  var stickyCta = document.getElementById('stickyCta');
+  var suppressedPages = ['contact.html', 'privacy.html'];
+  var onSuppressedPage = suppressedPages.some(function (p) { return location.pathname.indexOf(p) !== -1; });
+  if (stickyCta && !onSuppressedPage && sessionStorage.getItem('stickyCtaDismissed') !== '1') {
+    var ctaShown = false;
+    var onCtaScroll = function () {
+      var trigger = window.innerHeight * 0.9;
+      if (window.scrollY > trigger && !ctaShown) {
+        stickyCta.classList.add('show');
+        ctaShown = true;
+      } else if (window.scrollY <= trigger && ctaShown) {
+        stickyCta.classList.remove('show');
+        ctaShown = false;
+      }
+    };
+    window.addEventListener('scroll', onCtaScroll, { passive: true });
+    onCtaScroll();
+    var stickyCtaClose = document.getElementById('stickyCtaClose');
+    if (stickyCtaClose) {
+      stickyCtaClose.addEventListener('click', function () {
+        stickyCta.classList.remove('show');
+        sessionStorage.setItem('stickyCtaDismissed', '1');
+        window.removeEventListener('scroll', onCtaScroll);
+      });
+    }
+  }
 })();
 
 /* =====================================================================

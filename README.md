@@ -37,7 +37,7 @@ move files out of the prelude-website/ subfolder so index.html sits in public_ht
 ## Before publishing — replace placeholders
 - IMAGES: every photo is a styled placeholder. Photoreal images could not be generated
   in the build environment — use PHOTOGRAPHY-BRIEF.md to commission or generate them.
-- CONTACT FORM: posts to https://formspree.io/f/your-form-id — set your real endpoint.
+- CONTACT FORM: done. Both the contact form and the resource-request form post to a live Formspree endpoint (https://formspree.io/f/xeeyazed).
 - RESOURCE / CRR DOWNLOADS: "Request this resource" links point to the contact page;
   wire to your email tool or a gated form to capture leads. The CRR "Download/print"
   uses the browser print dialog (print-to-PDF) with a dedicated print stylesheet.

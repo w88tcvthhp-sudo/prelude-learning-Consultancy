@@ -2012,7 +2012,7 @@ GLOSSARY_TERMS = [
     ("prince2", "PRINCE2", "A structured project management methodology widely used across UK government and Defence programmes. Jason is a PRINCE2 Practitioner.", "about.html", "About Jason's qualifications"),
     ("skills-framework", "Skills Framework", "A map of the specific skills required for particular roles — narrower and more operational than a capability framework, which sets the broader standard a role needs to meet. Skills frameworks are what make workforce planning and succession possible in practice.", "capability-framework-design.html", "Capability Framework Design service"),
     ("succession-planning", "Succession Planning", "Preparing the pipeline for critical roles before a vacancy forces a rushed decision — identifying and developing likely successors ahead of need, rather than reacting when someone leaves.", "leadership-development.html", "Leadership Development service"),
-    ("tna", "TNA (Training Needs Analysis)", "The structured process of testing whether a performance gap is genuinely a training gap, or whether it's being held back by something else — unclear roles, weak governance, or a structure working against the outcome. A properly run TNA can conclude that training isn't the answer.", "training-needs-analysis.html", "Training Needs Analysis service"),
+    ("tna", "TNA (Training Needs Analysis)", "The structured process of testing whether a performance gap is genuinely a training gap, or whether it's being held back by something else — unclear roles, weak governance, or a structure working against the outcome. A properly run TNA can conclude that training isn't the answer.", "training-needs-analysis-complete-guide.html", "Read the complete guide"),
     ("totara", "Totara", "An open-source Learning Management System, built on Moodle, widely used across UK healthcare and public sector organisations for its flexibility around compliance reporting and structured learning pathways.", "lms-optimisation.html", "LMS Optimisation service"),
     ("training-governance", "Training Governance", "Governance applied specifically to training delivery and compliance — audit-ready evidence, clear decision rights, and defensible assurance that training is meeting the standard it's supposed to.", "training-governance-assurance.html", "Training Governance &amp; Assurance service"),
     ("training-vs-capability-decision-model", "Training vs Capability Decision Model&trade;", "Prelude's test for whether a performance gap needs training or something structural: if the knowledge or skill is genuinely missing, it's a training problem. If it isn't, the real issue is usually structure, governance, leadership or process.", "why-training-isnt-the-problem.html", "Read the manifesto"),
@@ -2053,15 +2053,28 @@ page("glossary.html", "Capability &amp; Learning Glossary — DSAT, TNA &amp; Ke
      glossary_body(), "insights", breadcrumb="Glossary", terms=GLOSSARY_TERMS)
 
 # ================================================================== INSIGHT ARTICLES
-def insight_article_page(slug, category, title, h1, hero_sub, sections, faqs, related_slug, related_title):
+def insight_article_page(slug, category, title, h1, hero_sub, sections, faqs, related_slug, related_title, kind="Insight", related_reading=None):
     body_html = ""
     for heading, paragraphs in sections:
         body_html += f'<h2 class="reveal">{heading}</h2>\n'
         for p in paragraphs:
             body_html += f'<p class="reveal">{p}</p>\n'
+    reading_html = ""
+    if related_reading:
+        items = "".join(f'<li><a class="read" href="{s}.html">{t} &rarr;</a></li>' for t, s in related_reading)
+        reading_html = f'''<div class="divider"></div>
+
+<section>
+  <div class="wrap article">
+    <div class="eyebrow reveal">Related reading</div>
+    <ul class="dot-list reveal" style="margin-top:20px">{items}</ul>
+  </div>
+</section>
+
+'''
     body = f'''<header class="page-hero">
   <div class="wrap">
-    <div class="eyebrow reveal in">{category} &middot; Insight</div>
+    <div class="eyebrow reveal in">{category} &middot; {kind}</div>
     <h1 class="reveal in" data-d="1">{h1}</h1>
     <p class="hero-sub reveal in" data-d="2">{hero_sub}</p>
   </div>
@@ -2074,7 +2087,7 @@ def insight_article_page(slug, category, title, h1, hero_sub, sections, faqs, re
 {body_html}  </div>
 </section>
 
-<div class="divider"></div>
+{reading_html}<div class="divider"></div>
 
 {faq_section(faqs, "Common questions on this topic.")}
 <section class="cta-band">
@@ -2142,7 +2155,12 @@ INSIGHTS_FULL = [
              ("Who should be interviewed or consulted during a TNA?", "A mix of people closest to the performance problem and people accountable for the outcome — not only the people who originally requested training, whose view is useful but not sufficient on its own."),
              ("What happens if the TNA concludes training isn't needed?", "That's a legitimate and valuable finding — it means investment can be redirected to whatever is actually causing the gap, rather than being spent on training that wouldn't have worked."),
          ],
-         related_slug="training-needs-analysis", related_title="Training Needs Analysis"),
+         related_slug="training-needs-analysis", related_title="Training Needs Analysis",
+         related_reading=[
+             ("Training Needs Analysis: The Complete Guide", "training-needs-analysis-complete-guide"),
+             ("How to Run a DSAT-Compliant TNA, Step by Step", "dsat-compliant-tna-step-by-step"),
+             ("Common TNA Mistakes That Waste Budget", "common-tna-mistakes"),
+         ]),
     dict(slug="building-capability-frameworks", category="Capability", title="Building Capability Frameworks",
          h1="Building Capability Frameworks People Actually Use",
          hero_sub="Designing competency frameworks people actually use — not a document that gets published once and never opened again.",
@@ -2300,11 +2318,159 @@ INSIGHTS_FULL = [
              ("Where should an organisation start if it wants to shift from activity to outcome measurement?", "With the Capability Readiness Review — establishing where the real gap sits (capability, leadership, process, governance, workforce or training) before deciding what to measure and invest in next."),
          ],
          related_slug="capability-readiness-review", related_title="Take the Capability Readiness Review"),
+    dict(slug="training-needs-analysis-complete-guide", category="Method", kind="Complete Guide",
+         title="Training Needs Analysis: The Complete Guide for Defence & Public Sector",
+         h1="Training Needs Analysis: The Complete Guide for Defence &amp; Public Sector",
+         hero_sub="Everything you need to know about running a TNA that survives audit, finds the real gap, and gives leaders evidence they can act on — from first principles through to board reporting.",
+         sections=[
+             ("What a Training Needs Analysis actually is",
+              ["A Training Needs Analysis is the structured process of testing whether a performance gap is genuinely a training gap, or whether it's being held back by something else entirely — unclear roles, weak governance, a structure working against the outcome, or expectations nobody actually agreed.",
+               "That last part matters more than most organisations treat it: a properly run TNA can, and sometimes should, conclude that training isn't the answer. If it can't reach that conclusion, it isn't a needs analysis — it's a justification exercise for a decision someone already made."]),
+             ("Why TNA matters more in Defence and regulated public sector",
+              ["Outside regulated environments, a weak TNA wastes budget on training that doesn't work. Inside Defence and regulated public sector environments, it does that and creates an audit problem — because DSAT, set out in JSP 822, requires the analysis behind a training decision to be defensible, not just the training itself.",
+               "That's the real link between TNA and DSAT: DSAT's Analysis phase is where a TNA lives, and an audit will test whether the capability requirement was genuinely established before design and development work began."]),
+             ("The TNA process, step by step",
+              ["A defensible TNA moves through five stages: establishing the capability requirement, gathering evidence on current performance against it, testing whether the gap is genuinely a training gap, prioritising findings by evidenced impact, and reporting in a form leaders can act on.",
+               "Each stage produces something the next stage depends on. Skip the evidence-gathering stage and jump to recommendations, and there's nothing defensible underpinning the report — just opinion dressed up as analysis."]),
+             ("TNA vs skills gap analysis",
+              ["The two get used interchangeably, but they answer different questions. A skills gap analysis maps what skills a person or role has against what a role requires. A TNA asks the broader and more important question first: is a skills gap even what's causing the performance problem, or is something structural getting in the way.",
+               "Run a skills gap analysis before that question is answered, and you risk mapping gaps against a requirement that was never the real constraint. See the dedicated article for the full distinction and when each tool is the right one."]),
+             ("Where TNAs go wrong — and what it costs",
+              ["The same handful of mistakes account for most of the wasted budget: starting from an assumed answer, treating stakeholder wishlists as evidence, skipping the baseline so nobody can prove impact afterwards, and treating every request as equally urgent regardless of evidenced impact.",
+               "None of these are complicated to avoid. They're avoided by discipline — insisting on evidence before recommendation — not by a more sophisticated methodology. The dedicated article on this walks through each one with what it actually costs."]),
+             ("Presenting findings so leaders act on them",
+              ["A TNA that never gets acted on has usually failed at the reporting stage, not the analysis stage — buried in methodology when the board needed a decision, or silent on cost of inaction when that's exactly what would have moved budget. Presenting findings well is a distinct skill from running the analysis, and it's covered in full in the dedicated article."]),
+             ("What a defensible TNA looks like in practice",
+              ["The NATO and Royal Navy Training Modernisation case study is the clearest example on this site: a DSAT-compliant TNA pinpointed the specific points in the training pipeline where learners were being set up to fail, rather than recommending a wholesale redesign — lifting pass rates by 17% and cutting failures by 20%.",
+               "The Senior Information Officer Rapid TNA case study makes the companion point: run properly, as a decision framework rather than a process to endure, a TNA accelerates good decisions instead of delaying them. The constraint in that engagement wasn't methodology — it was unclear requirements, resolved quickly once the right questions were asked."]),
+         ],
+         faqs=[
+             ("Is a TNA always the right starting point for a performance problem?", "It's the right starting point whenever training is being considered as part of the solution — its job is precisely to test that assumption before budget is committed, rather than to confirm a decision already made."),
+             ("How does a TNA relate to DSAT and JSP 822?", "DSAT's Analysis phase is effectively where a TNA lives — see the DSAT Explained article for the full methodology, and this guide for how to run the analysis itself so it holds up to audit."),
+             ("What's the difference between this guide and the Best Practice article?", "This guide is the comprehensive reference — process, common failure modes, board reporting and DSAT alignment in one place. The Best Practice article and the other pieces linked below go deeper on specific parts of that process."),
+             ("Do we need external support to run a defensible TNA, or can it be done in-house?", "Many organisations can run one in-house with the right structure and discipline. External support tends to add most value where independence, evidence rigour or DSAT-specific experience is the limiting factor, not where the process itself is unfamiliar."),
+         ],
+         related_slug="training-needs-analysis", related_title="Training Needs Analysis service",
+         related_reading=[
+             ("Training Needs Analysis: Best Practice", "training-needs-analysis-best-practice"),
+             ("How to Run a DSAT-Compliant TNA, Step by Step", "dsat-compliant-tna-step-by-step"),
+             ("TNA vs Skills Gap Analysis: What's the Difference", "tna-vs-skills-gap-analysis"),
+             ("Common TNA Mistakes That Waste Budget", "common-tna-mistakes"),
+             ("How to Present TNA Findings to a Board", "presenting-tna-findings-to-a-board"),
+         ]),
+    dict(slug="dsat-compliant-tna-step-by-step", category="Method",
+         title="How to Run a DSAT-Compliant TNA, Step by Step",
+         h1="How to Run a DSAT-Compliant TNA, Step by Step",
+         hero_sub="A practical walkthrough of running a Training Needs Analysis that will stand up to DSAT audit and assurance — not just produce a report nobody can defend.",
+         sections=[
+             ("Start with the capability requirement, not the training request",
+              ["A DSAT-compliant TNA starts by establishing the capability requirement in Defence terms — what does the role or unit actually need to be able to do, and against what standard — before any conversation about training format or content.",
+               "Requests that arrive already framed as a training request (\"we need a course on X\") should be treated as a hypothesis to test, not a scope to deliver against."]),
+             ("Building the evidence base DSAT auditors expect",
+              ["Assurance auditors look for evidence, not assertion: performance data, error or incident rates, structured observation, and a clear baseline of current performance against the capability requirement. Interviews are useful context, but on their own they don't satisfy an auditor asking how the gap was established.",
+               "The evidence base should be gathered and recorded in a form that survives being read months later by someone who wasn't in the room — that's the practical test of whether it's audit-ready."]),
+             ("Testing whether the gap is a training gap at all",
+              ["With a capability requirement and an evidence base in place, the analysis explicitly tests alternative explanations — unclear roles, absent governance, a structure working against the outcome — before concluding training is the right intervention. Recording that this test happened, and what ruled out the alternatives, is what makes the eventual recommendation defensible."]),
+             ("Structuring the analysis for defensibility",
+              ["A defensible structure links every recommendation back to a specific piece of evidence and a specific element of the capability requirement — not a general narrative about what would probably help. If a reviewer can't trace a recommendation back to the evidence that produced it, the structure has failed, regardless of how good the recommendation actually is."]),
+             ("Handing off to design without losing the audit trail",
+              ["The handoff from Analysis to Design is where audit trails most often get lost — the TNA report gets summarised into a brief, and the evidence base behind each finding quietly disappears. Keeping the full analysis attached and referenced, not just a summary, is what lets Design and Evaluation later be tested against what Analysis actually found."]),
+         ],
+         faqs=[
+             ("Does DSAT require a specific template for TNA reporting?", "JSP 822 sets out requirements rather than a fixed template — the priority is that the evidence base, the capability requirement and the reasoning connecting them are all traceable, however the report is formatted."),
+             ("How much evidence is enough to satisfy an audit?", "Enough that a reviewer unfamiliar with the engagement could follow the reasoning from capability requirement to evidence to recommendation without having to take any step on trust."),
+             ("What's the biggest reason DSAT-compliant TNAs fail audit?", "Losing the audit trail at handoff to Design — the recommendation survives, but the evidence that justified it doesn't get carried forward in a traceable way."),
+         ],
+         related_slug="dsat-consultancy", related_title="DSAT Consultancy",
+         related_reading=[
+             ("Training Needs Analysis: The Complete Guide", "training-needs-analysis-complete-guide"),
+             ("Training Needs Analysis: Best Practice", "training-needs-analysis-best-practice"),
+             ("Common TNA Mistakes That Waste Budget", "common-tna-mistakes"),
+         ]),
+    dict(slug="tna-vs-skills-gap-analysis", category="Method",
+         title="TNA vs Skills Gap Analysis: What's the Difference",
+         h1="TNA vs Skills Gap Analysis: What's the Difference",
+         hero_sub="The two are often used interchangeably, but they answer different questions — and reaching for the wrong one wastes budget on the wrong diagnosis.",
+         sections=[
+             ("Two different questions",
+              ["A skills gap analysis asks: what skills does this person or role have, compared with what the role requires? A Training Needs Analysis asks a broader and prior question: is a skills gap actually what's causing the performance problem in the first place, or is something structural getting in the way?",
+               "Confusing the two leads to a specific failure mode — running a skills gap analysis against a performance problem that was never really about skill, and getting a precise, well-evidenced answer to the wrong question."]),
+             ("Where a skills gap analysis is the right tool",
+              ["When the capability requirement is already well defined and agreed, and the question is genuinely which individuals or teams fall short of it, a skills gap analysis is the right, efficient tool — it maps current state against an already-trusted standard."]),
+             ("Where only a TNA will do",
+              ["When the performance problem itself is still in question — when it isn't yet clear whether the gap is skill, structure, governance or something else — a TNA has to come first. Running a skills gap analysis at this stage assumes the answer before testing it."]),
+             ("Running both without duplicating effort",
+              ["In practice, a TNA that concludes the gap genuinely is a skills gap can flow directly into a skills gap analysis against the confirmed capability requirement — using the same evidence base rather than starting again from scratch. The sequencing, not the tooling, is what prevents wasted effort."]),
+         ],
+         faqs=[
+             ("Can a skills gap analysis substitute for a TNA?", "Only if the underlying question — is this genuinely a skills problem — has already been reliably answered elsewhere. Otherwise it risks producing a precise answer to a question that was never the real one."),
+             ("Which should come first if we're not sure?", "Default to the TNA. It's built to test the broader question, and a confirmed skills gap can feed straight into a skills gap analysis afterwards without wasted effort."),
+             ("Is this distinction relevant outside Defence and public sector?", "Yes — the same confusion causes wasted training spend in any sector; Defence and regulated public sector environments simply make the cost of skipping the question more visible, because it also shows up at audit."),
+         ],
+         related_slug="training-needs-analysis", related_title="Training Needs Analysis service",
+         related_reading=[
+             ("Training Needs Analysis: The Complete Guide", "training-needs-analysis-complete-guide"),
+             ("Training Needs Analysis: Best Practice", "training-needs-analysis-best-practice"),
+             ("How to Run a DSAT-Compliant TNA, Step by Step", "dsat-compliant-tna-step-by-step"),
+         ]),
+    dict(slug="common-tna-mistakes", category="Method",
+         title="Common TNA Mistakes That Waste Budget",
+         h1="Common TNA Mistakes That Waste Budget",
+         hero_sub="The same handful of mistakes account for most of the money wasted on Training Needs Analyses that should never have recommended training in the first place.",
+         sections=[
+             ("Starting from the answer, not the question",
+              ["The single most expensive mistake is beginning a TNA with training already assumed as the outcome, and using the analysis to justify it rather than to test it. Every subsequent step of an analysis run this way is biased toward the predetermined conclusion, however rigorous it looks on paper."]),
+             ("Wishlist syndrome",
+              ["Asking stakeholders what training they'd like, then packaging the answers as a needs analysis, reliably produces a wishlist rather than a diagnosis — people asked what training they want will describe training, because that's the question they were asked. It doesn't test whether training is the right answer at all."]),
+             ("No baseline, no way to prove it worked",
+              ["Without a documented baseline of current performance, there's no way to demonstrate afterwards that an intervention actually closed the gap it was funded to close. This is usually discovered at the worst possible time — when a leader asks what the training achieved, and the honest answer is that nobody can say."]),
+             ("Treating every request as equally urgent",
+              ["Without evidence-based prioritisation, budget tends to go to whoever asked loudest or most recently, rather than to the gap with the largest evidenced impact on performance. A TNA that doesn't rank findings by impact hasn't finished its job."]),
+             ("Skipping the evidence base",
+              ["Interviews and stakeholder opinion are useful context but are not, on their own, evidence of a performance gap. Performance data, error rates, incident reports and structured observation are what turn a set of opinions into a defensible finding — and their absence is the single easiest thing for a sceptical reviewer to challenge."]),
+         ],
+         faqs=[
+             ("Which of these mistakes is the most expensive?", "Starting from the answer rather than the question — it doesn't just waste the cost of the analysis, it commits budget to an intervention that was never properly tested against the actual problem."),
+             ("Can these mistakes be fixed partway through a TNA that's already underway?", "Often, yes — introducing a baseline or broadening the evidence base partway through is better than not doing it at all, though it's more efficient to build them in from the start."),
+             ("Is wishlist syndrome always obvious when it's happening?", "Not always — a well-written wishlist can look like a rigorous needs analysis. The tell is whether the report could ever have concluded training wasn't needed; if that outcome was never possible, the process wasn't testing anything."),
+         ],
+         related_slug="training-needs-analysis", related_title="Training Needs Analysis service",
+         related_reading=[
+             ("Training Needs Analysis: The Complete Guide", "training-needs-analysis-complete-guide"),
+             ("How to Run a DSAT-Compliant TNA, Step by Step", "dsat-compliant-tna-step-by-step"),
+             ("How to Present TNA Findings to a Board", "presenting-tna-findings-to-a-board"),
+         ]),
+    dict(slug="presenting-tna-findings-to-a-board", category="Method",
+         title="How to Present TNA Findings to a Board",
+         h1="How to Present TNA Findings to a Board",
+         hero_sub="A TNA that leaders can act on has to be presented differently from one that just gets filed — here's what a board actually needs to see.",
+         sections=[
+             ("Boards don't need the methodology, they need the decision",
+              ["A board reading a TNA report isn't assessing whether the methodology was sound — that's what the underlying evidence base is for, and it should be available on request, not on the first slide. What a board needs upfront is the finding, its evidenced confidence, and the decision it implies."]),
+             ("Leading with evidence, not activity",
+              ["Reports that lead with how many people were interviewed or how many workshops were run are answering the wrong question. Leading with the performance gap, its evidenced size, and its cost of inaction gets a board to a decision far faster than a description of the process used to find it."]),
+             ("Framing training vs non-training recommendations",
+              ["When a TNA concludes training isn't the answer, that finding needs to be framed as clearly and confidently as one that recommends training — it's not a lesser outcome, it's the analysis doing exactly what it was commissioned to do. Boards can act on a clear \"not training\" finding; they can't act on a hedge."]),
+             ("What a board-ready TNA summary looks like",
+              ["In practice, a board-ready summary fits on one page: the performance gap, the evidence behind it, whether it's a training gap or something else, the recommended action, and the cost of not acting. Everything else belongs in an appendix the board can request, not in the opening pages they're actually going to read."]),
+         ],
+         faqs=[
+             ("How long should a board-facing TNA summary be?", "One page for the findings and recommendation; the full evidence base and methodology can sit in an appendix for anyone who wants to interrogate it further."),
+             ("What if the board pushes back on a 'training isn't needed' finding?", "That's exactly what the evidence base is for — a defensible TNA can show its working, which is what turns pushback into a productive conversation rather than a stalemate."),
+             ("Should the person who ran the TNA present it, or should it go through a manager?", "Whoever can answer detailed questions about the evidence confidently should present it — credibility on the evidence matters more than seniority in the room."),
+         ],
+         related_slug="training-needs-analysis", related_title="Training Needs Analysis service",
+         related_reading=[
+             ("Training Needs Analysis: The Complete Guide", "training-needs-analysis-complete-guide"),
+             ("Common TNA Mistakes That Waste Budget", "common-tna-mistakes"),
+             ("Training Needs Analysis: Best Practice", "training-needs-analysis-best-practice"),
+         ]),
 ]
 
 for _art in INSIGHTS_FULL:
     insight_article_page(_art["slug"], _art["category"], _art["title"], _art["h1"], _art["hero_sub"],
-                          _art["sections"], _art["faqs"], _art["related_slug"], _art["related_title"])
+                          _art["sections"], _art["faqs"], _art["related_slug"], _art["related_title"],
+                          kind=_art.get("kind", "Insight"), related_reading=_art.get("related_reading"))
 
 # ================================================================== INSIGHTS
 RES = [
@@ -2943,6 +3109,11 @@ SITEMAP_PAGES = [
     ("apprenticeship-success-strategies.html", "0.7", "monthly"),
     ("defence-training-governance.html", "0.7", "monthly"),
     ("from-training-to-readiness.html", "0.7", "monthly"),
+    ("training-needs-analysis-complete-guide.html", "0.8", "monthly"),
+    ("dsat-compliant-tna-step-by-step.html", "0.7", "monthly"),
+    ("tna-vs-skills-gap-analysis.html", "0.7", "monthly"),
+    ("common-tna-mistakes.html", "0.7", "monthly"),
+    ("presenting-tna-findings-to-a-board.html", "0.7", "monthly"),
     ("why-training-isnt-the-problem.html", "0.6", "yearly"),
     ("about.html", "0.7", "monthly"),
     ("contact.html", "0.8", "yearly"),

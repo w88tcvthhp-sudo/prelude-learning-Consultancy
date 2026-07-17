@@ -211,6 +211,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.prelude-learning.com/training-needs-analysis-complete-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/dsat-compliant-tna-step-by-step.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/tna-vs-skills-gap-analysis.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/common-tna-mistakes.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/presenting-tna-findings-to-a-board.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.prelude-learning.com/why-training-isnt-the-problem.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

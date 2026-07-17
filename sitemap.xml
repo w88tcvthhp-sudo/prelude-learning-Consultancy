@@ -306,6 +306,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.prelude-learning.com/digital-learning-complete-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/blended-vs-fully-digital-learning.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/why-digital-learning-rollouts-stall.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/digital-learning-shift-workers-distributed-teams.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/digital-learning-adoption-after-week-one.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.prelude-learning.com/why-training-isnt-the-problem.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

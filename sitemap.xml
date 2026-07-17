@@ -416,6 +416,26 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.prelude-learning.com/skills-frameworks-complete-guide.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/what-is-a-skills-framework.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/mapping-skills-to-roles-multiple-specialisations.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.prelude-learning.com/skills-frameworks-workforce-planning-succession.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.prelude-learning.com/why-training-isnt-the-problem.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

@@ -17,9 +17,11 @@ foreach (tk_manifest() as $m) {
 if (!$item) {
     tk_fail_page(404, 'That file could not be found.');
 }
-$path = tk_private_dir() . '/toolkit/' . $item['id'] . '.' . $item['ext'];
+// Stored under the original file name from the toolkit pack; basename() blocks path traversal.
+$file = basename((string) ($item['file'] ?? ($item['id'] . '.' . $item['ext'])));
+$path = tk_private_dir() . '/toolkit/' . $file;
 if (!is_file($path) || !is_readable($path)) {
-    error_log('Prelude toolkit: missing file ' . $item['id'] . '.' . $item['ext']);
+    error_log('Prelude toolkit: missing file ' . $file);
     tk_fail_page(404, 'This file is being prepared and is not available yet. Please email jason.smith@prelude-learning.com and we will send it to you directly.');
 }
 $name = preg_replace('/[^A-Za-z0-9._-]/', '-', (string) $item['download_name']);

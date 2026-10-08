@@ -4875,42 +4875,55 @@ PERSON_SCHEMA = {
 # File formats are not yet confirmed. Change "ext" per item once the files exist;
 # the download handler serves whatever is listed here (see book-toolkit/lib/manifest.json).
 TOOLKIT_EXT = "docx"
-TOOLS = ["Training Request Challenge", "Performance Gap Canvas", "Stakeholder Map", "First Conversation Question Set",
-         "Evidence Plan", "Root-Cause Worksheet", "Capability Diagnostic", "Should We Train? Decision Tree",
-         "Performance Definition Canvas", "Task Analysis", "KSA / KSB Analysis", "Know It / Find It / Do It",
-         "Golden Thread", "Intervention Selection Matrix", "Objective Builder", "Assessment &amp; Evaluation Plan",
-         "60-Minute TNA Template", "Five-Day Rapid TNA Plan"]
-EXTENDED = [("one-day-tna-template", "One-Day TNA Template"),
-            ("five-day-rapid-tna-workbook", "Five-Day Rapid TNA Workbook"),
-            ("full-tna-report-template", "Full TNA Report Template")]
-COMBINED = ("tools-01-18-combined-workbook", "Tools 01&ndash;18 Combined Workbook")
-
-def _slug(t):
-    import html as _h
-    t = _h.unescape(t).lower().replace("&", "and").replace("?", "").replace("/", " ")
-    return "-".join("".join(c if c.isalnum() else " " for c in t).split())
+# Inventory as supplied in the Online Toolkit Pack (00_Read-Me). Files are stored in
+# prelude-private/toolkit/ under these exact names; replace a file by uploading the same name.
+TOOLS = [  # (title, file, chapter)
+    ("Training Request Challenge", "Tool-01_Training-Request-Challenge.docx", "1"),
+    ("Performance Gap Canvas", "Tool-02_Performance-Gap-Canvas.docx", "2"),
+    ("Stakeholder Map", "Tool-03_Stakeholder-Map.docx", "7 and 22"),
+    ("First Conversation Question Set", "Tool-04_First-Conversation-Question-Set.docx", "7"),
+    ("Evidence Plan", "Tool-05_Evidence-Plan.docx", "3"),
+    ("Root-Cause Worksheet", "Tool-06_Root-Cause-Worksheet.docx", "3"),
+    ("Capability Diagnostic", "Tool-07_Capability-Diagnostic.docx", "8"),
+    ("Should We Train? Decision Tree", "Tool-08_Should-We-Train-Decision-Tree.docx", "9"),
+    ("Performance Definition Canvas", "Tool-09_Performance-Definition-Canvas.docx", "10"),
+    ("Task Analysis", "Tool-10_Task-Analysis.docx", "11"),
+    ("KSA / KSB Analysis", "Tool-11_KSA-KSB-Analysis.docx", "12"),
+    ("Know It / Find It / Do It", "Tool-12_Know-It-Find-It-Do-It.docx", "12"),
+    ("Golden Thread", "Tool-13_Golden-Thread.docx", "13"),
+    ("Intervention Selection Matrix", "Tool-14_Intervention-Selection-Matrix.docx", "14"),
+    ("Objective Builder", "Tool-15_Objective-Builder.docx", "16"),
+    ("Assessment &amp; Evaluation Plan", "Tool-16_Assessment-Evaluation-Plan.docx", "17 and 18"),
+    ("60-Minute TNA Template", "Tool-17_60-Minute-TNA-Template.docx", "19"),
+    ("Five-Day Rapid TNA Plan", "Tool-18_Five-Day-Rapid-TNA-Plan.docx", "19"),
+]
+EXTENDED = [  # additional templates: not numbered tools
+    ("one-day-tna-template", "One-Day TNA Template", "Template_One-Day-TNA.docx", "19"),
+    ("five-day-rapid-tna-workbook", "Five-Day Rapid TNA Workbook", "Template_Five-Day-Rapid-TNA-Workbook.docx", "19"),
+    ("full-tna-report-template", "Full TNA Report Template", "Template_Full-TNA-Report.docx", "19"),
+]
+COMBINED = ("tools-01-18-combined-workbook", "Tools 01&ndash;18 Combined Workbook", "Tools-01-18_Combined-Workbook.docx")
 
 def toolkit_manifest():
     import html as _h
-    items = [dict(id=COMBINED[0], title=_h.unescape(COMBINED[1]), ext=TOOLKIT_EXT,
-                  download_name=f"Training-Isnt-Always-the-Answer-Toolkit-Tools-01-18.{TOOLKIT_EXT}")]
-    for i, t in enumerate(TOOLS, 1):
-        items.append(dict(id=f"tool-{i:02d}", title=_h.unescape(t), ext=TOOLKIT_EXT,
-                          download_name=f"Tool-{i:02d}-{_slug(t).title()}.{TOOLKIT_EXT}"))
-    for sid, t in EXTENDED:
-        items.append(dict(id=sid, title=_h.unescape(t), ext=TOOLKIT_EXT, download_name=f"{_slug(t).title()}.{TOOLKIT_EXT}"))
+    items = [dict(id=COMBINED[0], title=_h.unescape(COMBINED[1]), ext="docx", file=COMBINED[2], download_name=COMBINED[2])]
+    for i, (t, f, ch) in enumerate(TOOLS, 1):
+        items.append(dict(id=f"tool-{i:02d}", title=_h.unescape(t), ext=f.rsplit(".", 1)[1], file=f, download_name=f))
+    for sid, t, f, ch in EXTENDED:
+        items.append(dict(id=sid, title=_h.unescape(t), ext=f.rsplit(".", 1)[1], file=f, download_name=f))
     return items
 
-LEVELS = [("60 minutes", "Triage the request."), ("One day", "Reach a defensible initial diagnosis."),
-          ("Five days", "Conduct evidence-based analysis of a significant requirement."),
-          ("Full TNA", "Complete comprehensive analysis for complex or high-risk requirements.")]
+LEVELS = [("60-Minute TNA", "Triage the request and decide what kind of response it needs."),
+          ("One-Day TNA", "A structured initial diagnosis for a moderately sized performance problem."),
+          ("Five-Day Rapid TNA", "Evidence-based analysis for a significant requirement."),
+          ("Full TNA", "Comprehensive analysis for complex, strategic, safety-critical or high-risk capability requirements.")]
 levels_html = "".join(f'<li class="level reveal" data-d="{i}"><span class="level-bar" style="--depth:{i+1}"></span><h3>{n}</h3><p>{d}</p></li>' for i, (n, d) in enumerate(LEVELS))
 
 toolkit_body = f'''<header class="page-hero">
   <div class="wrap narrow-hero">
     <div class="eyebrow reveal in">The Training Isn&rsquo;t Always the Answer Toolkit</div>
     <h1 class="reveal in" data-d="1">Download the editable tools from {BOOK_TITLE}</h1>
-    <p class="hero-sub reveal in" data-d="2">The book explains the method. These are the tools for using it. Purchasers can download editable, full-size versions of all {BOOK_TOOLS} tools from the book, plus the extended TNA templates.</p>
+    <p class="hero-sub reveal in" data-d="2">The book explains the method. These are the tools for using it. Every tool in the book, in full-size, editable A4 form, ready to type into or print. Use them in your next conversation with a stakeholder, your next diagnostic workshop or your next Training Needs Analysis.</p>
   </div>
 </header>
 
@@ -4939,12 +4952,11 @@ toolkit_body = f'''<header class="page-hero">
     <div class="reveal" data-d="1">
       <h2 class="section-title small">What&rsquo;s included</h2>
       <ul class="tick-list">
-        <li>All {BOOK_TOOLS} tools from the book, as editable files</li>
-        <li>The Tools 01&ndash;18 combined workbook</li>
-        <li>One-Day TNA Template</li>
-        <li>Five-Day Rapid TNA Workbook</li>
-        <li>Full TNA Report Template</li>
+        <li>All {BOOK_TOOLS} tools from the book, as editable Word files</li>
+        <li>The Tools 01&ndash;18 Combined Workbook</li>
+        <li>Three additional templates for larger pieces of analysis: the One-Day TNA Template, the Five-Day Rapid TNA Workbook and the Full TNA Report Template</li>
       </ul>
+      <p class="tk-start"><strong>Use only what you need.</strong> You do not need every tool for every piece of work. Choose the smallest set that gives you enough evidence to make a defensible decision. If you are unsure where to start, begin with Tool 17: the 60-Minute TNA Template.</p>
       <p class="licence">Purchasers of the book may use and adapt these templates for their own professional work, including internal and client engagements. The blank templates may not be resold, redistributed or published as a competing resource.</p>
     </div>
   </div>
@@ -4952,13 +4964,14 @@ toolkit_body = f'''<header class="page-hero">
 
 <section class="sec sec-tint">
   <div class="wrap">
-{section_head("Four levels of analysis", "Use the smallest level that gives you a defensible decision.", "These are different levels of analytical depth, not a sequence. A request does not need to progress through all four.")}    <ol class="levels">{levels_html}</ol>
+{section_head("Four levels of analysis", "Choose the level the requirement justifies.", "These are alternative levels of depth, not stages to work through in order. A request does not need to progress through all four: use the smallest level that gives you enough evidence for a defensible decision.")}    <ol class="levels">{levels_html}</ol>
   </div>
 </section>'''
 
-def dl_row(item_id, title, num=""):
+def dl_row(item_id, title, num="", chapter=""):
     n = f'<span class="dl-num">{num}</span>' if num else ""
-    return (f'<li class="dl-row">{n}<span class="dl-title">{title}</span>'
+    ch = f'<span class="dl-ch">{"Chapters" if " and " in chapter else "Chapter"} {chapter}</span>' if chapter else ""
+    return (f'<li class="dl-row">{n}<span class="dl-title">{title}{ch}</span>'
             f'<a class="dl-link" href="/book-toolkit/download.php?f={item_id}" data-event="toolkit_individual_download" data-file="{item_id}">'
             f'Download<span class="sr-only"> {title}</span> <span class="dl-ext">{TOOLKIT_EXT.upper()}</span></a></li>')
 
@@ -4975,16 +4988,17 @@ downloads_body = f'''<header class="page-hero">
     <div class="dl-hero reveal">
       <div>
         <h2 class="section-title small">Download everything</h2>
-        <p>{COMBINED[1]}: all {BOOK_TOOLS} tools in one editable file.</p>
+        <p>The {COMBINED[1]}: all {BOOK_TOOLS} tools in one editable Word file. Tools 14 and 16 are set in landscape to give their wide tables room.</p>
       </div>
       <a class="btn btn-primary" href="/book-toolkit/download.php?f={COMBINED[0]}" data-event="toolkit_complete_download">Download the complete toolkit {ARROW}</a>
     </div>
 
     <h2 class="section-title small reveal" style="margin-top:64px">Individual tools</h2>
-    <ul class="dl-list reveal">{"".join(dl_row(f"tool-{i:02d}", t, f"{i:02d}") for i, t in enumerate(TOOLS, 1))}</ul>
+    <ul class="dl-list reveal">{"".join(dl_row(f"tool-{i:02d}", t, f"{i:02d}", ch) for i, (t, f, ch) in enumerate(TOOLS, 1))}</ul>
 
-    <h2 class="section-title small reveal" style="margin-top:64px">Extended TNA resources</h2>
-    <ul class="dl-list reveal">{"".join(dl_row(sid, t) for sid, t in EXTENDED)}</ul>
+    <h2 class="section-title small reveal" style="margin-top:64px">Additional templates</h2>
+    <p class="reveal">For larger pieces of analysis. These are not numbered tools: the book contains {BOOK_TOOLS} ready-to-use tools.</p>
+    <ul class="dl-list reveal">{"".join(dl_row(sid, t, "", ch) for sid, t, f, ch in EXTENDED)}</ul>
 
     <p class="licence reveal">Purchasers of the book may use and adapt these templates for their own professional work, including internal and client engagements. The blank templates may not be resold, redistributed or published as a competing resource.</p>
   </div>

@@ -18,12 +18,14 @@ cPanel > Select PHP Version. If the site ever moves to static-only hosting, thes
    - `mail_from`: `jason.smith@prelude-learning.com` (must be a real mailbox on the domain).
    - `resend_api_key` (optional): if set, emails go via Resend (needs the domain verified
      with Resend's DNS records). If empty, PHP `mail()` on the host is used.
-3. Upload the toolkit files into `prelude-private/toolkit/`, named by id plus extension:
-   `tools-01-18-combined-workbook.docx`, `tool-01.docx` … `tool-18.docx`,
-   `one-day-tna-template.docx`, `five-day-rapid-tna-workbook.docx`, `full-tna-report-template.docx`.
-   If any file is not .docx, change `TOOLKIT_EXT` (or the item) in build.py and rebuild —
-   the manifest (`book-toolkit/lib/manifest.json`) and download labels update together.
-   To replace a file later, upload a new one with the same name. No rebuild needed.
+3. Upload the 22 toolkit files into `prelude-private/toolkit/` **with their original names**
+   from the Online Toolkit Pack (e.g. `Tool-01_Training-Request-Challenge.docx`,
+   `Tools-01-18_Combined-Workbook.docx`, `Template_Full-TNA-Report.docx`). The ready-made
+   `prelude-private-upload.zip` already contains them in the right folder.
+   Do **not** upload `00_Read-Me_Toolkit-Inventory-and-Landing-Page-Copy.docx` — it is internal.
+   To replace a file later, upload a new version with the same name. No rebuild needed.
+   If a file name or format changes, edit TOOLS / EXTENDED / COMBINED in build.py and rebuild;
+   the manifest and download labels update together.
 
 ## Where data goes
 - `prelude-private/data/toolkit-requests.csv` — every request (name, email, optional org/role, opt-in yes/no)

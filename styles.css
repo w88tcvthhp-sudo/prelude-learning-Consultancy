@@ -1026,3 +1026,5 @@ button.burger{min-width:44px;min-height:44px;align-items:center;justify-content:
 .capture{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .capture>*{min-width:0}
 @media(max-width:760px){.capture{grid-template-columns:minmax(0,1fr)}}
+.dl-ch{display:block;font-size:.82rem;color:var(--stone-dim);margin-top:2px}
+.tk-start{margin-top:22px}.tk-start strong{color:#fff;font-weight:600}

@@ -1,0 +1,191 @@
+/* =====================================================================
+   Prelude Learning & Consultancy — print stylesheet for PDF resources
+   Rendered by resources-src/build-resources.mjs (Chromium, tagged PDF).
+   Palette: document template (Deep Forest, Emerald, Gold, Sage Grey,
+   Off-White, Charcoal). Typography: Montserrat / Source Sans 3 if the
+   font files are present in resources-src/fonts/, otherwise Inter.
+   ===================================================================== */
+
+@font-face{font-family:"PreludeHead";src:local("Montserrat SemiBold"),url("fonts/Montserrat-SemiBold.ttf") format("truetype"),local("Inter Display SemiBold"),local("Inter SemiBold");font-weight:600}
+@font-face{font-family:"PreludeHead";src:local("Montserrat Bold"),url("fonts/Montserrat-Bold.ttf") format("truetype"),local("Inter Display Bold"),local("Inter Bold");font-weight:700}
+@font-face{font-family:"PreludeBody";src:local("Source Sans 3"),url("fonts/SourceSans3-Regular.ttf") format("truetype"),local("Inter");font-weight:400}
+@font-face{font-family:"PreludeBody";src:local("Source Sans 3 Semibold"),url("fonts/SourceSans3-Semibold.ttf") format("truetype"),local("Inter SemiBold");font-weight:600}
+@font-face{font-family:"PreludeBody";src:local("Source Sans 3 Italic"),url("fonts/SourceSans3-It.ttf") format("truetype"),local("Inter Italic");font-weight:400;font-style:italic}
+
+:root{
+  --forest:#081D16; --emerald:#0E7A5A; --gold:#D4AF7C; --gold-ink:#7A5B22;
+  --sage:#9CA89E; --paper:#F8F7F4; --ink:#1F2B27; --muted:#4A5650; --line:#C9CFC9;
+  --tint:#EEF2EE; --head:"PreludeHead","Inter Display","Inter",sans-serif; --body:"PreludeBody","Inter",sans-serif;
+}
+
+@page{
+  size:A4; margin:21mm 17mm 19mm 17mm; background:var(--paper);
+  @top-left{content:"PRELUDE  ·  Learning & Consultancy";font:600 7.5pt var(--head);letter-spacing:1.6pt;color:var(--emerald);vertical-align:bottom;padding-bottom:3mm;border-bottom:.6pt solid var(--emerald)}
+  @top-right{content:"";font:400 7.5pt var(--body);color:var(--muted);vertical-align:bottom;padding-bottom:3mm;border-bottom:.6pt solid var(--emerald)}
+  @bottom-left{content:"© Prelude Learning & Consultancy Ltd  ·  prelude-learning.com";font:400 7.5pt var(--body);color:var(--muted);vertical-align:top;padding-top:3mm;border-top:.6pt solid var(--sage)}
+  @bottom-right{content:"Page " counter(page);font:600 7.5pt var(--head);color:var(--forest);vertical-align:top;padding-top:3mm;border-top:.6pt solid var(--sage)}
+}
+@page cover{margin:0;background:var(--forest);
+  @top-left{content:none;border:0} @top-right{content:none;border:0} @bottom-left{content:none;border:0} @bottom-right{content:none;border:0}}
+@page landscape{size:A4 landscape}
+
+html{font-family:var(--body);font-size:10pt;line-height:1.43;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0}
+
+/* ---------- cover ---------- */
+.cover{page:cover;position:relative;width:210mm;height:296mm;overflow:hidden;background:var(--forest);color:#fff;break-after:page;box-sizing:border-box;padding:22mm 20mm 18mm}
+.cover .logo{width:84mm;height:auto;display:block;margin-left:-4mm}
+.cover .motif{position:absolute;right:-48mm;top:62mm;width:150mm;height:150mm;opacity:.5}
+.cover .eyebrow{margin-top:44mm;font:600 8.5pt var(--head);letter-spacing:2.6pt;text-transform:uppercase;color:var(--gold)}
+.cover h1{font:700 30pt/1.08 var(--head);color:#fff;margin:5mm 0 0;max-width:150mm;letter-spacing:-.2pt}
+.cover .subtitle{font:400 13pt/1.45 var(--body);color:#D8DED9;margin:6mm 0 0;max-width:140mm}
+.cover .meta{position:absolute;left:20mm;bottom:52mm;font:400 9pt/1.6 var(--body);color:#C8D0CA;border-left:1.2pt solid var(--gold);padding-left:4mm}
+.cover .meta strong{color:#fff;font-weight:600}
+.cover .foot{position:absolute;left:20mm;right:20mm;bottom:16mm;border-top:.6pt solid rgba(212,175,124,.6);padding-top:4mm;display:flex;justify-content:space-between;font:600 7.5pt var(--head);letter-spacing:2pt;text-transform:uppercase;color:var(--gold)}
+.cover .foot span.strap{color:#fff;letter-spacing:1pt;text-transform:none;font:italic 400 9pt var(--body)}
+
+/* ---------- headings ---------- */
+h1,h2,h3,h4{font-family:var(--head);color:var(--forest);break-after:avoid}
+h2{font-size:16pt;line-height:1.15;margin:0 0 3mm;font-weight:700;letter-spacing:-.1pt}
+h2 .num{display:block;font-size:9pt;letter-spacing:2.4pt;color:var(--emerald);margin-bottom:2mm}
+h3{font-size:11pt;margin:4.5mm 0 1.6mm;font-weight:600}
+h4{font-size:10pt;margin:4mm 0 1.5mm;font-weight:600;color:var(--emerald)}
+section.chapter{break-before:page}
+section.chapter.flow{break-before:auto;margin-top:9mm;padding-top:5mm;border-top:.8pt solid var(--gold)}
+.toc.cols2{columns:2;column-gap:10mm}.toc.cols2 li{break-inside:avoid}
+p{margin:0 0 2.6mm;orphans:3;widows:3}
+.lead{font-size:11.5pt;line-height:1.5;color:var(--forest)}
+ul,ol{margin:0 0 3mm;padding-left:5.5mm}
+li{margin-bottom:1.2mm}
+strong{font-weight:600;color:var(--forest)}
+a{color:var(--emerald);text-decoration:none}
+.small{font-size:8.8pt;color:var(--muted)}
+hr.rule{border:0;border-top:.8pt solid var(--gold);width:28mm;margin:4mm 0 5mm;text-align:left}
+
+/* ---------- contents ---------- */
+.toc{list-style:none;padding:0;margin:4mm 0 0;columns:1}
+.toc li{display:flex;gap:5mm;padding:1.9mm 0;border-bottom:.5pt solid var(--line);margin:0;font-size:11pt}
+.toc .n{font:600 9pt var(--head);color:var(--emerald);width:9mm;flex:none;padding-top:.6mm}
+
+/* ---------- callouts ---------- */
+.callout{border-left:2.4pt solid var(--emerald);background:var(--tint);padding:3.5mm 4.5mm;margin:3mm 0 4mm;break-inside:avoid}
+.callout p:last-child,.callout ul:last-child{margin-bottom:0}
+.callout .label{display:block;font:600 7.5pt var(--head);letter-spacing:1.6pt;text-transform:uppercase;color:var(--emerald);margin-bottom:1.5mm}
+.callout.gold{border-left-color:var(--gold);background:#F6F0E4}
+.callout.gold .label{color:var(--gold-ink)}
+.callout.policy{border-left-color:var(--forest);background:#E9ECEA}
+.callout.policy .label{color:var(--forest)}
+.pull{font:600 12.5pt/1.35 var(--head);color:var(--forest);border-top:.8pt solid var(--gold);border-bottom:.8pt solid var(--gold);padding:3mm 0;margin:4mm 0}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;margin:2mm 0 3.5mm;font-size:9.2pt;break-inside:auto}
+caption{caption-side:top;text-align:left;font:600 8pt var(--head);letter-spacing:1.2pt;text-transform:uppercase;color:var(--emerald);padding-bottom:1.5mm}
+th{background:var(--forest);color:#fff;font:600 8.2pt var(--head);text-align:left;padding:1.8mm 2.2mm;vertical-align:bottom}
+td{border-bottom:.5pt solid var(--line);padding:1.7mm 2.2mm;vertical-align:top;background:#fff}
+tr{break-inside:avoid}
+table:not(.long){break-inside:avoid}
+.lead{break-after:avoid}
+thead{display:table-header-group}
+tbody tr:nth-child(even) td{background:#FBFBF9}
+td.n,th.n{width:7mm;text-align:center;font:600 8.5pt var(--head);color:var(--emerald)}
+th.n{color:#fff}
+.write td{height:9mm}
+.write.tall td{height:15mm}
+.write.xtall td{height:24mm}
+td.box{width:11mm;text-align:center}
+.box::before{content:"";display:inline-block;width:3.4mm;height:3.4mm;border:.8pt solid var(--forest);border-radius:.6mm;vertical-align:middle}
+td.lbl{font-weight:600;color:var(--forest);width:38%}
+.key{font-size:8.6pt;color:var(--muted);margin-top:-2mm}
+
+/* ---------- checklist ---------- */
+.check{list-style:none;padding:0}
+.check li{position:relative;padding-left:7mm;margin-bottom:2mm}
+.check li::before{content:"";position:absolute;left:0;top:.9mm;width:3.4mm;height:3.4mm;border:.8pt solid var(--forest);border-radius:.6mm}
+
+/* ---------- diagrams ---------- */
+.layers{margin:4mm 0;break-inside:avoid}
+.layer{display:flex;align-items:stretch;margin-bottom:1.6mm}
+.layer .t{flex:0 0 58mm;background:var(--forest);color:#fff;font:600 8.4pt var(--head);letter-spacing:1pt;text-transform:uppercase;padding:2.2mm 4mm;display:flex;align-items:center}
+.layer:first-child .t{background:var(--emerald)}
+.layer .d{flex:1;background:#fff;border:.5pt solid var(--line);border-left:0;padding:1.8mm 4mm;font-size:9.4pt}
+.steps{display:flex;gap:2mm;margin:4mm 0;break-inside:avoid}
+.steps div{flex:1;background:#fff;border-top:2.4pt solid var(--emerald);padding:3mm;font-size:8.8pt}
+.steps div b{display:block;font:700 9.5pt var(--head);color:var(--forest);margin-bottom:1mm}
+.steps div i{display:block;font-style:normal;color:var(--emerald);font:600 7.5pt var(--head);letter-spacing:1.2pt}
+.two{display:flex;gap:6mm}.two>*{flex:1}
+.cards{display:flex;flex-wrap:wrap;gap:3mm;margin:3mm 0}
+.cards>div{flex:1 1 46%;background:#fff;border:.5pt solid var(--line);padding:2.6mm 3.2mm;break-inside:avoid;box-sizing:border-box}
+.cards>div h4{margin-top:0}
+
+/* ---------- closing ---------- */
+.closing{break-before:page;background:var(--forest);color:#E4E9E5;padding:12mm 12mm;margin-top:0}
+.closing h2{color:#fff}
+.closing p{color:#D8DED9}
+.closing a{color:var(--gold)}
+.closing .levels{display:flex;gap:3mm;margin:5mm 0}
+.closing .levels div{flex:1;border-top:1.2pt solid var(--gold);padding-top:2.5mm;font-size:9pt;color:#D8DED9}
+.closing .levels b{display:block;color:#fff;font:600 9.5pt var(--head);margin-bottom:1mm}
+.legal{font-size:7.8pt;color:var(--muted);margin-top:6mm;line-height:1.45}
+.closing .legal{color:#AEB8B1}
+.avoid{break-inside:avoid}
+.pb{break-before:page}
+
+/* ---------- question blocks (workbooks) ---------- */
+.qblock{border-top:.8pt solid var(--gold);padding-top:3mm;margin-bottom:6mm}
+.qblock h3{margin-top:0;display:flex;gap:3mm;font-size:11.5pt}
+.qn{font:700 11.5pt var(--head);color:var(--emerald);flex:none}
+.dim{font:600 7.5pt var(--head);letter-spacing:1.4pt;text-transform:uppercase;color:var(--muted);margin:-1mm 0 2mm 9mm}
+table.resp th{text-align:center;background:var(--tint);color:var(--forest);font-size:8.4pt}
+table.resp th span{display:block;font-weight:400;color:var(--muted);font-size:7.5pt}
+table.resp td{text-align:center;height:8mm;vertical-align:middle}
+.lines{height:30mm;background:repeating-linear-gradient(to bottom,transparent 0,transparent 7.2mm,var(--line) 7.2mm,var(--line) 7.5mm);border-bottom:.5pt solid var(--line)}
+.lines.short{height:22mm}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.band{display:flex;gap:4mm;align-items:flex-start;border-left:3pt solid var(--emerald);background:#fff;padding:3mm 4mm;margin-bottom:2.5mm;break-inside:avoid}
+.band b{flex:0 0 42mm;font:700 9.5pt var(--head);color:var(--forest)}
+.band .r{flex:0 0 22mm;font:600 9pt var(--head);color:var(--emerald)}
+.band.b2{border-left-color:#5E9C7D}.band.b3{border-left-color:var(--gold)}.band.b4{border-left-color:#9A5B3F}
+.write.compact td{height:6.8mm}
+
+/* ---------- checklists ---------- */
+.cl-sec{margin-bottom:5mm}
+.cl-sec h3{display:flex;gap:3mm;border-top:.8pt solid var(--gold);padding-top:3mm;margin-top:3mm}
+.cl-sec .small{margin:-.5mm 0 2mm}
+table.cl{font-size:8.8pt}
+table.cl th{font-size:7.4pt;padding:1.6mm 1.6mm}
+table.cl td{padding:1.6mm 1.6mm}
+table.cl td.n{width:9mm;font-size:8pt}
+table.cl .box{width:9mm}
+table.cl .src{width:15mm}
+table.cl .ev{width:34mm}
+.tag{display:inline-block;font:600 6.6pt var(--head);letter-spacing:.6pt;text-transform:uppercase;padding:.6mm 1.4mm;border-radius:1mm;white-space:nowrap}
+.tag.j{background:var(--forest);color:#fff}
+.tag.p{background:var(--tint);color:var(--emerald);border:.4pt solid var(--emerald)}
+.flow-diag{display:flex;gap:2mm;margin:3mm 0 4mm;break-inside:avoid}
+.flow-diag>div{flex:1;background:#fff;border:.5pt solid var(--line);border-top:2.4pt solid var(--emerald);padding:2.6mm 3mm;font-size:8.6pt}
+.flow-diag>div b{display:block;font:700 9pt var(--head);color:var(--forest);margin-bottom:1mm}
+.flow-diag>div.hl{border-top-color:var(--gold);background:#FBF8F1}
+.flow-diag ul{padding-left:4mm;margin:0}
+table.cl{table-layout:fixed}
+.cl-sec{break-inside:avoid}
+.qblock.tight{margin-bottom:3mm;padding-top:2.4mm}
+.qblock.tight h4{margin:1.5mm 0 1mm}
+.qblock.tight p,.qblock.tight li{font-size:9.2pt;margin-bottom:.8mm}
+.qblock.tight table.resp{margin:1.5mm 0 1.5mm}
+.qblock.tight table.resp td{height:6mm;padding:1mm}
+.qblock.tight table.resp th{padding:1.2mm 1.4mm}
+.qblock.tight .small{margin-bottom:0}
+.land{page:landscape;break-before:page}
+.matrix th.rot{height:30mm;vertical-align:bottom;font-size:7.6pt;width:auto}
+.matrix td{text-align:center}
+.matrix td.lbl{text-align:left}
+.grid3{display:grid;grid-template-columns:22mm repeat(3,1fr);gap:1.4mm;margin:3mm 0 4mm;break-inside:avoid;font-size:8.6pt}
+.grid3>div{padding:2.6mm;background:#fff;border:.5pt solid var(--line);min-height:14mm}
+.grid3 .h{background:var(--forest);color:#fff;font:600 8pt var(--head);min-height:0;display:flex;align-items:center}
+.grid3 .p1{background:#F3E3DA;border-color:#C9957D}.grid3 .p2{background:#F6EEDC;border-color:var(--gold)}.grid3 .p3{background:#E3EFE8;border-color:#8DB8A1}
+.grid3 b{display:block;font:700 8.6pt var(--head);color:var(--forest)}
+table.matrix{table-layout:fixed}
+table.matrix td,table.matrix th{border:.5pt solid var(--line)}
+table.matrix thead th{background:var(--tint);color:var(--forest);height:20mm;vertical-align:bottom}
+table.matrix thead th:first-child{background:var(--forest);color:#fff}
+table.matrix td{height:8.4mm}

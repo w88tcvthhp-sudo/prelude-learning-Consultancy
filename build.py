@@ -1780,6 +1780,9 @@ def case_study_page(cs):
     li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
     others = [o for o in CASE_STUDIES_FULL if CASE_EXTRAS[o["slug"]]["pillar"] == ex["pillar"] and o["slug"] != cs["slug"]][:3]
     more = "".join(f'<li><a href="{o["slug"]}.html">{o["title"]}</a></li>' for o in others)
+    more_html = (f'<div class="cs-box"><p class="cs-box-h">More {pillar_label} case studies</p><ul class="cs-more">{more}</ul></div>' if more else "")
+    has_figures = any(re.search(r"\d+\s?%", x) for x in cs["outcome"])
+    note_html = f'<p class="fine-print">{CASE_EVIDENCE_NOTE}</p>' if has_figures else ""
     body = f'''<header class="page-hero">
   <div class="wrap">
     <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="case-studies.html">Case studies</a> / <span aria-current="page">{cs["title"]}</span></div>
@@ -1809,7 +1812,7 @@ def case_study_page(cs):
       <ul class="tick-list">{li(cs["deliverables"])}</ul>
       <h2>6. Outcomes and evidence</h2>
       <ul class="tick-list">{li(cs["outcome"])}</ul>
-      {f'<p class="fine-print">{CASE_EVIDENCE_NOTE}</p>' if any(re.search(r"\d+\s?%", x) for x in cs["outcome"]) else ""}
+      {note_html}
       <h2>7. Lessons learned</h2>
       <p>{cs["lessons"]}</p>
       <h3 class="cs-sub">Where else this applies</h3>
@@ -1826,7 +1829,7 @@ def case_study_page(cs):
         <p class="cs-box-h">Related service</p>
         <p><a href="{cs["related_slug"]}.html">{cs["related_title"]}</a></p>
       </div>
-      {f'<div class="cs-box"><p class="cs-box-h">More {pillar_label} case studies</p><ul class="cs-more">{more}</ul></div>' if more else ""}
+      {more_html}
     </aside>
   </div>
 </section>

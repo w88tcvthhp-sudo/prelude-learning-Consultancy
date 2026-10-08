@@ -2,3 +2,4 @@
 .claude/
 prelude-private/
 config.php
+__pycache__/

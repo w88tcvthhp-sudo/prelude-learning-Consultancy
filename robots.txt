@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+# Free PDF resources are offered through the resource library (most are email-gated)
+Disallow: /assets/resources/prelude-capability-readiness-playbook.pdf
+Disallow: /assets/resources/prelude-defence-tna-checklist.pdf
+Disallow: /assets/resources/prelude-learning-governance-health-check.pdf
+Disallow: /assets/resources/prelude-workforce-capability-assessment.pdf
 
 Sitemap: https://www.prelude-learning.com/sitemap.xml

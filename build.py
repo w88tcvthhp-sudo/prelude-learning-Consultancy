@@ -27,24 +27,34 @@ NAVLINKS = [
     ("contact.html", "Contact", "contact"),
 ]
 
-# 2026-10 IA: Services (3 pillars) / Approach / Insights / Book / About / Contact.
-# Sector, Who I Help, How I Work, Case Studies and Capability Review pages remain
-# live and are linked from the footer, services hub and relevant pages.
+# Sector, Who I Help, How I Work and Capability Review pages remain live and are
+# linked from the footer, services hub and relevant pages.
 SERVICE_MENU = [
     ("capability-consulting/", "Capability Consulting", "capability-consulting"),
     ("business-analysis/", "Business Analysis &amp; Improvement", "business-analysis"),
-    ("workforce-development/", "Workforce Development", "workforce-development"),
+    ("workforce-development/", "Learning &amp; Workforce Development", "workforce-development"),
+    ("approach/", "Our approach", "approach"),
     ("services.html", "All services", "services"),
+]
+INSIGHTS_MENU = [
+    ("insights.html", "All insights", "insights"),
+    ("resources/", "Free resources", "resources"),
+    ("training-isnt-always-the-answer/", "The book", "book"),
+    ("book-toolkit/", "Book companion toolkit", "book-toolkit"),
+    ("glossary.html", "Glossary", "glossary"),
 ]
 BOOK_MENU = [
     ("training-isnt-always-the-answer/", "Training Isn&rsquo;t Always the Answer", "book"),
     ("book-toolkit/", "Toolkit", "book-toolkit"),
 ]
+# 2026-10 remediation IA: Home / About / Services (dropdown) / Case Studies / Insights (dropdown) / Contact.
+# Approach sits under Services; the book, toolkit, free resources and glossary sit under Insights.
 TOP_LINKS = [
-    ("approach/", "Approach", "approach"),
-    ("insights.html", "Insights", "insights"),
-    ("__BOOK__", "", ""),
+    ("index.html", "Home", "home"),
     ("about.html", "About", "about"),
+    ("__SERVICES__", "", ""),
+    ("case-studies.html", "Case Studies", "case-studies"),
+    ("__INSIGHTS__", "", ""),
     ("contact.html", "Contact", "contact"),
 ]
 AMAZON_URL = ""   # set to the live Amazon listing URL once published; empty = placeholder
@@ -63,7 +73,7 @@ ORG_SCHEMA = {
     "url": SITE_URL,
     "logo": f"{SITE_URL}/assets/logo/prelude-logo-primary.svg",
     "image": OG_IMAGE,
-    "description": "Independent consultancy working across capability consulting, business analysis and improvement, and workforce development. Understand the problem before prescribing the solution.",
+    "description": "Independent UK consultancy working across capability consulting, business analysis and improvement, and learning and workforce development. Specialist experience in Defence and public services; practical consultancy for organisations of every size and sector.",
     "slogan": "Setting the conditions for success",
     "email": "jason.smith@prelude-learning.com",
     "areaServed": "GB",
@@ -72,7 +82,8 @@ ORG_SCHEMA = {
     "knowsAbout": ["Capability Consulting", "Business Analysis", "Business Process Improvement", "Training Needs Analysis",
                    "Capability Development", "Learning Strategy", "Performance Consulting",
                    "Leadership Development", "Defence DSAT", "JSP 822", "Training Governance",
-                   "Workforce Development", "Organisational Development", "Learning Technology"],
+                   "Workforce Development", "Organisational Development", "Learning Technology",
+                   "Requirements Analysis", "Organisational Capability"],
     "founder": {
         "@type": "Person",
         "@id": f"{SITE_URL}/about.html#person",
@@ -123,7 +134,7 @@ def faq_section(items, heading="Frequently asked questions"):
     return f'''<section>
   <div class="wrap">
     <div class="eyebrow reveal">FAQs</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">{heading}</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">{heading}</h2>
     <div class="accordion">
 {body}    </div>
   </div>
@@ -234,10 +245,13 @@ def _dropdown(label, items, active, menu_id):
 '''
 
 def nav(active):
-    out = _dropdown("Services", SERVICE_MENU, active, "menu-services")
+    out = ""
     for href, label, key in TOP_LINKS:
-        if href == "__BOOK__":
-            out += _dropdown("Book", BOOK_MENU, active, "menu-book")
+        if href == "__SERVICES__":
+            out += _dropdown("Services", SERVICE_MENU, active, "menu-services")
+            continue
+        if href == "__INSIGHTS__":
+            out += _dropdown("Insights", INSIGHTS_MENU, active, "menu-insights")
             continue
         cur = ' class="active" aria-current="page"' if key == active else ""
         out += f'      <a href="{href}"{cur}>{label}</a>\n'
@@ -248,7 +262,7 @@ def nav(active):
       <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
     </a>
     <div class="nav-links" id="navLinks">
-{out}      <a href="contact.html#book" class="nav-cta" data-event="contact_click">Discuss a problem</a>
+{out}      <a href="contact.html#book" class="nav-cta" data-event="contact_click">Discuss a challenge</a>
     </div>
     <button type="button" class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
   </div>
@@ -295,7 +309,7 @@ def cta(title, text, secondary=None):
     <h2 class="reveal">{title}</h2>
     <p class="reveal" data-d="1">{text}</p>
     <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
 {sec}    </div>
   </div>
 </section>
@@ -314,8 +328,8 @@ def methodology(intro=True):
     steps = ""
     for n, t, p in METHOD_STEPS:
         steps += f'      <div class="mstep reveal"><div class="mnum">{n}</div><h3>{t}</h3><p>{p}</p></div>\n'
-    lead = ('    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">'
-            'A proprietary, repeatable method for turning capability problems into measurable performance.</p>\n') if intro else ""
+    lead = ('    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">'
+            'A proprietary, repeatable method for turning capability problems into measurable performance.</h2>\n') if intro else ""
     return f'''<section>
   <div class="wrap">
     <div class="eyebrow reveal">The Capability Improvement Approach</div>
@@ -338,7 +352,7 @@ def trust(heading="Trust &amp; credibility", sub="The clearances, experience and
     return f'''<section>
   <div class="wrap">
     <div class="eyebrow reveal">{heading}</div>
-    <p class="lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">{sub}</p>
+    <h2 class="lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">{sub}</h2>
     <div class="trust-grid reveal" data-d="2">
 {items}    </div>
   </div>
@@ -355,22 +369,24 @@ def footer():
           <img src="assets/logo/prelude-icon.svg" alt="" width="32" height="32" style="width:32px;height:32px">
           <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
         </div>
-        <p class="foot-tag">Capability consulting, business analysis and workforce development. Understand the problem before prescribing the solution.</p>
+        <p class="foot-tag">Independent UK consultancy: capability consulting, business analysis and improvement, and learning and workforce development. Specialist experience in Defence and public services; practical consultancy for organisations of every size and sector.</p>
         <p class="foot-strap">Setting the conditions for success</p>
       </div>
       <div class="foot-domains">
         <span>Services</span>
         <a href="capability-consulting/">Capability Consulting</a>
         <a href="business-analysis/">Business Analysis &amp; Improvement</a>
-        <a href="workforce-development/">Workforce Development</a>
-        <a href="approach/">Approach</a>
+        <a href="workforce-development/">Learning &amp; Workforce Development</a>
+        <a href="approach/">Our approach</a>
         <a href="case-studies.html">Case studies</a>
+        <a href="capability-readiness-review.html">Capability Readiness Review</a>
       </div>
       <div class="foot-domains">
-        <span>Book</span>
-        <a href="training-isnt-always-the-answer/">Training Isn&rsquo;t Always the Answer</a>
-        <a href="book-toolkit/">Toolkit</a>
+        <span>Insights &amp; resources</span>
         <a href="insights.html">Insights</a>
+        <a href="resources/">Free resources</a>
+        <a href="training-isnt-always-the-answer/">The book (coming soon)</a>
+        <a href="book-toolkit/">Book companion toolkit</a>
         <a href="glossary.html">Glossary</a>
       </div>
       <div class="foot-domains">
@@ -381,7 +397,7 @@ def footer():
         <a href="privacy.html">Privacy &amp; cookies</a>
       </div>
     </div>
-    <p class="foot-sectors">Sectors: {sectors}</p>
+    <p class="foot-sectors">Sector experience: {sectors}. Working with organisations of every size, from owner-managed businesses to national programmes.</p>
     <div class="foot-bottom">
       <p>&copy; <span id="yr"></span> Prelude Learning &amp; Consultancy Ltd. Registered in England and Wales, Company No. 16918049.</p>
       <p>{INDEPENDENCE_NOTE}</p>
@@ -580,7 +596,7 @@ def roles_section():
     return f'''<section>
   <div class="wrap">
     <div class="eyebrow reveal">Who I work with</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">If this is your role, this is your problem too.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">If this is your role, this is your problem too.</h2>
     <div class="aud-grid reveal" data-d="2">{chips}</div>
     <div style="margin-top:30px" class="reveal"><a href="who-i-help.html" class="btn btn-ghost">See how I help your role {ARROW}</a></div>
   </div>
@@ -598,7 +614,7 @@ def comparison_section():
     return f'''<section>
   <div class="wrap">
     <div class="eyebrow reveal">Why choose Prelude</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The senior expertise of a boutique. None of the overheads of a big firm.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The senior expertise of a boutique. None of the overheads of a big firm.</h2>
     <div class="compare">
       <div class="compare-col you reveal"><h3>Working with Prelude</h3><div class="sub">Senior, specialist, accountable</div>{yrows}</div>
       <div class="compare-col reveal" data-d="1"><h3>A typical large consultancy</h3><div class="sub">Scaled, generalist, layered</div>{trows}</div>
@@ -718,7 +734,7 @@ home_body = f'''<header id="top">
     <h1 class="reveal in" data-d="1">Solving Capability Problems <span class="gold">Training Alone Can't Fix.</span></h1>
     <p class="hero-sub reveal in" data-d="2">Training is rarely the problem. Capability is. When readiness slips, compliance fails or managers aren't performing, the cause is almost never a missing course. As a capability, readiness and workforce development advisor, I diagnose the real problem first — then use learning as one of several tools to fix it. 23+ years, DSAT specialist, Active SC clearance.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">View Case Studies</a>
     </div>
   </div>
@@ -754,7 +770,7 @@ home_body = f'''<header id="top">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Our intellectual property</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The model behind every engagement.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The model behind every engagement.</h2>
     {fw_prelude_model()}
   </div>
 </section>
@@ -762,7 +778,7 @@ home_body = f'''<header id="top">
 <section style="padding-top:24px">
   <div class="wrap">
     <div class="eyebrow reveal">Common challenges I help solve</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">If you recognise your organisation here, we should talk.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">If you recognise your organisation here, we should talk.</h2>
     <div class="challenge-grid">
       <div class="challenge-col reveal">
         <div class="ch-head"><img src="assets/icons/sector-defence.svg" alt=""><h3>Defence</h3></div>
@@ -804,7 +820,7 @@ home_body = f'''<header id="top">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Selected work</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Problems I've solved in environments like yours.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Problems I've solved in environments like yours.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><span class="tag-pill">Defence</span><h3>MOD Digital Skills for Defence (DS4D)</h3><p>Enterprise-wide digital capability analysis and DSAT-aligned TNA used for Defence-wide planning.</p></div>
       <div class="feature-card reveal" data-d="1"><span class="tag-pill">Defence</span><h3>Capability Framework Design</h3><p>A multi-specialisation framework and skills mapping that lifted operational readiness by 20%.</p></div>
@@ -853,7 +869,7 @@ defence_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">DSAT, governance and capability — from someone who's served.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for the Ministry of Defence, Defence Digital, DE&amp;S, Front Line Commands and prime contractors — covering JSP 822, training governance, Training Needs Analysis, capability frameworks, readiness and learning assurance.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Defence case studies</a>
     </div>
   </div>
@@ -863,7 +879,7 @@ defence_body = f'''<header class="page-hero">
 <section style="padding-top:84px">
   <div class="wrap">
     <div class="eyebrow reveal">Who I work with</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for Defence — at the enterprise and the front line.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for Defence — at the enterprise and the front line.</h2>
     <div class="proof-row reveal" data-d="2" style="justify-content:flex-start;margin-top:30px">
       <div class="proof-item">Ministry of Defence</div><div class="proof-item">Defence Digital</div><div class="proof-item">DE&amp;S</div><div class="proof-item">Front Line Commands</div><div class="proof-item">Prime Contractors</div>
     </div>
@@ -880,7 +896,7 @@ defence_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Defence consultancy services</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">DSAT and capability expertise, applied to your operating environment.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">DSAT and capability expertise, applied to your operating environment.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><img src="assets/icons/governance.svg" alt=""><h3>JSP 822 Expertise</h3><p>Practical, current application of JSP 822 and the Defence Systems Approach to Training — without drowning teams in process.</p></div>
       <div class="feature-card reveal" data-d="1"><img src="assets/icons/assurance.svg" alt=""><h3>DSAT Consultancy</h3><p>End-to-end DSAT support, from analysis and design through to governance and assurance.</p></div>
@@ -898,7 +914,7 @@ defence_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Proprietary frameworks</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every Defence engagement.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every Defence engagement.</h2>
     {fw_prelude_model()}
     {fw_decision_model()}
     {fw_diagnostic_framework()}
@@ -913,7 +929,7 @@ defence_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Defence track record</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Delivered across MOD, Royal Navy and NATO programmes.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Delivered across MOD, Royal Navy and NATO programmes.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><span class="tag-pill">DS4D</span><h3>Digital Skills for Defence</h3><p>DSAT-aligned capability analysis, TNA and learning architecture adopted for Defence-wide planning.</p></div>
       <div class="feature-card reveal" data-d="1"><span class="tag-pill">+20% readiness</span><h3>Capability Framework Design</h3><p>Consistent competency standards that increased operational readiness by 20%.</p></div>
@@ -946,7 +962,7 @@ healthcare_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Compliance you can trust. Learning that changes practice.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for NHS trusts, Integrated Care Boards and independent healthcare providers — covering compliance assurance, learning technology, workforce capability and leadership development for clinical and operational managers.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Healthcare case study</a>
     </div>
   </div>
@@ -956,7 +972,7 @@ healthcare_body = f'''<header class="page-hero">
 <section style="padding-top:84px">
   <div class="wrap">
     <div class="eyebrow reveal">Who I work with</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for healthcare providers under real regulatory pressure.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for healthcare providers under real regulatory pressure.</h2>
     <div class="proof-row reveal" data-d="2" style="justify-content:flex-start;margin-top:30px">
       <div class="proof-item">NHS Trusts</div><div class="proof-item">Integrated Care Boards</div><div class="proof-item">Community &amp; Mental Health Providers</div><div class="proof-item">Independent Healthcare Providers</div>
     </div>
@@ -973,7 +989,7 @@ healthcare_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Healthcare consultancy services</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied to regulated clinical and operational environments.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied to regulated clinical and operational environments.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><img src="assets/icons/assurance.svg" alt=""><h3>Compliance &amp; Mandatory Training Assurance</h3><p>Diagnosing whether compliance gaps sit in training, data or governance — before recommending more mandatory courses.</p></div>
       <div class="feature-card reveal" data-d="1"><img src="assets/icons/systems.svg" alt=""><h3>Learning Technology &amp; LMS Optimisation</h3><p>Totara and LMS dashboards, pathways and information management that turn your platform into trustworthy capability intelligence.</p></div>
@@ -990,7 +1006,7 @@ healthcare_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Proprietary frameworks</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every healthcare engagement.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every healthcare engagement.</h2>
     {fw_prelude_model()}
     {fw_decision_model()}
   </div>
@@ -1004,7 +1020,7 @@ healthcare_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Healthcare track record</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Reliable data changes behaviour faster than more mandatory training.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Reliable data changes behaviour faster than more mandatory training.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><span class="tag-pill">-18% compliance gaps</span><h3>Healthcare Learning Transformation</h3><p>Totara dashboards and structured pathways across 15,000 colleagues, cutting compliance gaps by 18% and giving leaders visibility they could trust.</p></div>
     </div>
@@ -1035,7 +1051,7 @@ housing_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Managers who are ready on day one. Onboarding that doesn't rely on luck.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for housing associations, ALMOs and local authority housing teams — covering manager onboarding, leadership development, succession planning and culture that's designed in, not left to chance.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Housing case study</a>
     </div>
   </div>
@@ -1045,7 +1061,7 @@ housing_body = f'''<header class="page-hero">
 <section style="padding-top:84px">
   <div class="wrap">
     <div class="eyebrow reveal">Who I work with</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for housing providers balancing service, growth and scrutiny.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for housing providers balancing service, growth and scrutiny.</h2>
     <div class="proof-row reveal" data-d="2" style="justify-content:flex-start;margin-top:30px">
       <div class="proof-item">Housing Associations</div><div class="proof-item">ALMOs</div><div class="proof-item">Registered Providers</div><div class="proof-item">Local Authority Housing Teams</div>
     </div>
@@ -1062,7 +1078,7 @@ housing_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Housing consultancy services</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied to how housing actually operates.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied to how housing actually operates.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><img src="assets/icons/leadership.svg" alt=""><h3>Manager &amp; Leadership Onboarding</h3><p>Structured onboarding for new and promoted managers, so capability doesn't depend on who happened to train them.</p></div>
       <div class="feature-card reveal" data-d="1"><img src="assets/icons/development.svg" alt=""><h3>Values-Based Induction</h3><p>Induction that makes culture and service expectations explicit from day one, not assumed through osmosis.</p></div>
@@ -1079,7 +1095,7 @@ housing_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Proprietary frameworks</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every housing engagement.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every housing engagement.</h2>
     {fw_prelude_model()}
     {fw_maturity_model()}
   </div>
@@ -1093,7 +1109,7 @@ housing_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Housing track record</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Values and expectations have to be designed in — not left to osmosis.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Values and expectations have to be designed in — not left to osmosis.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><span class="tag-pill">-20% time-to-competence</span><h3>Housing Leadership &amp; Onboarding Transformation</h3><p>Leadership pathways and values-based onboarding that cut time-to-competence by 20% and lifted consistency of leadership standards.</p></div>
     </div>
@@ -1124,7 +1140,7 @@ public_sector_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Capability that survives budget pressure, restructuring and scrutiny.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for local and central government, arm's-length bodies and public sector transformation programmes — covering workforce planning, role architecture, leadership development and training governance for public money.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Public sector case study</a>
     </div>
   </div>
@@ -1134,7 +1150,7 @@ public_sector_body = f'''<header class="page-hero">
 <section style="padding-top:84px">
   <div class="wrap">
     <div class="eyebrow reveal">Who I work with</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for public sector teams under real constraint.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for public sector teams under real constraint.</h2>
     <div class="proof-row reveal" data-d="2" style="justify-content:flex-start;margin-top:30px">
       <div class="proof-item">Local &amp; Combined Authorities</div><div class="proof-item">Central Government Departments</div><div class="proof-item">Arm's-Length Bodies</div><div class="proof-item">Transformation Programmes</div>
     </div>
@@ -1150,7 +1166,7 @@ public_sector_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Public sector consultancy services</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied under real budget and scrutiny pressure.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied under real budget and scrutiny pressure.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><img src="assets/icons/systems.svg" alt=""><h3>Workforce &amp; Role Architecture Redesign</h3><p>Redesigning roles and structure to scale cleanly under pressure — proven in national crisis response, transferable to any restructuring.</p></div>
       <div class="feature-card reveal" data-d="1"><img src="assets/icons/strategy.svg" alt=""><h3>Transformation &amp; Change Capability</h3><p>Diagnosing the capability a transformation programme actually needs, before the solution is designed — so change survives launch.</p></div>
@@ -1167,7 +1183,7 @@ public_sector_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Proprietary frameworks</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every public sector engagement.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every public sector engagement.</h2>
     {fw_prelude_model()}
     {fw_diagnostic_framework()}
   </div>
@@ -1181,7 +1197,7 @@ public_sector_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Public sector track record</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">In a crisis, clarity of role beats volume of training every time.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">In a crisis, clarity of role beats volume of training every time.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><span class="tag-pill">+15% response effectiveness</span><h3>Operational Role Architecture Redesign (Op Isotrope)</h3><p>Role architecture redesign during national crisis response, improving response effectiveness by 15% and enabling faster, clearer scaling.</p></div>
     </div>
@@ -1212,7 +1228,7 @@ professional_services_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Capability thinking built in Defence and consulting — applied to your firm.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for law firms, accountancy and financial advisory practices, and management and specialist consultancies — covering leadership and partner-track development, talent retention, onboarding and capability frameworks for progression.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="about.html" class="btn btn-ghost">About Jason's background</a>
     </div>
   </div>
@@ -1222,7 +1238,7 @@ professional_services_body = f'''<header class="page-hero">
 <section style="padding-top:84px">
   <div class="wrap">
     <div class="eyebrow reveal">Who I work with</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for partnership-model and professional services firms.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Built for partnership-model and professional services firms.</h2>
     <div class="proof-row reveal" data-d="2" style="justify-content:flex-start;margin-top:30px">
       <div class="proof-item">Law Firms &amp; Partnerships</div><div class="proof-item">Accountancy &amp; Financial Advisory Firms</div><div class="proof-item">Management &amp; Specialist Consultancies</div><div class="proof-item">Insurance &amp; Financial Services</div>
     </div>
@@ -1235,7 +1251,7 @@ professional_services_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Professional services consultancy services</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied to partnership and career-track structures.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Capability expertise, applied to partnership and career-track structures.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><img src="assets/icons/leadership.svg" alt=""><h3>Leadership &amp; Partner-Track Development</h3><p>Building judgement and leadership capability for people moving from technical expert to people leader — grounded, not theoretical.</p></div>
       <div class="feature-card reveal" data-d="1"><img src="assets/icons/systems.svg" alt=""><h3>Talent Development &amp; Retention</h3><p>Structured pathways that give associates and specialists a reason to stay and a clear route to progress.</p></div>
@@ -1252,7 +1268,7 @@ professional_services_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Proprietary frameworks</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every professional services engagement.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every professional services engagement.</h2>
     {fw_prelude_model()}
     {fw_decision_model()}
   </div>
@@ -1266,7 +1282,7 @@ professional_services_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">The same method, proven elsewhere</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Different sector. Same discipline: diagnose before you prescribe.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Different sector. Same discipline: diagnose before you prescribe.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><span class="tag-pill">95% completion</span><h3>Talent &amp; Progression Pathways</h3><p>Structured pathways and coaching driving 95% completion where drop-off had previously been driven by weak progress management, not ability.</p></div>
       <div class="feature-card reveal" data-d="1"><span class="tag-pill">-20% time-to-competence</span><h3>Leadership &amp; Onboarding Design</h3><p>Values-based onboarding and leadership pathways cutting time-to-competence by 20% for new and promoted managers.</p></div>
@@ -1345,7 +1361,7 @@ about_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">By the numbers</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Experience measured in outcomes.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Experience measured in outcomes.</h2>
     <div class="metric-grid reveal" data-d="2">
       <div class="metric"><div class="figure" data-count="23" data-suffix="+">23<span class="unit">+</span></div><div class="label">Years in capability, leadership &amp; readiness</div></div>
       <div class="metric"><div class="figure" data-count="15000">15,000</div><div class="label">Staff supported across a single organisation</div></div>
@@ -1427,6 +1443,18 @@ learn_tx = (
         ["Learning aligned to goals", "Stronger value for money", "A roadmap leaders can back"],
         "Strategic learning architecture and roadmaps for enterprise Defence capability planning.", slug="learning-strategy")
 )
+_CASE_SLUGS = {  # service-page "case_title" -> case study page
+    "MOD Digital Skills for Defence (DS4D)": "mod-digital-skills-for-defence",
+    "Digital Skills for Defence (DS4D)": "mod-digital-skills-for-defence",
+    "Digital Skills for Defence (DS4D) Governance": "mod-digital-skills-for-defence",
+    "NATO &amp; Royal Navy Training Modernisation": "nato-royal-navy-training-modernisation",
+    "Defence Capability Framework Design": "defence-capability-framework-design",
+    "Housing Leadership &amp; Onboarding Transformation": "housing-leadership-onboarding-transformation",
+    "Defence Apprenticeship Success Programme": "defence-apprenticeship-success-programme",
+    "Operational Role Architecture Redesign (Op Isotrope)": "op-isotrope-role-architecture-redesign",
+    "Healthcare Learning Transformation": "healthcare-learning-transformation",
+    "Senior Information Officer (SIO) Course — Rapid TNA": "sio-course-rapid-tna",
+}
 def service_page(slug, cat_label, num, title, h1, hero_sub, problem, diagnosis, approach, deliverables, outcomes, case_title, case_metric, case_text, faqs):
     del_li = "".join(f"<li>{d}</li>" for d in deliverables)
     out_li = "".join(f"<li>{o}</li>" for o in outcomes)
@@ -1436,7 +1464,7 @@ def service_page(slug, cat_label, num, title, h1, hero_sub, problem, diagnosis, 
     <h1 class="reveal in" data-d="1">{h1}</h1>
     <p class="hero-sub reveal in" data-d="2">{hero_sub}</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="services.html" class="btn btn-ghost">All services</a>
     </div>
   </div>
@@ -1473,7 +1501,7 @@ def service_page(slug, cat_label, num, title, h1, hero_sub, problem, diagnosis, 
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">What you get</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Deliverables, and the outcomes they drive.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Deliverables, and the outcomes they drive.</h2>
     <div class="feature-grid cols-2">
       <div class="feature-card reveal"><h3>Deliverables</h3><ul class="dot-list">{del_li}</ul></div>
       <div class="feature-card reveal" data-d="1"><h3>Outcomes</h3><ul class="dot-list">{out_li}</ul></div>
@@ -1485,11 +1513,12 @@ def service_page(slug, cat_label, num, title, h1, hero_sub, problem, diagnosis, 
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Proof, not promises</div>
+    <div class="eyebrow reveal">See how we&rsquo;ve applied this approach</div>
     <div class="feature-grid" style="grid-template-columns:1fr">
-      <div class="feature-card reveal"><span class="tag-pill">{case_metric}</span><h3>{case_title}</h3><p>{case_text}</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">{case_metric}</span><h3>{f'<a href="{_CASE_SLUGS[case_title]}.html">{case_title}</a>' if case_title in _CASE_SLUGS else case_title}</h3><p>{case_text}</p></div>
     </div>
-    <div style="margin-top:32px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">All case studies {ARROW}</a></div>
+    <p class="fine-print reveal">Founder-led experience. Figures are reported outcomes from the original work; baselines and measurement methods are not published here.</p>
+    <div style="margin-top:32px" class="reveal"><a href="{_CASE_SLUGS.get(case_title, 'case-studies')}.html" class="btn btn-ghost">Read the case study {ARROW}</a> <a href="case-studies.html" class="btn btn-ghost">All case studies</a></div>
   </div>
 </section>
 
@@ -1736,111 +1765,76 @@ services_body = f'''<header class="page-hero">
 {cta("Not sure which of these you need?", "That's normal — and it's exactly what a first conversation is for. We'll work out the real problem together.", secondary=("View case studies", "case-studies.html"))}'''
 
 # ================================================================== CASE STUDY PAGES
-def case_study_page(slug, sector_label, title, metric_fig, metric_label,
-                     challenge, context, approach, deliverables, outcome,
-                     commercial_impact, transferability, lessons,
-                     photo_src, photo_alt, photo_w, photo_h,
-                     related_slug, related_title, count=None, suffix=""):
-    approach_li = "".join(f"<li>{x}</li>" for x in approach)
-    deliverables_li = "".join(f"<li>{x}</li>" for x in deliverables)
-    outcome_li = "".join(f"<li>{x}</li>" for x in outcome)
-    if count:
-        static_val = f'{int(count):,}<span class="unit">{suffix}</span>'
-        fig = f'<div class="figure" data-count="{count}" data-suffix="{suffix}">{static_val}</div>'
-    else:
-        fig = f'<div class="figure">{metric_fig}</div>'
+CASE_PILLARS = {
+    "capability": ("Capability Consulting", "capability-consulting/"),
+    "business": ("Business Analysis &amp; Improvement", "business-analysis/"),
+    "workforce": ("Learning &amp; Workforce Development", "workforce-development/"),
+}
+
+def case_study_page(cs):
+    """Individual case study: Challenge, Context and constraints, Approach, What we found,
+    What changed, Outcomes and evidence, Lessons learned (2026-10 remediation structure)."""
+    ex = CASE_EXTRAS[cs["slug"]]
+    basis_label, basis_text = CASE_BASIS[ex["basis"]]
+    pillar_label, pillar_href = CASE_PILLARS[ex["pillar"]]
+    li = lambda xs: "".join(f"<li>{x}</li>" for x in xs)
+    others = [o for o in CASE_STUDIES_FULL if CASE_EXTRAS[o["slug"]]["pillar"] == ex["pillar"] and o["slug"] != cs["slug"]][:3]
+    more = "".join(f'<li><a href="{o["slug"]}.html">{o["title"]}</a></li>' for o in others)
     body = f'''<header class="page-hero">
   <div class="wrap">
-    <div class="eyebrow reveal in">{sector_label} Case Study</div>
-    <h1 class="reveal in" data-d="1">{title}</h1>
-    <div class="case-metric reveal in" data-d="2" style="display:inline-block;margin-top:20px">{fig}<div class="label">{metric_label}</div></div>
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="case-studies.html">Case studies</a> / <span aria-current="page">{cs["title"]}</span></div>
+    <p class="cs-meta reveal in"><span class="cs-badge">{basis_label}</span><span>{cs["sector"]}</span><span><a href="{pillar_href}">{pillar_label}</a></span></p>
+    <h1 class="reveal in" data-d="1">{cs["title"]}</h1>
+    <p class="hero-sub reveal in" data-d="2">{ex["headline"]}.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">All case studies</a>
     </div>
   </div>
 </header>
 
-{proof()}
-<section style="padding-top:84px">
-  <div class="wrap">
-    <img src="assets/photos/{photo_src}" alt="{photo_alt}" width="{photo_w}" height="{photo_h}" loading="lazy" style="width:100%;border-radius:6px" class="case-hero-img reveal">
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap article">
-    <div class="eyebrow reveal">The challenge</div>
-    <p class="reveal" style="font-size:1.1rem;line-height:1.75">{challenge}</p>
-    <h2 class="reveal" style="margin-top:36px;font-size:1.3rem">Why it mattered</h2>
-    <p class="reveal" style="font-size:1.1rem;line-height:1.75">{context}</p>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow reveal">The approach</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">What I did, and what it delivered.</p>
-    <div class="feature-grid cols-2">
-      <div class="feature-card reveal"><h3>Approach</h3><ul class="dot-list">{approach_li}</ul></div>
-      <div class="feature-card reveal" data-d="1"><h3>Deliverables</h3><ul class="dot-list">{deliverables_li}</ul></div>
+<section class="sec">
+  <div class="wrap cs-layout">
+    <div class="cs-main">
+      <img src="assets/photos/{cs["photo_src"]}" alt="{cs["photo_alt"]}" width="{cs["photo_w"]}" height="{cs["photo_h"]}" loading="lazy" class="cs-photo">
+      <h2>1. The challenge</h2>
+      <p>{cs["challenge"]}</p>
+      <h2>2. Context and constraints</h2>
+      <p>{cs["context"]}</p>
+      <h2>3. The approach</h2>
+      <ul class="tick-list">{li(cs["approach"])}</ul>
+      <h2>4. What we found</h2>
+      <p>{ex["found"]}</p>
+      <h2>5. What changed</h2>
+      <ul class="tick-list">{li(cs["deliverables"])}</ul>
+      <h2>6. Outcomes and evidence</h2>
+      <ul class="tick-list">{li(cs["outcome"])}</ul>
+      {f'<p class="fine-print">{CASE_EVIDENCE_NOTE}</p>' if any(re.search(r"\d+\s?%", x) for x in cs["outcome"]) else ""}
+      <h2>7. Lessons learned</h2>
+      <p>{cs["lessons"]}</p>
+      <h3 class="cs-sub">Where else this applies</h3>
+      <p>{cs["transferability"]}</p>
     </div>
+    <aside class="cs-aside" aria-label="About this case study">
+      <div class="cs-box">
+        <p class="cs-box-h">About this case study</p>
+        <p><strong>{basis_label}.</strong> {basis_text}</p>
+      </div>
+      <div class="cs-box">
+        <p class="cs-box-h">Service area</p>
+        <p><a href="{pillar_href}">{pillar_label}</a></p>
+        <p class="cs-box-h">Related service</p>
+        <p><a href="{cs["related_slug"]}.html">{cs["related_title"]}</a></p>
+      </div>
+      {f'<div class="cs-box"><p class="cs-box-h">More {pillar_label} case studies</p><ul class="cs-more">{more}</ul></div>' if more else ""}
+    </aside>
   </div>
 </section>
 
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow reveal">The outcome</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Results, measured.</p>
-    <ul class="dot-list reveal" data-d="2" style="max-width:640px;font-size:17px">{outcome_li}</ul>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap split">
-    <div class="reveal stack-gap">
-      <div class="eyebrow">Commercial impact</div>
-      <p>{commercial_impact}</p>
-    </div>
-    <div class="reveal stack-gap" data-d="1">
-      <div class="eyebrow">Transferability</div>
-      <p>{transferability}</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap article">
-    <div class="eyebrow reveal">Lessons learned</div>
-    <p class="reveal" style="font-size:1.1rem;line-height:1.75">{lessons}</p>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section class="cta-band">
-  <div class="wrap">
-    <h2 class="reveal">Recognise this in your organisation?</h2>
-    <p class="reveal" data-d="1">Let's talk about what it would take to get a similar result for you.</p>
-    <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
-      <a href="{related_slug}.html" class="btn btn-ghost">Related service: {related_title}</a>
-    </div>
-  </div>
-</section>'''
-    page(f"{slug}.html", f"{title} | Prelude Case Study",
-         f"{context}"[:300], body, "case-studies", breadcrumb=title,
-         article=(title, context[:300]))
+{cta("Recognise this challenge?", "Every organisation is different. The first conversation is about your problem, not a pitch.", secondary=(f"Explore {pillar_label}", pillar_href))}'''
+    page(f'{cs["slug"]}.html', f'{cs["title"]} | Case Study | Prelude',
+         (cs["challenge"])[:155], body, "case-studies", breadcrumb=cs["title"],
+         article=(cs["title"], cs["challenge"][:300]))
 
 CASE_STUDIES_FULL = [
     dict(slug="mod-digital-skills-for-defence", sector="Defence", title="MOD Digital Skills for Defence (DS4D)",
@@ -1856,7 +1850,7 @@ CASE_STUDIES_FULL = [
          photo_src="public-sector-transformation-workshop.jpeg", photo_alt="Capability map and learning architecture — transformation roadmap workshop", photo_w=1000, photo_h=562,
          related_slug="learning-strategy", related_title="Learning Strategy"),
     dict(slug="sio-course-rapid-tna", sector="Defence · DSAT", title="Senior Information Officer (SIO) Course — Rapid TNA",
-         metric_fig="None", metric_label="Speed and governance, together",
+         metric_fig=None, metric_label="Speed and governance, together",
          challenge="A Senior Information Officer course needed analysis at pace — but the team feared that moving quickly would mean cutting DSAT corners and losing defensibility.",
          context="Many believe Defence change is slow because of DSAT. In reality, DSAT is often treated as a process to complete rather than a framework to support decision-making — and that, not governance itself, is what slows things down.",
          approach=["Conducted a rapid, focused Training Needs Analysis", "Identified immediate improvements that could be actioned at once", "Assessed future role requirements and undertook new role analysis", "Developed policy recommendations from the evidence", "Maintained DSAT defensibility and JSP 822 compliance throughout"],
@@ -1941,115 +1935,37 @@ CASE_STUDIES_FULL = [
          related_slug="training-needs-analysis", related_title="Training Needs Analysis"),
 ]
 
-for _cs in CASE_STUDIES_FULL:
-    case_study_page(_cs["slug"], _cs["sector"], _cs["title"], _cs["metric_fig"], _cs["metric_label"],
-                     _cs["challenge"], _cs["context"], _cs["approach"], _cs["deliverables"], _cs["outcome"],
-                     _cs["commercial_impact"], _cs["transferability"], _cs["lessons"],
-                     _cs["photo_src"], _cs["photo_alt"], _cs["photo_w"], _cs["photo_h"],
-                     _cs["related_slug"], _cs["related_title"],
-                     count=_cs.get("count"), suffix=_cs.get("suffix", ""))
-
-cs_body = f'''<header class="page-hero">
-  <div class="wrap">
-    <div class="eyebrow reveal in">Case Studies</div>
-    <h1 class="reveal in" data-d="1">Problems solved. Risk reduced. Results measured.</h1>
-    <p class="hero-sub reveal in" data-d="2">Real capability, governance and learning projects across Defence, Healthcare and Housing — told as stories, with the commercial outcome that mattered.</p>
-    <div class="filter-bar reveal in" data-d="3">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="defence">Defence</button>
-      <button class="filter-btn" data-filter="healthcare">Healthcare</button>
-      <button class="filter-btn" data-filter="housing">Housing</button>
-    </div>
-  </div>
-</header>
-
-<div class="divider"></div>
-
-<section style="padding-top:20px">
-  <div class="wrap">
-    <p class="lead reveal" style="margin-bottom:10px">Every study below was diagnosed against the Prelude Capability Model&trade; — mission and outcomes first, training last.</p>
-    {fw_prelude_model()}
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-{case("defence","Defence","MOD Digital Skills for Defence (DS4D)","Defence-wide","Building capability, not course catalogues",
-  "Defence was framing a digital problem as a training problem — but the real question was what digital capability Defence actually required, and how to align the workforce to it.",
-  "Commissioning courses against an undefined capability requirement risks spending heavily and still missing the mission. The stakes were enterprise-wide digital readiness.",
-  "The challenge was never simply training. Once we mapped mission to capability, it was clear the gaps sat in undefined capability requirements, unmapped behaviours and workforce needs, and a learning estate that wasn't aligned to strategic outcomes.",
-  ["Defined the digital capability requirements against mission and outcomes","Mapped the skills, behaviours and workforce needs required to deliver them","Aligned learning architecture to strategic outcomes — not the other way round","Embedded governance and assurance so decisions stayed defensible"],
-  ["A clear, evidence-based view of future capability requirements","Learning architecture aligned to strategic outcomes","Decision-makers equipped to plan and defend digital capability investment","Progress in ten weeks that had stalled for twelve months"],
-  "Leaders moved from buying courses to building capability — investing with confidence against a defined requirement rather than assumption.",
-  "At enterprise scale, the first job is to define the capability the mission requires. Training plans built before that are course catalogues, not capability.",
-  "public-sector-transformation-workshop.jpeg", "Capability map and learning architecture — transformation roadmap workshop", 1000, 562, slug="mod-digital-skills-for-defence")}
-{case("defence","Defence · DSAT","Senior Information Officer (SIO) Course — Rapid TNA",None,"Speed and governance, together",
-  "A Senior Information Officer course needed analysis at pace — but the team feared that moving quickly would mean cutting DSAT corners and losing defensibility.",
-  "Many believe Defence change is slow because of DSAT. In reality, DSAT is often treated as a process to complete rather than a framework to support decision-making — and that, not governance itself, is what slows things down.",
-  "Used as a decision-support framework rather than a box-ticking process, DSAT could move fast. The real constraints were unclear current requirements and undefined future role needs — not the methodology.",
-  ["Conducted a rapid, focused Training Needs Analysis","Identified immediate improvements that could be actioned at once","Assessed future role requirements and undertook new role analysis","Developed policy recommendations from the evidence","Maintained DSAT defensibility and JSP 822 compliance throughout"],
-  ["Immediate, actionable improvements identified quickly","Future role requirements defined with evidence","Policy recommendations leaders could stand behind","Full DSAT defensibility and JSP 822 compliance preserved"],
-  "The organisation proved it didn't have to choose between speed and governance — with the right approach, it achieved both.",
-  "DSAT is a framework to support decisions, not a process to endure. Treated that way, it accelerates good decisions rather than delaying them.",
-  "defence-training-governance-workshop.jpeg", "Rapid TNA diagnostic — training governance workshop", 1000, 562, slug="sio-course-rapid-tna")}
-{case("defence","Defence","Defence Capability Framework Design",None,"Increase in operational readiness",
-  "Competency standards were inconsistent, so people couldn't be assessed, developed or planned for in a consistent way.",
-  "Inconsistent standards meant readiness couldn't be measured or trusted — a real operational risk.",
-  "Each team was defining roles and competence differently, so 'ready' meant different things in different places.",
-  ["Multi-specialisation capability framework","Skills mapping across roles","Workforce planning support"],
-  ["Consistent, defensible standards","20% increase in operational readiness"],
-  "A single, trusted view of capability that underpinned assessment, development and workforce planning.",
-  "A framework only changes behaviour when it's usable for assessment and planning — not simply published.",
-  "capability-framework-review-2.jpeg", "Capability framework snapshot — two professionals reviewing framework documentation", 540, 360, count="20", suffix="%", slug="defence-capability-framework-design")}
-{case("defence","Defence · Crisis response","Operational Role Architecture Redesign (OP ISOTROPE)",None,"Improvement in response effectiveness",
-  "A national crisis required the organisation to scale rapidly — but roles and skills weren't clear enough to do it cleanly.",
-  "In a crisis, ambiguity costs time and effectiveness the organisation didn't have.",
-  "Under crisis pace, role ambiguity — not individual skill — was the biggest drag on effectiveness.",
-  ["Role architecture redesign","Skills alignment to operational need","Organisational structure improvements"],
-  ["15% improvement in response effectiveness","Faster, clearer scaling"],
-  "The organisation scaled at pace without losing clarity of role, accountability or capability.",
-  "In a crisis, clarity of role beats volume of training every time.",
-  "defence-operational-planning-briefing.jpeg", "Operational role architecture — defence planning briefing", 638, 360, count="15", suffix="%", slug="op-isotrope-role-architecture-redesign")}
-{case("healthcare","Healthcare","Healthcare Learning Transformation",None,"Reduction in compliance gaps",
-  "Across 15,000 colleagues, learning compliance and reporting were unreliable, leaving leaders blind to risk.",
-  "In healthcare, compliance gaps aren't admin — they're patient safety and regulatory exposure.",
-  "Compliance data existed, but it couldn't be trusted — so leaders were managing risk blind.",
-  ["Totara dashboards","Structured learning pathways","Information management improvements"],
-  ["18% reduction in compliance gaps","Clear visibility of learning risk"],
-  "Leaders gained confidence in compliance reporting across a 15,000-strong workforce.",
-  "Reliable data changes behaviour faster than more mandatory training.",
-  "healthcare-workforce-planning-meeting.jpeg", "Compliance dashboard — NHS workforce planning meeting", 1000, 562, count="18", suffix="%", slug="healthcare-learning-transformation")}
-{case("housing","Housing","Housing Leadership &amp; Onboarding Transformation",None,"Reduction in time-to-competence",
-  "Onboarding was slow and leadership development inconsistent, holding back performance and retention.",
-  "Slow onboarding meant new colleagues took too long to contribute — and inconsistent leadership cost engagement.",
-  "Onboarding was inconsistent and leadership expectations were unwritten, so new managers learned by chance.",
-  ["Leadership development pathways","Values-based onboarding","Digital learning solutions"],
-  ["20% reduction in time-to-competence","More consistent leadership"],
-  "New colleagues became productive faster, under a consistent leadership standard.",
-  "Values and expectations have to be designed into onboarding — not left to osmosis.",
-  "housing-management-development-workshop.jpeg", "Onboarding journey — housing management development workshop", 1000, 666, count="20", suffix="%", slug="housing-leadership-onboarding-transformation")}
-{case("defence","Defence","Defence Apprenticeship Success Programme",None,"Completion rate · 100% funding compliance",
-  "Apprenticeship completion and qualification rates needed to improve, with funding compliance under scrutiny.",
-  "Low completion wastes investment and risks funding — and fails the people on the programme.",
-  "Drop-off was driven by weak progress management and support — not by learner ability.",
-  ["Coaching and learner support","Progress management","Structured development pathways"],
-  ["95% completion rate","100% funding compliance"],
-  "A stronger internal pipeline and protected funding, with genuine capability built — not just qualifications gained.",
-  "Completion is an operations problem as much as a teaching one.",
-  "defence-secure-operations-centre.jpeg", "Progress governance — defence operations centre", 1000, 562, count="95", suffix="%", slug="defence-apprenticeship-success-programme")}
-{case("defence","Defence · NATO &amp; Royal Navy","NATO &amp; Royal Navy Training Modernisation",None,"Increase in pass rates · 20% fewer failures",
-  "Established training needed to lift operational readiness and learner performance.",
-  "Pass and failure rates directly affect how quickly capable people reach the front line.",
-  "A DSAT-compliant TNA pinpointed the specific points in the pipeline where learners were being set up to fail.",
-  ["DSAT-compliant TNA","Blended learning design","Coaching interventions","E-learning solutions"],
-  ["17% increase in pass rates","20% reduction in failure rates"],
-  "Higher readiness and better learner performance, with less wasted training effort.",
-  "Target the few points that move pass rates, rather than redesigning everything.",
-  "defence-military-operations-room.jpeg", "Learning pathway — NATO and Royal Navy training modernisation", 596, 335, count="17", suffix="%", slug="nato-royal-navy-training-modernisation")}
-  </div>
-</section>
-
-{cta("Recognise your organisation in any of these?", "If so, let's talk about what it would take to get the same result for you.", secondary=("Explore services", "services.html"))}'''
+# 2026-10 remediation: service pillar, evidence basis, findings and headline per case study.
+# basis: "prelude" = Prelude Ltd engagement; "founder" = work led by the founder in previous roles
+# or as part of a wider team; change per study once confirmed.
+# headline: qualitative summary shown on cards and page heroes (figures are shown in the outcomes,
+# labelled as reported outcomes; see CASE_EVIDENCE_NOTE).
+CASE_EXTRAS = {
+    "mod-digital-skills-for-defence": dict(pillar="capability", basis="founder", headline="Defining the capability requirement before the learning",
+        found="The challenge was never simply training. Once mission was mapped to capability, the gaps sat in undefined capability requirements, unmapped behaviours and workforce needs, and a learning estate that wasn&rsquo;t aligned to strategic outcomes."),
+    "sio-course-rapid-tna": dict(pillar="capability", basis="founder", headline="Speed and governance, together",
+        found="Used as a decision-support framework rather than a box-ticking process, DSAT could move fast. The real constraints were unclear current requirements and undefined future role needs, not the methodology."),
+    "defence-capability-framework-design": dict(pillar="capability", basis="founder", headline="One trusted standard for readiness",
+        found="Each team was defining roles and competence differently, so &lsquo;ready&rsquo; meant different things in different places."),
+    "nato-royal-navy-training-modernisation": dict(pillar="capability", basis="founder", headline="Targeting the points that move pass rates",
+        found="A DSAT-compliant TNA pinpointed the specific points in the pipeline where learners were being set up to fail."),
+    "op-isotrope-role-architecture-redesign": dict(pillar="business", basis="founder", headline="Role clarity under crisis conditions",
+        found="Under crisis pace, role ambiguity, not individual skill, was the biggest drag on effectiveness."),
+    "healthcare-learning-transformation": dict(pillar="workforce", basis="founder", headline="Compliance data leaders could trust",
+        found="Compliance data existed, but it couldn&rsquo;t be trusted, so leaders were managing risk without reliable visibility."),
+    "housing-leadership-onboarding-transformation": dict(pillar="workforce", basis="founder", headline="Onboarding and leadership standards made explicit",
+        found="Onboarding was inconsistent and leadership expectations were unwritten, so new managers learned by chance."),
+    "defence-apprenticeship-success-programme": dict(pillar="workforce", basis="founder", headline="Completion treated as an operations problem",
+        found="Drop-off was driven by weak progress management and support, not by learner ability."),
+}
+CASE_BASIS = {
+    "prelude": ("Prelude engagement", "Delivered by Prelude Learning &amp; Consultancy Ltd."),
+    "founder": ("Founder-led experience", "Work led or delivered by Prelude&rsquo;s founder, Jason Smith, including in previous roles and as part of wider teams."),
+    "anonymised": ("Anonymised Prelude example", "Recent Prelude consultancy work, shared without client names, sector detail or commercial figures."),
+}
+CASE_EVIDENCE_NOTE = ("Figures are reported outcomes from the original work. The baseline, measurement method and period "
+                      "behind each figure are not published here, and results depend on context; they are not a prediction "
+                      "of results elsewhere.")
 
 # ================================================================== GLOSSARY
 # Each entry: (slug, term, definition, link_href, link_label)
@@ -2159,7 +2075,7 @@ def insight_article_page(slug, category, title, h1, hero_sub, sections, faqs, re
     <h2 class="reveal">Want this thinking applied to your organisation?</h2>
     <p class="reveal" data-d="1">Insight is useful. Applied insight changes outcomes. Let's talk about yours.</p>
     <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
       <a href="{related_slug}.html" class="btn btn-ghost">{related_title}</a>
     </div>
   </div>
@@ -3989,7 +3905,7 @@ insights_body = f'''<header class="page-hero">
 <section style="padding-top:64px">
   <div class="wrap">
     <div class="eyebrow reveal">Free resources</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Diagnostics and templates to get you started.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Diagnostics and templates to get you started.</h2>
     <div class="resource-grid">
 {res_cards}    </div>
     <div class="capture reveal" id="get-resources">
@@ -4063,7 +3979,7 @@ insights_body = f'''<header class="page-hero">
 contact_body = f'''<header class="page-hero" id="book">
   <div class="wrap">
     <div class="eyebrow reveal in">Contact</div>
-    <h1 class="reveal in" data-d="1">Discuss a problem.</h1>
+    <h1 class="reveal in" data-d="1">Discuss a challenge.</h1>
     <p class="hero-sub reveal in" data-d="2">A practical, problem-first conversation — no sales pitch. Tell me what's going on and we'll work out what's really driving it, and whether I'm the right person to help.</p>
   </div>
 </header>
@@ -4129,7 +4045,7 @@ CRR_OPTS = [("Yes, clearly", "3"), ("Partly", "2"), ("Not really", "1"), ("Not s
 _crr_q = ""
 for i, q in enumerate(CRR_QUESTIONS, 1):
     opts = "".join(f'<label class="crr-opt"><input type="radio" name="q{i}" value="{s}"><span>{l}</span></label>' for l, s in CRR_OPTS)
-    _crr_q += f'<div class="crr-q"><div class="q"><span class="qn">{i:02d}</span><span>{q}</span></div><div class="crr-opts">{opts}</div></div>\n      '
+    _crr_q += f'<fieldset class="crr-q"><legend class="q"><span class="qn">{i:02d}</span><span>{q}</span></legend><div class="crr-opts">{opts}</div></fieldset>\n      '
 
 crr_body = f'''<header class="page-hero">
   <div class="wrap">
@@ -4155,7 +4071,7 @@ crr_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Three levels</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">A clear path from free self-check to full diagnosis.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">A clear path from free self-check to full diagnosis.</h2>
     <div class="ladder reveal" data-d="2">
       <div class="rung"><div class="rung-tag">Free</div><h3>Capability Readiness Self-Assessment</h3><p>The ten-question self-assessment on this page. An immediate, honest read on where your readiness gaps sit — in two minutes, in your browser.</p><a class="read" href="#crr">Start below →</a></div>
       <div class="rung featured"><div class="rung-tag">Facilitated</div><h3>Capability Readiness Review&trade;</h3><p>A facilitated review with evidence-gathering and stakeholder input, producing a prioritised, board-ready picture of the real problem and what to do about it.</p><a class="read" href="contact.html#book">Enquire →</a></div>
@@ -4169,7 +4085,7 @@ crr_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">The self-assessment</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Ten questions. Two minutes. An honest read on your readiness.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Ten questions. Two minutes. An honest read on your readiness.</h2>
     <div class="crr reveal" data-d="2" id="crr">
       <div class="crr-progress"><span id="crr-bar"></span></div>
       <div class="crr-progress-label" id="crr-count">0 of 10 answered</div>
@@ -4189,7 +4105,7 @@ crr_body = f'''<header class="page-hero">
           <div class="crr-card"><h4>Potential root causes</h4><ul id="crr-causes"></ul></div>
           <div class="crr-card"><h4>Recommended next steps</h4><ul id="crr-steps"></ul></div>
         </div>
-        <div style="margin-top:30px"><a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a></div>
+        <div style="margin-top:30px"><a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a></div>
       </div>
     </div>
     <p class="placeholder-note reveal" style="margin-top:22px">This self-assessment runs entirely in your browser — nothing is sent or stored. A full, facilitated Capability Readiness Review goes deeper, with evidence-gathering and stakeholder input.</p>
@@ -4222,7 +4138,7 @@ howiwork_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">The engagement</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Five stages, from first conversation to lasting capability.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Five stages, from first conversation to lasting capability.</h2>
     <div class="method-steps">{_hiw}</div>
   </div>
 </section>
@@ -4242,7 +4158,7 @@ howiwork_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">What you can expect</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">No surprises. No junior hand-offs. No lock-in.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">No surprises. No junior hand-offs. No lock-in.</h2>
     <div class="feature-grid cols-2">
       <div class="feature-card reveal"><h3>Clear scope &amp; milestones</h3><p>You'll know what's being done, by when, and what each stage delivers — agreed up front.</p></div>
       <div class="feature-card reveal" data-d="1"><h3>Senior delivery throughout</h3><p>You work directly with me. The person you meet is the person who does the work.</p></div>
@@ -4299,7 +4215,7 @@ manifesto_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">Go deeper</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Take the thinking further.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Take the thinking further.</h2>
     <div class="resource-grid">
       <div class="resource reveal"><img class="r-ic" src="assets/icons/readiness.svg" alt=""><div class="r-body"><span class="gated">Free · email required</span><h3>The Capability Readiness Playbook&trade;</h3><p>A consultancy-grade guide to the Prelude Capability Model&trade;, the Capability Readiness Review&trade;, common capability mistakes and the diagnostic questions I use.</p><a class="read" href="insights.html#get-resources">Get the Playbook →</a></div></div>
       <div class="resource reveal" data-d="1"><img class="r-ic" src="assets/icons/insight.svg" alt=""><div class="r-body"><span class="gated">Coming soon</span><h3>Watch the talk</h3><p>"Why Training Isn't the Problem" — the manifesto as a short talk for leadership teams. Video coming soon.</p><span class="read" style="opacity:.6">In production →</span></div></div>
@@ -4559,7 +4475,7 @@ home_body = f'''<header class="hero-2026" id="top">
     <p class="hero-lead reveal in" data-d="2">Neither is a new system, process or piece of technology.</p>
     <p class="hero-sub reveal in" data-d="2">Start with the problem. Understand what is getting in the way. Then decide what needs to change. Prelude works across capability consulting, business analysis &amp; improvement and workforce development.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
       <a href="services.html" class="btn btn-ghost" data-event="service_cta_click">Explore services</a>
     </div>
   </div>
@@ -4619,7 +4535,7 @@ def pillar_page_body(eyebrow, h1, lead, sections, links_title, links, cta_title,
     <h1 class="reveal in" data-d="1">{h1}</h1>
     <p class="hero-sub reveal in" data-d="2">{lead}</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
       <a href="approach/" class="btn btn-ghost">How the approach works</a>
     </div>
   </div>
@@ -4748,7 +4664,7 @@ approach_body = f'''<header class="page-hero">
 <section class="sec">
   <div class="wrap split-2 align-start">
     <div class="reveal">{cycle_svg()}</div>
-    <div>{cycle_list()}</div>
+    <div><h2 class="sr-only">The five stages</h2>{cycle_list()}</div>
   </div>
 </section>
 
@@ -5022,6 +4938,580 @@ services_body = services_body.replace(
 
 insights_body = insights_body.replace("</header>", "</header>\n" + book_band(), 1)
 
+# ================================================================== 2026-10 REMEDIATION
+# Positioning (Defence & public services specialism, open to every sector and size),
+# Case Studies as a top-level route, book "Coming soon", five free PDF resources with an
+# email-gated download (Formspree, works on any static host), pillar-page completeness.
+
+def _rep(text, old, new, count=1):
+    assert old in text, "remediation: expected text not found: " + old[:80]
+    return text.replace(old, new, count)
+
+POSITIONING = "Specialist experience in Defence and public services. Practical consultancy for organisations of every size and sector."
+
+# ---- pillars (names and service lists per the 2026-10 brief)
+PILLARS = [
+    ("capability-consulting/", "Capability Consulting",
+     "What capability does the organisation actually need, where is the gap, and what is preventing it?",
+     ["Training Needs Analysis and DSAT", "Capability and competency frameworks", "Performance diagnosis and gap analysis",
+      "Workforce readiness and training requirements", "Governance, assurance and evaluation"]),
+    ("business-analysis/", "Business Analysis &amp; Improvement",
+     "Sometimes the solution you ask for isn&rsquo;t the problem you need to solve. Define what needs to change before committing time and money.",
+     ["Business discovery and stakeholder analysis", "Requirements, current and future state", "Process analysis, mapping and improvement",
+      "Root-cause analysis and options appraisal", "Business cases, operating models and roadmaps"]),
+    ("workforce-development/", "Learning &amp; Workforce Development",
+     "Training is one intervention, not the default. When learning is the answer, make it work and prove it did.",
+     ["Learning strategy and governance", "Leadership and management development", "Workforce and digital capability",
+      "Learning design and learning technology", "Evaluation and continuous improvement"]),
+]
+
+ENGAGEMENTS = [
+    ("Initial conversation", "A no-obligation discussion of the problem, what is already known and whether Prelude is the right fit."),
+    ("Fixed-scope review", "A defined piece of analysis, such as a rapid TNA, process review or capability assessment, with an agreed output and price."),
+    ("Diagnostic engagement", "A fuller investigation for complex or high-risk problems: evidence-gathering, root-cause analysis and an implementation roadmap."),
+    ("Specialist or associate support", "Senior capacity alongside your team, or a consultancy partner&rsquo;s, on a day-rate or retained basis."),
+]
+
+def engagement_section(tint=False):
+    items = "".join(f'<li><h3>{t}</h3><p>{d}</p></li>' for t, d in ENGAGEMENTS)
+    return f'''<section class="sec{' sec-tint' if tint else ''}">
+  <div class="wrap">
+{section_head("Engagement options", "Scaled to the decision you need to make.", "Not every problem needs a large programme. The depth of work matches the cost and risk of getting the decision wrong, and the size of your organisation.")}    <ul class="engage-list reveal">{items}</ul>
+  </div>
+</section>
+'''
+
+# ---- case studies
+def _case_outcome(cs):
+    for o in cs["outcome"]:
+        if re.search(r"\d+\s?%", o):
+            return ("Reported outcome", o)
+    return ("Outcome", cs["outcome"][0])
+
+def case_card(cs, d=0):
+    ex = CASE_EXTRAS[cs["slug"]]
+    label, out = _case_outcome(cs)
+    return f'''      <article class="cs-card reveal" data-d="{d}">
+        <p class="cs-meta"><span class="cs-badge">{CASE_BASIS[ex["basis"]][0]}</span><span>{cs["sector"]}</span></p>
+        <h3><a href="{cs["slug"]}.html">{cs["title"]}</a></h3>
+        <p>{cs["challenge"]}</p>
+        <p class="cs-outcome"><span>{label}</span>{out}</p>
+        <a class="text-link" href="{cs["slug"]}.html" aria-hidden="true" tabindex="-1">Read the case study {ARROW}</a>
+      </article>
+'''
+
+def anon_card(ex, d=0):
+    rows = "".join(f'<div class="ex-row"><dt>{k}</dt><dd>{v}</dd></div>' for k, v in ex["rows"])
+    return f'''      <article class="cs-card reveal" data-d="{d}">
+        <p class="cs-meta"><span class="cs-badge">{CASE_BASIS["anonymised"][0]}</span><span>Business Analysis &amp; Improvement</span></p>
+        <h3>{ex["kind"]}</h3>
+        <dl>{rows}</dl>
+      </article>
+'''
+
+def cases_for(pillar):
+    return [cs for cs in CASE_STUDIES_FULL if CASE_EXTRAS[cs["slug"]]["pillar"] == pillar]
+
+def applied_section(pillar, tint=False):
+    cards = "".join(case_card(cs, i % 3) for i, cs in enumerate(cases_for(pillar)[:3]))
+    if pillar == "business":
+        cards += "".join(anon_card(ex, 1 + i) for i, ex in enumerate(ANON_EXAMPLES[:2]))
+    return f'''<section class="sec{' sec-tint' if tint else ''}">
+  <div class="wrap">
+{section_head("Case studies", "See how we&rsquo;ve applied this approach.")}    <div class="cs-grid">
+{cards}    </div>
+    <a class="text-link reveal" href="case-studies.html">All case studies {ARROW}</a>
+  </div>
+</section>
+'''
+
+CS_NOTE = f'''<div class="cs-note reveal">
+      <h2 class="section-title small">About these case studies</h2>
+      <dl class="cs-basis">
+        <div><dt><span class="cs-badge">{CASE_BASIS["founder"][0]}</span></dt><dd>{CASE_BASIS["founder"][1]}</dd></div>
+        <div><dt><span class="cs-badge">{CASE_BASIS["anonymised"][0]}</span></dt><dd>{CASE_BASIS["anonymised"][1]} Full case studies will be published only with the client&rsquo;s permission.</dd></div>
+      </dl>
+      <p>{CASE_EVIDENCE_NOTE}</p>
+      <p>The Prelude Capability Model&trade; and the Prelude Performance &amp; Capability Cycle were formalised after much of this work was delivered. Where a study uses their language, it is a retrospective reading of the work, not a claim that the named model was applied at the time.</p>
+    </div>'''
+
+def cs_pillar_section(key, tint):
+    label, href = CASE_PILLARS[key]
+    intro = {"capability": "Training Needs Analysis, DSAT, capability frameworks and readiness.",
+             "business": "Operating models, roles and structure, and the analysis that comes before any solution.",
+             "workforce": "Learning, leadership, onboarding and workforce programmes that had to change performance."}[key]
+    cards = "".join(case_card(cs, i % 3) for i, cs in enumerate(cases_for(key)))
+    if key == "business":
+        cards += "".join(anon_card(ex, (len(cases_for(key)) + i) % 3) for i, ex in enumerate(ANON_EXAMPLES))
+    anchor = href.strip("/")
+    return f'''<section class="sec{' sec-tint' if tint else ''}" id="{anchor}">
+  <div class="wrap">
+{section_head("Service area", label, intro)}    <div class="cs-grid">
+{cards}    </div>
+    <a class="text-link reveal" href="{href}">Explore {label} {ARROW}</a>
+  </div>
+</section>
+'''
+
+cs_jump = "".join(f'<li><a href="#{h.strip("/")}">{l}</a></li>' for k, (l, h) in CASE_PILLARS.items())
+cs_body = f'''<header class="page-hero">
+  <div class="wrap">
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span aria-current="page">Case studies</span></div>
+    <h1 class="reveal in" data-d="1">Case studies</h1>
+    <p class="hero-sub reveal in" data-d="2">How the approach has been applied: capability, business improvement and workforce work across Defence, public services, healthcare and housing, plus anonymised examples from recent consultancy with growing organisations. Each one starts with the problem, not the solution.</p>
+    <ul class="jump-list reveal in" data-d="3" aria-label="Case studies by service area">{cs_jump}</ul>
+  </div>
+</header>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    {CS_NOTE}
+  </div>
+</section>
+{cs_pillar_section("capability", True)}{cs_pillar_section("business", False)}{cs_pillar_section("workforce", True)}
+{cta("Recognise your organisation in any of these?", "Tell us what is happening. We&rsquo;ll work out what is really driving it, and whether Prelude can help.", secondary=("Explore our services", "services.html"))}'''
+
+# ---- pillar pages: who it is for, typical problems, deliverables, engagement options, case studies
+PILLAR_DETAIL = {
+    "capability": dict(
+        who=["Defence programme, capability and training managers", "Training requirements and delivery authorities", "Public-sector workforce and L&amp;D leads",
+             "Regulated and safety-critical organisations", "Commercial organisations that depend on technical or operational competence"],
+        problems=["Performance is falling short and training is the assumed fix", "New equipment, systems or roles need a defensible training requirement",
+                  "Competency standards differ from team to team", "A TNA is overdue, stalled or being challenged",
+                  "Nobody can show whether training is improving readiness"],
+        deliverables=["Training Needs Analysis, from a rapid triage to a full study", "Role and task analyses and performance statements",
+                      "Capability and competency frameworks and skills matrices", "Gap analyses and training options appraisals",
+                      "Governance and assurance reviews", "Evaluation plans with baselines"],
+        benefits="Investment directed to the gaps that affect performance; decisions you can defend to a board, sponsor or auditor; non-training causes found early, before money is spent on courses."),
+    "business": dict(
+        who=["Owners and managing directors of growing businesses", "Operations, service and transformation leads", "Public-sector service managers",
+             "Start-ups and product teams", "Organisations about to buy a system or commission a change"],
+        problems=["A solution has been chosen before the problem is clear", "Growth is exposing limits in processes, systems or capacity",
+                  "A system is being procured without agreed requirements", "The same work is done differently across teams or sites",
+                  "A change programme has stalled after go-live"],
+        deliverables=["Problem definition and current-state assessment", "Stakeholder analysis", "Requirements specifications",
+                      "Current and future-state process maps", "Options appraisals and business cases", "Operating-model recommendations and prioritised roadmaps"],
+        benefits="Clarity about what needs to change before committing money; requirements that suppliers and teams can work to; fewer expensive changes of direction."),
+    "workforce": dict(
+        who=["Heads of L&amp;D, HR and people directors", "Leadership teams investing in managers", "Organisations with distributed or shift-based teams",
+             "Apprenticeship and funded-programme providers", "Organisations whose LMS or learning data is not trusted"],
+        problems=["Training spend with little evidence of impact", "Leadership development that doesn&rsquo;t transfer to the job",
+                  "An LMS that is underused or produces unreliable data", "Slow, inconsistent onboarding",
+                  "A learning offer disconnected from organisational goals"],
+        deliverables=["Learning strategies and roadmaps", "Programme and learning design specifications", "Leadership and management pathways",
+                      "Digital learning and learning technology recommendations", "Learning governance frameworks", "Evaluation frameworks"],
+        benefits="Learning that earns its place: aimed at a defined performance need, designed to transfer to the job, and evaluated against the outcome it was meant to change."),
+}
+
+def pillar_detail_top(key):
+    d = PILLAR_DETAIL[key]
+    who = "".join(f"<li>{x}</li>" for x in d["who"])
+    probs = "".join(f"<li>{x}</li>" for x in d["problems"])
+    return f'''<section class="sec">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">
+{section_head("Who it is for", "Who we work with.")}      <ul class="tick-list">{who}</ul>
+    </div>
+    <div class="reveal" data-d="1">
+{section_head("Typical problems", "What usually prompts the call.")}      <ul class="tick-list">{probs}</ul>
+    </div>
+  </div>
+</section>
+'''
+
+def pillar_detail_bottom(key):
+    d = PILLAR_DETAIL[key]
+    dels = "".join(f"<li>{x}</li>" for x in d["deliverables"])
+    return f'''<section class="sec sec-tint">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">
+{section_head("Potential deliverables", "What you could receive.")}      <ul class="tick-list">{dels}</ul>
+      <p class="fine-print">Deliverables are agreed for each engagement; not every piece of work needs all of them.</p>
+    </div>
+    <div class="reveal" data-d="1">
+{section_head("Intended benefits", "Why it is worth doing.")}      <p>{d["benefits"]}</p>
+      <p class="fine-print">Outcomes depend on the organisation&rsquo;s context and on implementation; no engagement can guarantee a specific result.</p>
+    </div>
+  </div>
+</section>
+{engagement_section()}{applied_section(key, tint=True)}'''
+
+def _add_pillar_detail(body, key):
+    body = _rep(body, "</header>\n", "</header>\n" + pillar_detail_top(key))
+    marker = '<div class="eyebrow reveal">Related services</div>'
+    if marker in body:
+        i = body.rindex('<section class="sec">', 0, body.index(marker))
+        return body[:i] + pillar_detail_bottom(key) + body[i:]
+    return _rep(body, '<section class="cta-band">', pillar_detail_bottom(key) + '<section class="cta-band">')
+
+cap_body = _add_pillar_detail(cap_body, "capability")
+ba_body = _add_pillar_detail(ba_body, "business")
+wd_body = _add_pillar_detail(wd_body, "workforce")
+wd_body = (wd_body.replace('<span aria-current="page">Workforce Development</span>', '<span aria-current="page">Learning &amp; Workforce Development</span>')
+                  .replace('<h1 class="reveal in" data-d="1">Workforce Development</h1>', '<h1 class="reveal in" data-d="1">Learning &amp; Workforce Development</h1>'))
+
+# ---- book: not yet published, so no purchasing route
+COMING_SOON = '<span class="btn-soon">Coming soon</span>'
+BOOK_SOON_NOTE = "Publication details and purchasing links will be available here when the book is released."
+
+def book_band():
+    buy = (f'<a href="{AMAZON_URL}" class="btn btn-primary" data-event="book_buy_click">Buy the book {ARROW}</a>' if AMAZON_URL else COMING_SOON)
+    note = "" if AMAZON_URL else f'\n      <p class="fine-print">{BOOK_SOON_NOTE}</p>'
+    return f'''<section class="sec book-band">
+  <div class="wrap book-band-inner">
+    {book_cover()}
+    <div class="reveal">
+      <div class="eyebrow">The book &middot; coming soon</div>
+      <h2 class="section-title">{BOOK_TITLE}</h2>
+      <p class="book-band-sub">{BOOK_SUB}</p>
+      <p>Training can only fix problems training can fix. The book shows practitioners how to move from &ldquo;What training do we need?&rdquo; to &ldquo;What performance is required, what is preventing it, and what will close the gap?&rdquo;</p>
+      <div class="btn-row">
+        {buy}
+        <a href="training-isnt-always-the-answer/" class="btn btn-ghost">About the book</a>
+      </div>{note}
+    </div>
+  </div>
+</section>
+'''
+
+if not AMAZON_URL:
+    _buy_btn = f'<a href="#buy" class="btn btn-primary" data-event="book_buy_click">Buy the book {ARROW}</a>'
+    assert book_body.count(_buy_btn) == 2
+    book_body = _rep(book_body, _buy_btn, COMING_SOON, 2)
+    book_body = _rep(book_body, '<a href="book-toolkit/" class="btn btn-ghost">Already own it? Download the toolkit</a>',
+                                  '<a href="book-toolkit/" class="btn btn-ghost">Book companion toolkit</a>')
+    book_body = _rep(book_body, '<a href="book-toolkit/" class="btn btn-ghost">Download the toolkit</a>',
+                                  '<a href="book-toolkit/" class="btn btn-ghost">Book companion toolkit</a>')
+    book_body = _rep(book_body, f'{section_head("Get the book", "Paperback and Kindle.")}',
+                                  f'{section_head("Publication", "Paperback and Kindle editions are being finalised.")}')
+    book_body = _rep(book_body, book_buy_note, f'<p class="fine-print">{BOOK_SOON_NOTE}</p>')
+    book_body = _rep(book_body, 'who suspects that training might not be the whole answer.</p>',
+                                  f'who suspects that training might not be the whole answer.</p>\n      <p class="book-status reveal in" data-d="2"><strong>Coming soon.</strong> {BOOK_SOON_NOTE}</p>')
+
+# the insights page received the old book band earlier in the build
+insights_body = _rep(insights_body, f'<a href="{buy_href()}" class="btn btn-primary" data-event="book_buy_click">Buy the book {ARROW}</a>', COMING_SOON)
+insights_body = _rep(insights_body, '<a href="book-toolkit/" class="btn btn-ghost">Already own it? Download the toolkit</a>', '<a href="training-isnt-always-the-answer/" class="btn btn-ghost">About the book</a>')
+insights_body = _rep(insights_body, '<div class="eyebrow">The book</div>', '<div class="eyebrow">The book &middot; coming soon</div>')
+
+# ---- free resources (PDFs in assets/resources/, sources in resources-src/)
+RESOURCE_FORM = "https://formspree.io/f/xeeyazed"   # existing Formspree endpoint (contact + resource forms)
+RESOURCE_CONSENT = "I&rsquo;d also like occasional practical insights and resources from Prelude Learning &amp; Consultancy by email. I can unsubscribe at any time."
+# (id, title, description, file, pages, gated, icon)
+RESOURCES = [
+    ("playbook", "The Capability Readiness Playbook&trade;",
+     "Our flagship guide: what capability means, why training isn&rsquo;t always the answer, the Prelude Capability Model&trade;, root-cause analysis, options appraisal and evaluation, with six practical worksheets.",
+     "prelude-capability-readiness-playbook.pdf", 23, True, "assets/icons/insight.svg"),
+    ("crr-workbook", "Capability Readiness Review",
+     "The ten-question self-assessment as a printable workbook, with the same scoring as the online version, evidence prompts, interpretation and an action plan.",
+     "prelude-capability-readiness-review-workbook.pdf", 12, False, "assets/icons/readiness.svg"),
+    ("defence-tna-checklist", "Defence Training Needs Analysis Checklist",
+     "65 practical checks across 13 areas for scoping, conducting and reviewing a DSAT-aligned TNA, each marked as JSP 822-related or Prelude guidance.",
+     "prelude-defence-tna-checklist.pdf", 12, True, "assets/icons/assurance.svg"),
+    ("learning-governance", "Learning Governance Health Check",
+     "Twelve questions to test whether your learning and training governance is owned, evidenced and working, with risk identification and an improvement plan.",
+     "prelude-learning-governance-health-check.pdf", 10, True, "assets/icons/governance.svg"),
+    ("workforce-capability", "Workforce Capability Assessment",
+     "An eight-step toolkit for mapping workforce capability against what the organisation needs, with role matrices, gap and criticality analysis and an improvement plan.",
+     "prelude-workforce-capability-assessment.pdf", 12, True, "assets/icons/capability.svg"),
+]
+
+def _res_size(fname):
+    try:
+        return f"{os.path.getsize(os.path.join('assets', 'resources', fname)) / 1048576:.1f}&nbsp;MB"
+    except OSError:
+        return None
+
+def resource_cards():
+    out = ""
+    for i, (rid, t, d, f, pages, gated, ic) in enumerate(RESOURCES):
+        size = _res_size(f)
+        path = f"assets/resources/{f}"
+        if not size:   # file missing: never advertise a broken download
+            status, action = "Coming soon", '<span class="btn-soon small">Coming soon</span>'
+        elif gated:
+            status = "Free &middot; email required"
+            action = (f'<a class="btn btn-primary btn-sm r-get" href="#get-resource" data-resource="{rid}" data-file="/{path}" '
+                      f'data-title="{t}" aria-haspopup="dialog" data-event="resource_request_click">Get free PDF<span class="sr-only">: {t}</span></a>')
+        else:
+            status = "Free &middot; no sign-up needed"
+            action = (f'<a class="btn btn-primary btn-sm" href="{path}" download data-event="resource_download" data-file="{rid}">'
+                      f'Download PDF<span class="sr-only">: {t}</span></a>')
+        meta = f"PDF &middot; {pages} pages &middot; {size}" if size else "PDF"
+        out += f'''      <article class="resource reveal" id="r-{rid}" data-d="{i % 2}"><img class="r-ic" src="{ic}" alt=""><div class="r-body"><span class="gated">{status}</span><h3>{t}</h3><p>{d}</p><p class="r-meta">{meta}</p>{action}</div></article>
+'''
+    return out
+
+def resource_dialog():
+    opts = "".join(f'<option value="{rid}">{t}</option>' for rid, t, d, f, p, g, ic in RESOURCES if g)
+    return f'''<dialog class="res-dialog" id="resourceDialog" aria-labelledby="resDialogTitle">
+  <form class="res-form" id="resourceForm" action="{RESOURCE_FORM}" method="POST" novalidate>
+    <button type="button" class="res-close" id="resClose" aria-label="Close">&times;</button>
+    <p class="eyebrow">Free resource</p>
+    <h2 id="resDialogTitle" class="res-title">Get the PDF</h2>
+    <p class="res-name" id="resName"></p>
+    <div class="res-body" id="resBody">
+      <div class="form-errors" id="resErrors" role="alert" hidden></div>
+      <input type="hidden" name="_subject" value="Prelude website: free resource download">
+      <input type="hidden" name="resource" id="resField" value="">
+      <input type="hidden" name="consent_wording" value="{RESOURCE_CONSENT.replace('&rsquo;', "'").replace('&amp;', '&')}">
+      <div class="hp" aria-hidden="true"><label for="res-gotcha">Leave this field empty</label><input id="res-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
+      <div class="field"><label for="res-email">Email address <span class="req">(required)</span></label>
+        <input id="res-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="res-email-err"><p class="field-err" id="res-email-err" hidden></p></div>
+      <div class="field"><label for="res-org">Organisation <span class="opt">(optional)</span></label>
+        <input id="res-org" name="organisation" type="text" autocomplete="organization" maxlength="160"></div>
+      <div class="check"><input id="res-updates" name="updates" type="checkbox" value="yes">
+        <label for="res-updates">{RESOURCE_CONSENT} <span class="opt">(Optional. Not needed for the download.)</span></label></div>
+      <p class="fine-print">We use your email address to give you this resource and to keep a simple record of the request. We won&rsquo;t add you to any mailing list unless you tick the box above. Your details are sent to us through Formspree. See our <a href="privacy.html">Privacy Policy</a>.</p>
+      <button type="submit" class="btn btn-primary" id="resSubmit">Get the PDF {ARROW}</button>
+    </div>
+    <div class="res-done" id="resDone" hidden tabindex="-1">
+      <p class="res-done-h">Thank you. Your PDF is ready.</p>
+      <p><a class="btn btn-primary" id="resDownload" href="#" download data-event="resource_download">Download the PDF {ARROW}</a></p>
+      <p class="fine-print">If the download doesn&rsquo;t start, right-click the button and choose &ldquo;Save link as&rdquo;. If you have any problems, email <a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a>.</p>
+    </div>
+  </form>
+</dialog>
+<noscript><style>.r-get{{display:none}}</style></noscript>
+'''
+
+def resource_fallback_form():
+    opts = "".join(f'<option>{t}</option>' for rid, t, d, f, p, g, ic in RESOURCES if g)
+    return f'''<div class="capture reveal" id="get-resource">
+      <div class="capture-copy">
+        <h3>Request a resource by email</h3>
+        <p class="muted">If the download button doesn&rsquo;t work in your browser, request the resource here and we&rsquo;ll email it to you, usually within one working day.</p>
+      </div>
+      <form class="capture-form" action="{RESOURCE_FORM}" method="POST">
+        <input type="hidden" name="_subject" value="Prelude website: resource request (email delivery)">
+        <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html?from=resource">
+        <div class="hp" aria-hidden="true"><label for="rf-gotcha">Leave this field empty</label><input id="rf-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label for="r-resource">Resource</label><select id="r-resource" name="resource">{opts}</select></div>
+        <div class="field"><label for="r-email">Email address</label><input id="r-email" name="email" type="email" required autocomplete="email"><span class="field-error">Please enter a valid email address.</span></div>
+        <div class="check"><input id="rf-updates" name="updates" type="checkbox" value="yes"><label for="rf-updates">{RESOURCE_CONSENT} <span class="opt">(Optional.)</span></label></div>
+        <button type="submit" class="btn btn-primary">Email it to me {ARROW}</button>
+      </form>
+    </div>'''
+
+def resource_library(heading_eyebrow="Free resources", h2="Practical tools you can use straight away."):
+    return f'''<section class="sec" id="free-resources">
+  <div class="wrap">
+{section_head(heading_eyebrow, h2, "Five practical PDFs drawn from Prelude&rsquo;s consultancy method. One is a direct download; the others ask only for an email address.")}    <div class="resource-grid">
+{resource_cards()}    </div>
+    <p class="fine-print reveal">These free consultancy resources are separate from the <a href="book-toolkit/">book companion toolkit</a>, which provides the editable tools from <em>{BOOK_TITLE}</em> for readers of the book.</p>
+    {resource_fallback_form()}
+  </div>
+</section>
+'''
+
+resources_body = f'''<header class="page-hero">
+  <div class="wrap">
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="insights.html">Insights</a> / <span aria-current="page">Free resources</span></div>
+    <h1 class="reveal in" data-d="1">Free resources</h1>
+    <p class="hero-sub reveal in" data-d="2">Guides, checklists and assessment tools for diagnosing performance and capability problems before you invest in a solution. Written for Defence and public-sector teams and for commercial organisations of any size.</p>
+  </div>
+</header>
+{resource_library("Download", "Five practical resources.")}
+<section class="sec sec-tint">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">
+{section_head("Two different things", "Free resources and the book toolkit.")}      <p><strong>Free consultancy resources</strong> (this page) are standalone guides and assessments anyone can use.</p>
+      <p>The <strong>book companion toolkit</strong> contains the eighteen editable tools and three templates from <em>{BOOK_TITLE}</em>, for readers of the book. <a href="book-toolkit/">About the toolkit</a>.</p>
+    </div>
+    <div class="reveal" data-d="1">
+{section_head("Your data", "What happens when you download.")}      <p>For the four email-gated resources we ask for your email address, and optionally your organisation. The download opens straight away. We keep a record of the request and do not add you to any mailing list unless you tick the separate, optional box. <a href="privacy.html">Privacy Policy</a>.</p>
+    </div>
+  </div>
+</section>
+{cta("Want help applying these?", "The resources set out the method. If you would like an independent view of your own situation, start with a conversation.", secondary=("Take the Capability Readiness Review", "capability-readiness-review.html"))}'''
+RESOURCES_EXTRA = resource_dialog() + '<script src="resources.js"></script>\n'
+
+# insights page: replace the old cards + request form with the shared library
+_ins_a = insights_body.index('<section style="padding-top:64px">')
+_ins_b = insights_body.index('<div class="divider"></div>', _ins_a)
+insights_body = insights_body[:_ins_a] + resource_library() + "\n" + insights_body[_ins_b:]
+insights_body = _rep(insights_body, "read plain-English thinking on the problems Defence and public sector leaders actually face.",
+                                      "read plain-English thinking on the problems leaders in Defence, public services and growing businesses actually face.")
+manifesto_body = _rep(manifesto_body, '<a class="read" href="insights.html#get-resources">Get the Playbook →</a>',
+                                        '<a class="read" href="resources/#r-playbook">Get the Playbook →</a>')
+manifesto_body = _rep(manifesto_body, 'The Capability Readiness Playbook&trade;</h3><p>A consultancy-grade guide to the Prelude Capability Model&trade;, the Capability Readiness Review&trade;, common capability mistakes and the diagnostic questions I use.</p>',
+                                        'The Capability Readiness Playbook&trade;</h3><p>The flagship guide to the Prelude Capability Model&trade;, root-cause analysis, options appraisal and evaluation, with practical worksheets.</p>')
+
+# ---- Capability Readiness Review page: three levels, indicative nature, workbook
+crr_body = _rep(crr_body, 
+    '<div class="rung"><div class="rung-tag">Free</div><h3>Capability Readiness Self-Assessment</h3><p>The ten-question self-assessment on this page. An immediate, honest read on where your readiness gaps sit — in two minutes, in your browser.</p><a class="read" href="#crr">Start below →</a></div>',
+    '<div class="rung"><div class="rung-tag">Free &middot; self-assessment</div><h3>Capability Readiness Self-Assessment</h3><p>The ten questions on this page, or in the printable workbook. Indicative results based only on your own responses.</p><a class="read" href="#crr">Start below →</a></div>')
+crr_body = _rep(crr_body, 
+    '<div class="rung featured"><div class="rung-tag">Facilitated</div>',
+    '<div class="rung featured"><div class="rung-tag">Facilitated review</div>')
+crr_body = _rep(crr_body, 
+    '<p>A facilitated review with evidence-gathering and stakeholder input, producing a prioritised, board-ready picture of the real problem and what to do about it.</p>',
+    '<p>Your answers tested through structured evidence-gathering and stakeholder input, producing a prioritised picture of the real problem and what to do about it.</p>')
+crr_body = _rep(crr_body, 
+    '<div class="rung"><div class="rung-tag">Consultancy</div>',
+    '<div class="rung"><div class="rung-tag">Full diagnostic</div>')
+crr_body = _rep(crr_body, 
+    '<p>A full diagnostic engagement — root-cause analysis, capability mapping and an evidence-based plan aligned to the Prelude Capability Model&trade;.</p>',
+    '<p>A more comprehensive investigation: root-cause analysis, capability mapping and evidence-based recommendations, using the Prelude Capability Model&trade;.</p>')
+crr_body = _rep(crr_body, 
+    'This is the structured diagnosis I run with every client, now available free as a self-assessment.',
+    'The ten questions behind it are available here free, as an indicative self-assessment.')
+crr_body = _rep(crr_body, 
+    '<button class="btn btn-ghost" id="crr-print" type="button">Download / print</button>',
+    '<button class="btn btn-ghost" id="crr-print" type="button">Print my answers</button>\n        <a class="btn btn-ghost" href="assets/resources/prelude-capability-readiness-review-workbook.pdf" download data-event="resource_download" data-file="crr-workbook">Download the workbook (PDF)</a>')
+crr_body = _rep(crr_body, 
+    '<p class="placeholder-note reveal" style="margin-top:22px">This self-assessment runs entirely in your browser — nothing is sent or stored. A full, facilitated Capability Readiness Review goes deeper, with evidence-gathering and stakeholder input.</p>',
+    '<p class="placeholder-note reveal" style="margin-top:22px">This is an indicative self-assessment: the result reflects only your own answers. It is not an audit or an independently validated measure. It runs entirely in your browser; nothing is sent or stored. A facilitated review tests the answers against evidence and stakeholder input.</p>')
+
+# ---- contact: open to every sector
+contact_body = _rep(contact_body, 
+    '<select id="sector" name="sector"><option>Defence</option><option>Healthcare / NHS</option><option>Housing</option><option>Public sector / Government</option><option>Other</option></select>',
+    '<select id="sector" name="sector"><option>Defence</option><option>Public sector / Government</option><option>Healthcare / NHS</option><option>Housing</option><option>Commercial business</option><option>SME or owner-managed business</option><option>Technology / start-up</option><option>Engineering / manufacturing</option><option>Professional services</option><option>Charity / social enterprise</option><option>Education</option><option>Consultancy partner</option><option>Other</option></select>')
+contact_body = _rep(contact_body, '<label for="message">What capability challenge are you facing?</label>', '<label for="message">What challenge are you facing?</label>')
+contact_body = _rep(contact_body, 
+    '<div class="ci-item"><h4>Based in</h4><p>United Kingdom. Working with Defence and public sector organisations nationally.</p></div>',
+    '<div class="ci-item"><h4>Based in</h4><p>United Kingdom. Specialist experience in Defence and public services; working with organisations of every size and sector.</p></div>\n        <div class="ci-item"><h4>Consultancy partners</h4><p>Available as a specialist or associate on TNA, DSAT, capability and business analysis work.</p></div>')
+
+# ---- who I help: commercial and SME route
+whoihelp_body = _rep(whoihelp_body, '''    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+''' + comparison_section(), buyer_acc("10", "Business Owners &amp; Managing Directors",
+        ["Growth exposing limits in processes, systems or people", "Decisions about systems, structure or hiring made under pressure", "Too much depending on the owner"],
+        "Buying a solution (a website, a system, a training course, a new hire) before the underlying problem has been defined.",
+        ["A clear view of what is really constraining the business", "Priorities and requirements agreed before spending", "A practical, proportionate plan"],
+        "I bring the same structured diagnosis used on large programmes, scaled to the size of the business and the decision.") + '''    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+''' + comparison_section(), 1)
+
+# ---- homepage
+_sel = [cs for cs in CASE_STUDIES_FULL if cs["slug"] in ("mod-digital-skills-for-defence", "healthcare-learning-transformation")]
+_home_cases = "".join(case_card(cs, i) for i, cs in enumerate(_sel)) + anon_card(ANON_EXAMPLES[0], 2)
+_res_list = "".join(f'<li><a href="resources/#r-{rid}">{t}</a><span>{"Direct download" if not g else "Free PDF"}</span></li>' for rid, t, d, f, p, g, ic in RESOURCES)
+SPECIALIST = ["Defence and the Armed Forces", "Central and local government", "NHS and healthcare", "Housing associations", "Regulated and operational environments"]
+WIDER = ["Large commercial organisations", "SMEs and owner-managed businesses", "Start-ups and technology companies", "Engineering and manufacturing",
+         "Professional services", "Health and social care providers", "Education", "Charities and social enterprises"]
+
+home_body = f'''<header class="hero-2026" id="top">
+  <div class="wrap">
+    <div class="eyebrow reveal in">Independent UK consultancy</div>
+    <h1 class="reveal in" data-d="1">Solving problems training alone can&rsquo;t fix.</h1>
+    <p class="hero-pillars reveal in" data-d="2">Capability Consulting <span aria-hidden="true">&middot;</span> Business Analysis &amp; Improvement <span aria-hidden="true">&middot;</span> Learning &amp; Workforce Development</p>
+    <p class="hero-sub reveal in" data-d="2">Prelude Learning &amp; Consultancy helps organisations diagnose complex challenges, identify performance and capability gaps, and deliver practical, evidence-based improvements. With specialist experience across Defence, public services and regulated environments, we bring structured analysis and practical consultancy to organisations of every size and sector.</p>
+    <p class="hero-principle reveal in" data-d="3">From complex Defence programmes to growing businesses, the principle is the same: understand the problem before designing the solution.</p>
+    <div class="hero-actions reveal in" data-d="3">
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
+      <a href="services.html" class="btn btn-ghost" data-event="service_cta_click">Explore our services</a>
+    </div>
+  </div>
+</header>
+
+{pillars_section("What Prelude does", "Three connected services. One starting point.", "Each starts in the same place: understanding the problem properly before anyone decides what the solution should be.")}
+<section class="sec sec-tint">
+  <div class="wrap approach-teaser">
+    <div class="reveal">
+{section_head("How Prelude works", "Don&rsquo;t start with the intervention. Start with the problem.", "The Prelude Performance &amp; Capability Cycle runs through every engagement: understand the outcome, diagnose the cause, define what must change, choose the smallest effective intervention, and prove whether it worked.")}      <a class="btn btn-ghost" href="approach/">See how the approach works {ARROW}</a>
+    </div>
+    <div class="reveal" data-d="1">{cycle_svg()}</div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+{section_head("Selected case studies", "See how we&rsquo;ve applied this approach.", "From enterprise Defence programmes to an owner-led service business.")}    <div class="cs-grid">
+{_home_cases}    </div>
+    <a class="btn btn-ghost reveal" href="case-studies.html" style="margin-top:36px">View case studies {ARROW}</a>
+  </div>
+</section>
+
+<section class="sec sec-tint">
+  <div class="wrap">
+{section_head("Who we work with", "Specialist experience in Defence and public services.", "Practical consultancy for organisations of every size and sector.")}    <div class="split-2 align-start market">
+      <div class="reveal">
+        <h3>Where our experience is deepest</h3>
+        <ul class="tick-list">{"".join(f"<li>{x}</li>" for x in SPECIALIST)}</ul>
+        <p class="fine-print">Over 23 years in the Royal Navy, followed by senior learning, training and capability roles in healthcare, social housing and on Ministry of Defence programmes.</p>
+      </div>
+      <div class="reveal" data-d="1">
+        <h3>Who else we work with</h3>
+        <ul class="tick-list cols-2">{"".join(f"<li>{x}</li>" for x in WIDER)}</ul>
+        <p class="fine-print">Where we haven&rsquo;t worked in your sector before, we&rsquo;ll say so. What transfers is the method: structured diagnosis, honest evidence and proportionate recommendations.</p>
+      </div>
+    </div>
+    <p class="market-scale reveal">Engagements are scaled to the organisation and the decision, from a short problem triage or fixed-scope review to a full diagnostic or ongoing specialist support.</p>
+  </div>
+</section>
+{about_strip()}
+<section class="sec">
+  <div class="wrap narrow">
+    <figure class="quote-2026 reveal">
+      <blockquote><p>&ldquo;In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly.&rdquo;</p></blockquote>
+      <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec sec-tint">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">
+{section_head("Capability diagnostic", "Is training really the answer?", "Ten questions that test whether you understand the problem well enough to invest in a solution. Free, about five minutes, and nothing you enter leaves your browser.")}      <div class="btn-row">
+        <a class="btn btn-primary" href="capability-readiness-review.html">Take the Capability Readiness Review {ARROW}</a>
+      </div>
+      <p class="fine-print">An indicative self-assessment. A facilitated review tests the answers against evidence.</p>
+    </div>
+    <div class="reveal" data-d="1">
+{section_head("Free resources", "Practical tools you can use straight away.")}      <ul class="res-list">{_res_list}</ul>
+      <a class="text-link" href="resources/">Explore free resources {ARROW}</a>
+    </div>
+  </div>
+</section>
+{book_band()}
+<section class="sec">
+  <div class="wrap">
+{section_head("Insights", "Practical thinking on performance problems.")}    <ul class="link-list reveal">
+      <li><a href="is-your-performance-problem-really-a-training-problem.html">Is your performance problem really a training problem?</a></li>
+      <li><a href="training-needs-analysis-complete-guide.html">Training Needs Analysis: the complete guide</a></li>
+      <li><a href="why-transformation-programmes-stall-after-go-live.html">Why transformation programmes stall after go-live</a></li>
+      <li><a href="performance-consulting-complete-guide.html">Performance consulting: a practical guide</a></li>
+    </ul>
+    <a class="text-link reveal" href="insights.html">All insights {ARROW}</a>
+  </div>
+</section>
+
+{cta("Have a problem but not sure what the solution is?", "Describe it in a few lines. We&rsquo;ll work out what is actually getting in the way, and whether Prelude can help.", secondary=("Explore our services", "services.html"))}'''
+
+WEBSITE_SCHEMA = {"@context": "https://schema.org", "@type": "WebSite", "@id": f"{SITE_URL}/#website",
+                  "url": f"{SITE_URL}/", "name": "Prelude Learning & Consultancy", "inLanguage": "en-GB",
+                  "publisher": {"@id": f"{SITE_URL}/#organization"}}
+
+# the case study pages need CASE_PILLARS/anon data, so they are written here
+for _cs in CASE_STUDIES_FULL:
+    case_study_page(_cs)
+
+page("resources/index.html", "Free Resources: Capability, TNA &amp; Governance Tools | Prelude",
+     "Free PDF resources: The Capability Readiness Playbook, Capability Readiness Review workbook, Defence TNA Checklist, Learning Governance Health Check and Workforce Capability Assessment.",
+     resources_body, "resources", breadcrumb="Free resources", extra_body=RESOURCES_EXTRA)
+
+not_found_body = f'''<header class="page-hero">
+  <div class="wrap">
+    <h1 class="reveal in" data-d="1">Page not found</h1>
+    <p class="hero-sub reveal in" data-d="2">The page you were looking for has moved or no longer exists.</p>
+    <div class="hero-actions reveal in" data-d="3">
+      <a href="/" class="btn btn-primary">Go to the homepage {ARROW}</a>
+      <a href="/services.html" class="btn btn-ghost">Our services</a>
+      <a href="/case-studies.html" class="btn btn-ghost">Case studies</a>
+    </div>
+  </div>
+</header>'''
+# ================================================================== /2026-10 REMEDIATION
+
+
 # ------------------------------------------------------------------ write new routes
 page("capability-consulting/index.html", "Capability Consulting | Prelude Learning &amp; Consultancy",
      "Capability consulting and Training Needs Analysis: define the capability you need, find the gap and what is preventing it, then choose the right combination of changes. DSAT specialist.",
@@ -5029,9 +5519,9 @@ page("capability-consulting/index.html", "Capability Consulting | Prelude Learni
 page("business-analysis/index.html", "Business Analysis &amp; Improvement | Prelude Learning &amp; Consultancy",
      "Business analysis and improvement consultancy: problem definition, current and future state, requirements, process mapping, options appraisal and business cases, before you commit to a solution.",
      ba_body, "business-analysis", breadcrumb="Business Analysis &amp; Improvement")
-page("workforce-development/index.html", "Workforce Development &amp; L&amp;D Consultancy | Prelude Learning &amp; Consultancy",
-     "Learning and development consultancy where training is one intervention, not the default: TNA, learning strategy, instructional and digital design, leadership development, assessment and evaluation.",
-     wd_body, "workforce-development", breadcrumb="Workforce Development")
+page("workforce-development/index.html", "Learning &amp; Workforce Development Consultancy | Prelude Learning &amp; Consultancy",
+     "Learning and workforce development consultancy where training is one intervention, not the default: learning strategy, leadership and management development, digital capability, learning design, governance and evaluation.",
+     wd_body, "workforce-development", breadcrumb="Learning &amp; Workforce Development")
 page("approach/index.html", "Approach: The Prelude Performance &amp; Capability Cycle | Prelude",
      "Understand, Diagnose, Define, Intervene, Prove. The five-stage cycle Prelude uses to make sure the solution matches the problem, across capability, business analysis and workforce work.",
      approach_body, "approach", breadcrumb="Approach")
@@ -5052,8 +5542,8 @@ print("wrote book-toolkit/lib/manifest.json")
 # ================================================================== /2026-10 REFINEMENT
 
 page("index.html", "Prelude Learning &amp; Consultancy | Capability Consulting, Business Analysis &amp; Workforce Development",
-     "Understand the problem before prescribing the solution. Prelude helps organisations work out what actually needs to change: capability consulting, business analysis and improvement, and workforce development.",
-     home_body, "home")
+     "Solving problems training alone can't fix. Independent UK consultancy for capability consulting, TNA and DSAT, business analysis and improvement, and learning and workforce development. Defence and public-sector specialists; organisations of every size.",
+     home_body, "home", schema=[WEBSITE_SCHEMA])
 
 page("defence.html", "DSAT Consultant | JSP 822 &amp; Defence Training Governance | Prelude",
      "Defence capability and DSAT consultancy for MOD, Defence Digital, DE&S, Front Line Commands and prime contractors. JSP 822, Training Needs Analysis, capability frameworks, training governance and readiness.",
@@ -5093,13 +5583,13 @@ page("services.html", "Services — Capability &amp; Governance, Leadership &amp
      "Capability consultancy grouped around your problem: DSAT, TNA, capability frameworks and governance; leadership, talent, workforce planning and apprenticeships; digital learning, LMS, learning operations and strategy.",
      services_body, "services", breadcrumb="Services")
 
-page("case-studies.html", "Case Studies — Defence, Healthcare &amp; Housing Capability Projects | Prelude",
-     "Capability, governance and learning projects across Defence, Healthcare and Housing — the problem, why it mattered, what I did, the results and the client benefit.",
+page("case-studies.html", "Case Studies: Capability, Business Improvement &amp; Workforce | Prelude",
+     "Case studies organised by service: Training Needs Analysis and DSAT, capability frameworks, role architecture and business analysis, learning and workforce development, across Defence, public services, healthcare, housing and growing businesses.",
      cs_body, "case-studies", breadcrumb="Case Studies")
 
 page("insights.html", "Insights &amp; Resources — DSAT, TNA, Capability &amp; Governance Tools | Prelude",
-     "Free diagnostics and templates plus plain-English thinking on DSAT, training needs analysis, capability frameworks, leadership and defence training governance.",
-     insights_body, "insights",
+     "Free PDF resources plus plain-English thinking on performance diagnosis, Training Needs Analysis, DSAT, capability frameworks, business improvement, leadership and learning governance.",
+     insights_body, "insights", extra_body=RESOURCES_EXTRA,
      keywords="DSAT, JSP 822, Training Needs Analysis checklist, capability framework template, learning governance health check, leadership diagnostic",
      breadcrumb="Insights")
 
@@ -5121,7 +5611,7 @@ thank_you_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">While you wait</div>
-    <p class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Some places to keep exploring.</p>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Some places to keep exploring.</h2>
     <div class="feature-grid">
       <div class="feature-card reveal"><h3>Case studies</h3><p>See the evidence behind the claims — real capability, governance and learning projects across Defence, Healthcare and Housing.</p></div>
       <div class="feature-card reveal" data-d="1"><h3>Capability Readiness Review</h3><p>Not sure where your own problem sits? Take the ten-question self-assessment.</p></div>
@@ -5148,7 +5638,7 @@ page("thank-you.html", "Thank You | Prelude Learning &amp; Consultancy",
      thank_you_body, "", noindex=True)
 
 page("capability-readiness-review.html", "The Capability Readiness Review&trade; — Free Diagnostic | Prelude",
-     "Find the real problem before you invest. A 10-question Capability Readiness Review self-assessment for Defence and public sector leaders — capability, leadership, process, governance, workforce or training.",
+     "Find the real problem before you invest. A free, indicative 10-question Capability Readiness Review self-assessment, with a printable workbook: capability, leadership, process, governance, workforce or training.",
      crr_body, "crr", extra_body='<script src="crr.js"></script>\n', breadcrumb="Capability Readiness Review")
 
 page("how-i-work.html", "How I Work — A Clear Five-Stage Capability Engagement | Prelude",
@@ -5228,7 +5718,7 @@ privacy_body = privacy_body.replace("Last updated: 11 July 2026", "Last updated:
 privacy_body = privacy_body.replace(
     '''      <li>The <strong>resource request form</strong> — email address and the resource you've asked for.</li>
     </ul>''',
-    '''      <li>The <strong>resource request form</strong> — email address and the resource you've asked for.</li>
+    '''      <li>The <strong>free resource forms</strong> — your email address, optionally your organisation, the resource you asked for, and whether you ticked the separate, optional box asking for occasional updates (with the wording you agreed to). The download is available immediately; asking for updates is never a condition of it.</li>
       <li>The <strong>book toolkit form</strong> — first name and email address (required), and optionally your organisation and role. We also record the date and time of your request and whether you ticked the separate box asking for updates.</li>
     </ul>
 
@@ -5247,6 +5737,16 @@ page("privacy.html", "Privacy Policy | Prelude Learning &amp; Consultancy",
      "How Prelude Learning &amp; Consultancy Ltd collects, uses and protects personal data submitted through this website, and your rights under UK GDPR.",
      privacy_body, "", breadcrumb="Privacy Policy")
 
+page("404.html", "Page not found | Prelude Learning &amp; Consultancy", "The page you were looking for could not be found.",
+     not_found_body, "", noindex=True)
+# 404 is served at any URL depth, so make its site links root-relative
+with open("404.html") as _f:
+    _nf = _f.read()
+_nf = _REL.sub(lambda m: m.group(1) + "/", _nf)
+with open("404.html", "w") as _f:
+    _f.write(_nf)
+print("fixed 404.html links")
+
 # ------------------------------------------------------------------ sitemap.xml
 SITEMAP_PAGES = [
     ("index.html", "1.0", "monthly"),
@@ -5256,6 +5756,7 @@ SITEMAP_PAGES = [
     ("approach/", "0.8", "monthly"),
     ("training-isnt-always-the-answer/", "0.9", "monthly"),
     ("book-toolkit/", "0.6", "yearly"),
+    ("resources/", "0.8", "monthly"),
     ("defence.html", "0.9", "monthly"),
     ("healthcare.html", "0.9", "monthly"),
     ("housing.html", "0.9", "monthly"),

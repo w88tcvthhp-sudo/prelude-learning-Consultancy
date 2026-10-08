@@ -29,7 +29,13 @@ Capability Readiness Review(TM), Capability Improvement Approach(TM),
 Training vs Capability Decision Model(TM), Readiness Maturity Model(TM),
 Capability Diagnostic Framework(TM) — used across home, defence, services, how-i-work and the CRR page.
 
-## Deploy to GoDaddy (cPanel)
+## Hosting note (October 2026)
+The site is now deployed from GitHub to Vercel. Every static page, the Formspree forms and
+the free-resource downloads work on Vercel. The book toolkit's PHP endpoints
+(book-toolkit/submit.php, download.php, downloads/index.php) and .htaccess rules do NOT run
+on Vercel; they need rebuilding as a Vercel function before the toolkit is promoted.
+
+## Deploy to GoDaddy (cPanel) — legacy
 cPanel -> File Manager -> public_html -> upload prelude-website.zip -> Extract ->
 move files out of the prelude-website/ subfolder so index.html sits in public_html
 (keep assets/ alongside). Primary domain prelude-learning.com; forward .co.uk and .org to it.
@@ -38,9 +44,11 @@ move files out of the prelude-website/ subfolder so index.html sits in public_ht
 - IMAGES: every photo is a styled placeholder. Photoreal images could not be generated
   in the build environment — use PHOTOGRAPHY-BRIEF.md to commission or generate them.
 - CONTACT FORM: done. Both the contact form and the resource-request form post to a live Formspree endpoint (https://formspree.io/f/xeeyazed).
-- RESOURCE / CRR DOWNLOADS: "Request this resource" links point to the contact page;
-  wire to your email tool or a gated form to capture leads. The CRR "Download/print"
-  uses the browser print dialog (print-to-PDF) with a dedicated print stylesheet.
+- RESOURCE DOWNLOADS: five PDFs in assets/resources/ (sources and build script in
+  resources-src/). Four are email-gated through a dialog that posts to the Formspree
+  endpoint by AJAX and then reveals the download (resources.js); the CRR workbook is a
+  direct download. Formspree must allow AJAX submissions (reCAPTCHA off for this form).
+  See CHANGES-2026-10-REMEDIATION.md.
 - TESTIMONIAL: homepage quote is a marked placeholder — replace with an attributable one.
 - ACCURACY/CLEARANCE: confirm all metrics and named programmes (DS4D, OP ISOTROPE) are
   accurate and cleared for public release before going live.

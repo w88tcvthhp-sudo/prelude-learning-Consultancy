@@ -2,6 +2,7 @@
 """Generates the static HTML pages for the Prelude site from shared parts.
 Run:  python3 build.py   (outputs *.html into this folder)."""
 import os
+import re
 import json
 
 CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>'
@@ -26,6 +27,29 @@ NAVLINKS = [
     ("contact.html", "Contact", "contact"),
 ]
 
+# 2026-10 IA: Services (3 pillars) / Approach / Insights / Book / About / Contact.
+# Sector, Who I Help, How I Work, Case Studies and Capability Review pages remain
+# live and are linked from the footer, services hub and relevant pages.
+SERVICE_MENU = [
+    ("capability-consulting/", "Capability Consulting", "capability-consulting"),
+    ("business-analysis/", "Business Analysis &amp; Improvement", "business-analysis"),
+    ("workforce-development/", "Workforce Development", "workforce-development"),
+    ("services.html", "All services", "services"),
+]
+BOOK_MENU = [
+    ("training-isnt-always-the-answer/", "Training Isn&rsquo;t Always the Answer", "book"),
+    ("book-toolkit/", "Toolkit", "book-toolkit"),
+]
+TOP_LINKS = [
+    ("approach/", "Approach", "approach"),
+    ("insights.html", "Insights", "insights"),
+    ("__BOOK__", "", ""),
+    ("about.html", "About", "about"),
+    ("contact.html", "Contact", "contact"),
+]
+AMAZON_URL = ""   # set to the live Amazon listing URL once published; empty = placeholder
+INDEPENDENCE_NOTE = "Prelude is an independent consultancy. It is not part of, affiliated with or endorsed by the Ministry of Defence or any client organisation named on this site."
+
 # ------------------------------------------------------------------ SEO / schema
 SITE_URL = "https://www.prelude-learning.com"
 OG_IMAGE = f"{SITE_URL}/assets/og/prelude-og-image.jpg"
@@ -39,12 +63,14 @@ ORG_SCHEMA = {
     "url": SITE_URL,
     "logo": f"{SITE_URL}/assets/logo/prelude-logo-primary.svg",
     "image": OG_IMAGE,
-    "description": "Capability, readiness and workforce development consultancy for Defence, Healthcare, Housing, the Public Sector and Professional Services. DSAT and JSP 822 specialists.",
+    "description": "Independent consultancy working across capability consulting, business analysis and improvement, and workforce development. Understand the problem before prescribing the solution.",
+    "slogan": "Setting the conditions for success",
     "email": "jason.smith@prelude-learning.com",
     "areaServed": "GB",
     "address": {"@type": "PostalAddress", "addressCountry": "GB"},
     "identifier": {"@type": "PropertyValue", "propertyID": "UK Companies House", "value": "16918049"},
-    "knowsAbout": ["Capability Development", "Learning Strategy", "Performance Consulting",
+    "knowsAbout": ["Capability Consulting", "Business Analysis", "Business Process Improvement", "Training Needs Analysis",
+                   "Capability Development", "Learning Strategy", "Performance Consulting",
                    "Leadership Development", "Defence DSAT", "JSP 822", "Training Governance",
                    "Workforce Development", "Organisational Development", "Learning Technology"],
     "founder": {
@@ -141,9 +167,14 @@ def defined_term_set_schema(name, description, canonical_url, terms):
     }
     return json.dumps(data, indent=2)
 
-def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False, terms=None):
+def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False, terms=None, schema=None):
     kw = f'\n<meta name="keywords" content="{keywords}">' if keywords else ""
-    canonical_url = SITE_URL + "/" if filename == "index.html" else f"{SITE_URL}/{filename}"
+    if filename == "index.html":
+        canonical_url = SITE_URL + "/"
+    elif filename.endswith("/index.html") or filename.endswith("/index.php"):
+        canonical_url = f"{SITE_URL}/{filename.rsplit('/', 1)[0]}/"
+    else:
+        canonical_url = f"{SITE_URL}/{filename}"
     canonical = f'\n<link rel="canonical" href="{canonical_url}">'
     robots = '\n<meta name="robots" content="noindex,follow">' if noindex else ""
     schema_scripts = f'<script type="application/ld+json">\n{ORG_SCHEMA_JSON}\n</script>'
@@ -153,6 +184,8 @@ def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=
         schema_scripts += f'\n<script type="application/ld+json">\n{defined_term_set_schema(title, desc, canonical_url, terms)}\n</script>'
     if faq:
         schema_scripts += f'\n<script type="application/ld+json">\n{faq_schema(faq)}\n</script>'
+    for extra in (schema or []):
+        schema_scripts += f'\n<script type="application/ld+json">\n{json.dumps(extra, indent=2)}\n</script>'
     if article:
         schema_scripts += f'\n<script type="application/ld+json">\n{article_schema(article[0], article[1], canonical_url)}\n</script>'
     return f'''<!DOCTYPE html>
@@ -185,7 +218,44 @@ def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=
 <a class="skip-link" href="#main">Skip to main content</a>
 '''
 
+CUR = ' class="active" aria-current="page"'
+
+def _dropdown(label, items, active, menu_id):
+    keys = [k for _, _, k in items]
+    is_active = active in keys
+    links = "".join(
+        f'        <a href="{h}"{CUR if k == active else ""}>{l}</a>\n'
+        for h, l, k in items)
+    return f'''      <div class="nav-item has-dropdown">
+        <button type="button" class="nav-drop-btn{' active' if is_active else ''}" aria-expanded="false" aria-controls="{menu_id}">{label} <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-dropdown" id="{menu_id}">
+{links}        </div>
+      </div>
+'''
+
 def nav(active):
+    out = _dropdown("Services", SERVICE_MENU, active, "menu-services")
+    for href, label, key in TOP_LINKS:
+        if href == "__BOOK__":
+            out += _dropdown("Book", BOOK_MENU, active, "menu-book")
+            continue
+        cur = ' class="active" aria-current="page"' if key == active else ""
+        out += f'      <a href="{href}"{cur}>{label}</a>\n'
+    return f'''<nav id="nav" aria-label="Main">
+  <div class="wrap nav-inner">
+    <a href="index.html" class="logo" aria-label="Prelude Learning &amp; Consultancy — home">
+      <img src="assets/logo/prelude-icon.svg" alt="" width="34" height="34">
+      <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+{out}      <a href="contact.html#book" class="nav-cta" data-event="contact_click">Discuss a problem</a>
+    </div>
+    <button type="button" class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+'''
+
+def nav_legacy(active):
     sector_keys = [k for _, _, k in SECTOR_LINKS]
     sector_active = active in sector_keys
     drop_links = ""
@@ -225,7 +295,7 @@ def cta(title, text, secondary=None):
     <h2 class="reveal">{title}</h2>
     <p class="reveal" data-d="1">{text}</p>
     <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem {ARROW}</a>
 {sec}    </div>
   </div>
 </section>
@@ -276,61 +346,48 @@ def trust(heading="Trust &amp; credibility", sub="The clearances, experience and
 '''
 
 def footer():
+    sectors = " &middot; ".join(f'<a href="{h}">{l}</a>' for h, l, _ in SECTOR_LINKS)
     return f'''<footer>
   <div class="wrap">
     <div class="foot-top">
       <div>
         <div class="logo">
-          <img src="assets/logo/prelude-icon.svg" alt="Prelude" width="32" height="32" style="width:32px;height:32px">
+          <img src="assets/logo/prelude-icon.svg" alt="" width="32" height="32" style="width:32px;height:32px">
           <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
         </div>
-        <p class="foot-tag">Jason Smith — Capability, Readiness &amp; Workforce Development Advisor. Training is rarely the problem. Capability is — and that's what I help Defence and public sector organisations build.</p>
-        <p class="foot-tag" style="margin-top:14px;color:var(--gold);font-family:var(--display);font-size:13px;letter-spacing:.06em">Active SC · DSAT Specialist · PRINCE2 · CMI</p>
+        <p class="foot-tag">Capability consulting, business analysis and workforce development. Understand the problem before prescribing the solution.</p>
+        <p class="foot-strap">Setting the conditions for success</p>
       </div>
       <div class="foot-domains">
-        <span>Sectors</span>
-        <a href="defence.html">Defence</a>
-        <a href="healthcare.html">Healthcare</a>
-        <a href="housing.html">Housing</a>
-        <a href="public-sector.html">Public Sector</a>
-        <a href="professional-services.html">Professional Services</a>
+        <span>Services</span>
+        <a href="capability-consulting/">Capability Consulting</a>
+        <a href="business-analysis/">Business Analysis &amp; Improvement</a>
+        <a href="workforce-development/">Workforce Development</a>
+        <a href="approach/">Approach</a>
+        <a href="case-studies.html">Case studies</a>
       </div>
       <div class="foot-domains">
-        <span>Explore</span>
-        <a href="who-i-help.html">Who I Help</a>
-        <a href="services.html">Services</a>
-        <a href="how-i-work.html">How I Work</a>
-        <a href="capability-readiness-review.html">Capability Review</a>
-        <a href="case-studies.html">Case Studies</a>
-        <a href="why-training-isnt-the-problem.html">Manifesto</a>
+        <span>Book</span>
+        <a href="training-isnt-always-the-answer/">Training Isn&rsquo;t Always the Answer</a>
+        <a href="book-toolkit/">Toolkit</a>
         <a href="insights.html">Insights</a>
         <a href="glossary.html">Glossary</a>
-        <a href="about.html">About</a>
       </div>
       <div class="foot-domains">
-        <span>Contact</span>
+        <span>Company</span>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
         <a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a>
-        <a href="https://prelude-learning.com">prelude-learning.com</a>
-        <a href="contact.html">Enquire</a>
-        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html">Privacy &amp; cookies</a>
       </div>
     </div>
+    <p class="foot-sectors">Sectors: {sectors}</p>
     <div class="foot-bottom">
-      <p>© <span id="yr"></span> Prelude Learning &amp; Consultancy Ltd. Company No. 16918049. All rights reserved. · <a href="privacy.html" style="color:var(--stone-dim);text-decoration:underline">Privacy Policy</a></p>
-      <p>Learning Designed for Impact</p>
+      <p>&copy; <span id="yr"></span> Prelude Learning &amp; Consultancy Ltd. Registered in England and Wales, Company No. 16918049.</p>
+      <p>{INDEPENDENCE_NOTE}</p>
     </div>
   </div>
 </footer>
-
-<div class="sticky-cta" id="stickyCta">
-  <div class="wrap sticky-cta-inner">
-    <span class="sticky-cta-text">Ready to talk about your capability challenge?</span>
-    <div class="sticky-cta-actions">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
-      <button class="sticky-cta-close" id="stickyCtaClose" aria-label="Dismiss">&times;</button>
-    </div>
-  </div>
-</div>
 
 <script src="script.js"></script>
 </body>
@@ -567,11 +624,18 @@ def photo_grid(items, cols="3"):
     cls = "photo-grid" + (" cols-2" if cols == "2" else "")
     return f'<div class="{cls} reveal">{cells}</div>'
 
-def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False, terms=None):
-    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex, terms) + nav(active)
+_REL = re.compile(r'(\s(?:href|src|srcset|action)=")(?!https?:|mailto:|tel:|#|/|data:|javascript:)')
+
+def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False, terms=None, schema=None, prologue=""):
+    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex, terms, schema) + nav(active)
             + f'<main id="main">{body}</main>' + extra_body + footer())
+    depth = filename.count("/")
+    if depth:
+        # nested routes (e.g. book-toolkit/index.html): keep every site-relative link working
+        html = _REL.sub(lambda m: m.group(1) + "../" * depth, html)
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w") as f:
-        f.write(html)
+        f.write(prologue + html)
     print("wrote", filename)
 
 # ------------------------------------------------------------------ helpers
@@ -654,7 +718,7 @@ home_body = f'''<header id="top">
     <h1 class="reveal in" data-d="1">Solving Capability Problems <span class="gold">Training Alone Can't Fix.</span></h1>
     <p class="hero-sub reveal in" data-d="2">Training is rarely the problem. Capability is. When readiness slips, compliance fails or managers aren't performing, the cause is almost never a missing course. As a capability, readiness and workforce development advisor, I diagnose the real problem first — then use learning as one of several tools to fix it. 23+ years, DSAT specialist, Active SC clearance.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">View Case Studies</a>
     </div>
   </div>
@@ -789,7 +853,7 @@ defence_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">DSAT, governance and capability — from someone who's served.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for the Ministry of Defence, Defence Digital, DE&amp;S, Front Line Commands and prime contractors — covering JSP 822, training governance, Training Needs Analysis, capability frameworks, readiness and learning assurance.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Defence case studies</a>
     </div>
   </div>
@@ -882,7 +946,7 @@ healthcare_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Compliance you can trust. Learning that changes practice.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for NHS trusts, Integrated Care Boards and independent healthcare providers — covering compliance assurance, learning technology, workforce capability and leadership development for clinical and operational managers.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Healthcare case study</a>
     </div>
   </div>
@@ -971,7 +1035,7 @@ housing_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Managers who are ready on day one. Onboarding that doesn't rely on luck.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for housing associations, ALMOs and local authority housing teams — covering manager onboarding, leadership development, succession planning and culture that's designed in, not left to chance.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Housing case study</a>
     </div>
   </div>
@@ -1060,7 +1124,7 @@ public_sector_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Capability that survives budget pressure, restructuring and scrutiny.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for local and central government, arm's-length bodies and public sector transformation programmes — covering workforce planning, role architecture, leadership development and training governance for public money.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Public sector case study</a>
     </div>
   </div>
@@ -1148,7 +1212,7 @@ professional_services_body = f'''<header class="page-hero">
     <h1 class="reveal in" data-d="1">Capability thinking built in Defence and consulting — applied to your firm.</h1>
     <p class="hero-sub reveal in" data-d="2">Specialist support for law firms, accountancy and financial advisory practices, and management and specialist consultancies — covering leadership and partner-track development, talent retention, onboarding and capability frameworks for progression.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="about.html" class="btn btn-ghost">About Jason's background</a>
     </div>
   </div>
@@ -1372,7 +1436,7 @@ def service_page(slug, cat_label, num, title, h1, hero_sub, problem, diagnosis, 
     <h1 class="reveal in" data-d="1">{h1}</h1>
     <p class="hero-sub reveal in" data-d="2">{hero_sub}</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="services.html" class="btn btn-ghost">All services</a>
     </div>
   </div>
@@ -1691,7 +1755,7 @@ def case_study_page(slug, sector_label, title, metric_fig, metric_label,
     <h1 class="reveal in" data-d="1">{title}</h1>
     <div class="case-metric reveal in" data-d="2" style="display:inline-block;margin-top:20px">{fig}<div class="label">{metric_label}</div></div>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">All case studies</a>
     </div>
   </div>
@@ -1769,7 +1833,7 @@ def case_study_page(slug, sector_label, title, metric_fig, metric_label,
     <h2 class="reveal">Recognise this in your organisation?</h2>
     <p class="reveal" data-d="1">Let's talk about what it would take to get a similar result for you.</p>
     <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="{related_slug}.html" class="btn btn-ghost">Related service: {related_title}</a>
     </div>
   </div>
@@ -2095,7 +2159,7 @@ def insight_article_page(slug, category, title, h1, hero_sub, sections, faqs, re
     <h2 class="reveal">Want this thinking applied to your organisation?</h2>
     <p class="reveal" data-d="1">Insight is useful. Applied insight changes outcomes. Let's talk about yours.</p>
     <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a>
       <a href="{related_slug}.html" class="btn btn-ghost">{related_title}</a>
     </div>
   </div>
@@ -3999,7 +4063,7 @@ insights_body = f'''<header class="page-hero">
 contact_body = f'''<header class="page-hero" id="book">
   <div class="wrap">
     <div class="eyebrow reveal in">Contact</div>
-    <h1 class="reveal in" data-d="1">Discuss your capability challenge.</h1>
+    <h1 class="reveal in" data-d="1">Discuss a problem.</h1>
     <p class="hero-sub reveal in" data-d="2">A practical, problem-first conversation — no sales pitch. Tell me what's going on and we'll work out what's really driving it, and whether I'm the right person to help.</p>
   </div>
 </header>
@@ -4125,7 +4189,7 @@ crr_body = f'''<header class="page-hero">
           <div class="crr-card"><h4>Potential root causes</h4><ul id="crr-causes"></ul></div>
           <div class="crr-card"><h4>Recommended next steps</h4><ul id="crr-steps"></ul></div>
         </div>
-        <div style="margin-top:30px"><a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge {ARROW}</a></div>
+        <div style="margin-top:30px"><a href="contact.html#book" class="btn btn-primary">Discuss a problem {ARROW}</a></div>
       </div>
     </div>
     <p class="placeholder-note reveal" style="margin-top:22px">This self-assessment runs entirely in your browser — nothing is sent or stored. A full, facilitated Capability Readiness Review goes deeper, with evidence-gathering and stakeholder input.</p>
@@ -4316,8 +4380,665 @@ whoihelp_body = f'''<header class="page-hero">
 {cta("Sound familiar?", "If any of that is your world right now, let's talk about what's really driving it — no sales pitch.", secondary=("Take the Capability Review", "capability-readiness-review.html"))}'''
 
 # ------------------------------------------------------------------ write
-page("index.html", "Jason Smith — Capability, Readiness &amp; Workforce Development Advisor | Prelude",
-     "Training is rarely the problem. Capability is. Jason Smith is a capability, readiness and workforce development advisor helping Defence and public sector organisations diagnose the real problem and build capability. DSAT specialist, 23+ years, Active SC.",
+# ================================================================== 2026-10 REFINEMENT
+# Problem-diagnosis positioning: Capability Consulting / Business Analysis &
+# Improvement / Workforce Development, the Prelude Performance & Capability Cycle,
+# the book and the reader toolkit. Everything below redefines home_body and adds
+# new routes; existing pages are preserved.
+
+BOOK_TITLE = "Training Isn&rsquo;t Always the Answer"
+BOOK_SUB = "A Practical Guide to Training Needs Analysis, Performance Diagnosis and Building Capability That Works"
+BOOK_COVER = "assets/book/training-isnt-always-the-answer-cover.jpg"
+BOOK_COVER_WEBP = "assets/book/training-isnt-always-the-answer-cover.webp"
+# Verified against the paperback interior PDF: 296 pages, Figures 1–28, Tools 01–18.
+BOOK_PAGES, BOOK_FIGURES, BOOK_TOOLS = 296, 28, 18
+
+def buy_href():
+    return AMAZON_URL if AMAZON_URL else "training-isnt-always-the-answer/#buy"
+
+def section_head(eyebrow, h2, intro="", h="h2"):
+    intro_html = f'\n    <p class="section-intro-text reveal" data-d="2">{intro}</p>' if intro else ""
+    return f'''    <div class="eyebrow reveal">{eyebrow}</div>
+    <{h} class="section-title reveal" data-d="1">{h2}</{h}>{intro_html}
+'''
+
+def book_cover(cls="book-cover", loading="lazy"):
+    return f'''<picture class="{cls}"><source srcset="{BOOK_COVER_WEBP}" type="image/webp"><img src="{BOOK_COVER}" alt="Cover of {BOOK_TITLE} by Jason Smith" width="560" height="733" loading="{loading}"></picture>'''
+
+# ------------------------------------------------------------------ cycle
+CYCLE = [
+    ("Understand", "What are we trying to achieve?",
+     "Agree the outcome, the context and what good performance looks like before anyone discusses solutions."),
+    ("Diagnose", "Why isn&rsquo;t it happening now?",
+     "Gather evidence, separate symptoms from causes and test whether the problem is knowledge, skill, process, system, structure or something else."),
+    ("Define", "What needs to be different?",
+     "Turn the diagnosis into clear requirements: the performance, behaviours, capabilities and conditions the solution must deliver."),
+    ("Intervene", "What is the smallest effective combination of changes?",
+     "Choose the interventions that close the gap. Sometimes that is training. Often it is a process, a tool, a role, a decision or a combination."),
+    ("Prove", "Did performance actually improve?",
+     "Measure against the baseline agreed at the start, so the organisation knows what worked and what to do next."),
+]
+
+def cycle_svg():
+    import math
+    cx, cy, r = 210, 200, 140
+    nodes, labels = "", ""
+    for i, (name, _, _) in enumerate(CYCLE):
+        a = -math.pi / 2 + i * 2 * math.pi / 5
+        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+        nodes += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" class="cy-node{" cy-first" if i == 0 else ""}"/>'
+        lx, ly = cx + (r + 34) * math.cos(a), cy + (r + 34) * math.sin(a) + 5
+        anchor = "middle" if abs(math.cos(a)) < .3 else ("start" if math.cos(a) > 0 else "end")
+        labels += f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" class="cy-label">{i+1}. {name.upper()}</text>'
+    return f'''<svg class="cycle-svg" viewBox="-70 0 560 400" role="img" aria-labelledby="cycle-title cycle-desc">
+  <title id="cycle-title">The Prelude Performance &amp; Capability Cycle</title>
+  <desc id="cycle-desc">A five-stage cycle: Understand, Diagnose, Define, Intervene, Prove, then back to Understand.</desc>
+  <circle cx="{cx}" cy="{cy}" r="{r}" class="cy-ring"/>
+  <circle cx="{cx}" cy="{cy}" r="{r - 46}" class="cy-ring cy-inner"/>
+  <text x="{cx}" y="{cy - 6}" text-anchor="middle" class="cy-core">PERFORMANCE</text>
+  <text x="{cx}" y="{cy + 14}" text-anchor="middle" class="cy-core">&amp; CAPABILITY</text>
+  {nodes}{labels}
+</svg>'''
+
+def cycle_list(detail=True):
+    items = ""
+    for i, (name, q, d) in enumerate(CYCLE, 1):
+        body = f'<p>{d}</p>' if detail else ""
+        items += f'<li class="cycle-step reveal"><span class="cs-num">{i:02d}</span><div><h3>{name}</h3><p class="cs-q">{q}</p>{body}</div></li>\n'
+    return f'<ol class="cycle-steps">\n{items}</ol>'
+
+# ------------------------------------------------------------------ pillars
+PILLARS = [
+    ("capability-consulting/", "Capability Consulting",
+     "What capability does the organisation actually need, where is the gap, and what is preventing it?",
+     ["Training Needs Analysis", "Capability and performance diagnosis", "Role and task analysis", "Capability frameworks", "DSAT-aligned analysis"]),
+    ("business-analysis/", "Business Analysis &amp; Improvement",
+     "Sometimes the solution you ask for isn&rsquo;t the problem you need to solve. Define what needs to change before committing time and money.",
+     ["Problem definition", "Current and future state", "Requirements and process mapping", "Options appraisal and business cases", "Product, service and UX review"]),
+    ("workforce-development/", "Workforce Development",
+     "Training is one intervention, not the default intervention. When learning is the answer, make it work.",
+     ["Learning strategy", "Instructional and digital learning design", "Leadership and management development", "Learning governance", "Assessment and evaluation"]),
+]
+
+def pillars_section(eyebrow="What Prelude does", h2="Three connected areas of work.", intro="Each starts in the same place: understanding the problem properly before anyone decides what the solution should be."):
+    cards = ""
+    for i, (href, title, lead, items) in enumerate(PILLARS):
+        li = "".join(f"<li>{x}</li>" for x in items)
+        cards += f'''      <article class="pillar reveal" data-d="{i}">
+        <span class="pillar-num">0{i+1}</span>
+        <h3><a href="{href}" data-event="service_cta_click">{title}</a></h3>
+        <p>{lead}</p>
+        <ul>{li}</ul>
+        <a class="text-link" href="{href}" data-event="service_cta_click" aria-hidden="true" tabindex="-1">Explore {title} {ARROW}</a>
+      </article>
+'''
+    return f'''<section class="sec">
+  <div class="wrap">
+{section_head(eyebrow, h2, intro)}    <div class="pillars">
+{cards}    </div>
+  </div>
+</section>
+'''
+
+# ------------------------------------------------------------------ anonymised examples
+ANON_EXAMPLES = [
+    dict(kind="Owner-led service business",
+         rows=[("Initial request", "Improve the digital presence and generate more enquiries."),
+               ("What the analysis revealed", "The more important question was what would happen if demand actually increased. The binding constraints were owner dependency, pricing, systems, operating capacity, delegation and quality control."),
+               ("Work expanded into", "Business and growth strategy &middot; operating model &middot; systems requirements and options analysis &middot; processes and policies &middot; workforce structure and quality &middot; implementation planning")]),
+    dict(kind="Digital platform / start-up",
+         rows=[("Initial request", "An independent product and UX review."),
+               ("What the analysis revealed", "The product had progressed further than some of the proposition and behavioural assumptions underneath it."),
+               ("Work examined", "Proposition &middot; users &middot; business model &middot; user journeys and UX/UI &middot; trust &middot; accessibility risks &middot; requirements &middot; evidence and assumptions &middot; measures &middot; priorities &middot; launch readiness"),
+               ("Outcome of the review", "A narrower, evidence-led route forward: prove the core proposition before investing in further breadth. The recommendation was not simply &ldquo;build more&rdquo;.")]),
+]
+
+def anon_examples(eyebrow="Proof of work", h2="The request isn&rsquo;t always the requirement.",
+                  intro="Clients often arrive with a solution already in mind. The useful work starts by understanding what problem that solution is supposed to solve."):
+    arts = ""
+    for i, ex in enumerate(ANON_EXAMPLES):
+        rows = "".join(f'<div class="ex-row"><dt>{k}</dt><dd>{v}</dd></div>' for k, v in ex["rows"])
+        arts += f'''      <article class="example reveal" data-d="{i}">
+        <p class="ex-label">Anonymised example from recent consultancy work</p>
+        <h3>{ex["kind"]}</h3>
+        <dl>{rows}</dl>
+      </article>
+'''
+    return f'''<section class="sec" id="examples">
+  <div class="wrap">
+{section_head(eyebrow, h2, intro)}    <div class="examples">
+{arts}    </div>
+    <p class="fine-print reveal">These examples are shared without client names, sector detail or commercial figures. Full case studies will be published only with the client&rsquo;s permission.</p>
+  </div>
+</section>
+'''
+
+def book_band():
+    return f'''<section class="sec book-band">
+  <div class="wrap book-band-inner">
+    {book_cover()}
+    <div class="reveal">
+      <div class="eyebrow">The book</div>
+      <h2 class="section-title">{BOOK_TITLE}</h2>
+      <p class="book-band-sub">{BOOK_SUB}</p>
+      <p>Training can only fix problems training can fix. The book shows practitioners how to move from &ldquo;What training do we need?&rdquo; to &ldquo;What performance is required, what is preventing it, and what will close the gap?&rdquo;</p>
+      <div class="btn-row">
+        <a href="{buy_href()}" class="btn btn-primary" data-event="book_buy_click">Buy the book {ARROW}</a>
+        <a href="book-toolkit/" class="btn btn-ghost">Already own it? Download the toolkit</a>
+      </div>
+    </div>
+  </div>
+</section>
+'''
+
+ABOUT_FACTS = ["23 years in the Royal Navy", "DSAT specialist", "PRINCE2 Practitioner",
+               "CMI Level 6 Leadership &amp; Management", "CMI Level 5 Coaching &amp; Mentoring", "Active SC clearance"]
+
+def about_strip():
+    facts = "".join(f"<li>{f}</li>" for f in ABOUT_FACTS)
+    return f'''<section class="sec">
+  <div class="wrap about-strip">
+    <img class="about-photo reveal" src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy">
+    <div class="reveal" data-d="1">
+      <div class="eyebrow">Who you work with</div>
+      <h2 class="section-title">Jason Smith, founder</h2>
+      <p>Jason served for 23 years in the Royal Navy, rising to senior operations, training and capability roles. Since leaving the Navy he has led national learning and development operations for a healthcare provider supporting around 15,000 colleagues, designed leadership and onboarding programmes in social housing and led DSAT-aligned Training Needs Analysis on the Ministry of Defence&rsquo;s Digital Skills for Defence programme.</p>
+      <p>You work with him directly, from the first conversation to the final recommendation.</p>
+      <ul class="fact-list">{facts}</ul>
+      <a class="text-link" href="about.html">More about Jason {ARROW}</a>
+    </div>
+  </div>
+</section>
+'''
+
+# ================================================================== HOME (redefined)
+home_body = f'''<header class="hero-2026" id="top">
+  <div class="wrap">
+    <div class="eyebrow reveal in">Setting the conditions for success</div>
+    <h1 class="reveal in" data-d="1">Training isn&rsquo;t always the answer.</h1>
+    <p class="hero-lead reveal in" data-d="2">Neither is a new system, process or piece of technology.</p>
+    <p class="hero-sub reveal in" data-d="2">Start with the problem. Understand what is getting in the way. Then decide what needs to change. Prelude works across capability consulting, business analysis &amp; improvement and workforce development.</p>
+    <div class="hero-actions reveal in" data-d="3">
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem {ARROW}</a>
+      <a href="services.html" class="btn btn-ghost" data-event="service_cta_click">Explore services</a>
+    </div>
+  </div>
+</header>
+
+{pillars_section("What does Prelude actually do?", "Find out what needs to change. Then help change it.")}
+<section class="sec sec-tint">
+  <div class="wrap approach-teaser">
+    <div class="reveal">
+{section_head("The approach", "One method across all three areas.", "The Prelude Performance &amp; Capability Cycle is the thread that runs through every engagement, and through the book.")}      <a class="btn btn-ghost" href="approach/">See how the approach works {ARROW}</a>
+    </div>
+    <div class="reveal" data-d="1">{cycle_svg()}</div>
+  </div>
+</section>
+
+{anon_examples()}
+{book_band()}
+{about_strip()}
+<section class="sec">
+  <div class="wrap narrow">
+    <figure class="quote-2026 reveal">
+      <blockquote><p>&ldquo;In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly.&rdquo;</p></blockquote>
+      <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+{section_head("Insights", "Practical thinking on performance problems.")}    <ul class="link-list reveal">
+      <li><a href="is-your-performance-problem-really-a-training-problem.html">Is your performance problem really a training problem?</a></li>
+      <li><a href="training-needs-analysis-complete-guide.html">Training Needs Analysis: the complete guide</a></li>
+      <li><a href="common-tna-mistakes.html">Common TNA mistakes, and how to avoid them</a></li>
+      <li><a href="performance-consulting-complete-guide.html">Performance consulting: a practical guide</a></li>
+    </ul>
+    <a class="text-link reveal" href="insights.html">All insights {ARROW}</a>
+  </div>
+</section>
+
+{cta("Have a problem but not sure what the solution is?", "Describe it in a few lines. We&rsquo;ll work out what is actually getting in the way, and whether Prelude can help.", secondary=("Explore services", "services.html"))}'''
+
+# ================================================================== PILLAR PAGES
+def pillar_page_body(eyebrow, h1, lead, sections, links_title, links, cta_title, cta_text):
+    secs = ""
+    for sec in sections:
+        secs += sec
+    li = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in links)
+    links_html = f'''<section class="sec">
+  <div class="wrap">
+{section_head("Related services", links_title)}    <ul class="link-list cols reveal">{li}</ul>
+  </div>
+</section>
+''' if links else ""
+    return f'''<header class="page-hero">
+  <div class="wrap">
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="services.html">Services</a> / <span aria-current="page">{eyebrow}</span></div>
+    <h1 class="reveal in" data-d="1">{h1}</h1>
+    <p class="hero-sub reveal in" data-d="2">{lead}</p>
+    <div class="hero-actions reveal in" data-d="3">
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem {ARROW}</a>
+      <a href="approach/" class="btn btn-ghost">How the approach works</a>
+    </div>
+  </div>
+</header>
+{secs}{links_html}{cta(cta_title, cta_text, secondary=("All services", "services.html"))}'''
+
+def prose_section(eyebrow, h2, paras, extra="", tint=False):
+    ps = "".join(f'<p class="reveal">{p}</p>' for p in paras)
+    return f'''<section class="sec{' sec-tint' if tint else ''}">
+  <div class="wrap">
+{section_head(eyebrow, h2)}    <div class="prose">{ps}</div>{extra}
+  </div>
+</section>
+'''
+
+def list_section(eyebrow, h2, intro, items, tint=False):
+    li = "".join(f"<li>{x}</li>" for x in items)
+    return f'''<section class="sec{' sec-tint' if tint else ''}">
+  <div class="wrap">
+{section_head(eyebrow, h2, intro)}    <ul class="tick-list cols reveal">{li}</ul>
+  </div>
+</section>
+'''
+
+# ---- Capability Consulting
+QUESTIONS_CAP = ["What capability does the organisation actually need?", "What does good performance look like?",
+                 "Where is the gap?", "What is preventing it?", "What combination of changes will close it?"]
+cap_body = pillar_page_body(
+    "Capability Consulting", "Capability Consulting",
+    "Work out what capability the organisation really needs, where the gap is and what is preventing it, before anyone commissions a solution.",
+    [
+        f'''<section class="sec">
+  <div class="wrap">
+{section_head("The questions", "Five questions that come before any solution.")}    <ol class="q-list reveal">{"".join(f"<li>{q}</li>" for q in QUESTIONS_CAP)}</ol>
+  </div>
+</section>
+''',
+        list_section("What Prelude can help with", "Capability work, end to end.",
+                     "From a rapid triage of a single request to a full analysis of a complex or high-risk requirement.",
+                     ["Training Needs Analysis", "Capability analysis", "Role and task analysis", "Capability frameworks",
+                      "Performance diagnosis", "Operating requirements", "Intervention strategy",
+                      "Assessment and evaluation", "DSAT-aligned analysis where appropriate"], tint=True),
+        prose_section("Defence", "DSAT-aligned analysis where it is required.",
+                      ["Jason Smith is a DSAT specialist and has led DSAT-aligned Training Needs Analysis on Defence programmes. Where an organisation works to the Defence Systems Approach to Training and JSP 822, the analysis is built to be defensible within that framework.",
+                       "The same discipline applies outside Defence: be clear about the performance required, gather evidence before deciding, and choose the smallest effective intervention."],
+                      extra='\n    <p class="fine-print reveal">Prelude is independent and is not part of, affiliated with or endorsed by the Ministry of Defence.</p>'),
+    ],
+    "Detailed capability services",
+    [("training-needs-analysis.html", "Training Needs Analysis"), ("capability-framework-design.html", "Capability Framework Design"),
+     ("dsat-consultancy.html", "DSAT Consultancy"), ("training-governance-assurance.html", "Training Governance &amp; Assurance"),
+     ("workforce-planning.html", "Workforce Planning"), ("capability-readiness-review.html", "Capability Readiness Review")],
+    "Not sure where the capability gap is?", "That is usually the right place to start a conversation.")
+
+# ---- Business Analysis & Improvement
+CHAIN = [("Request", "What someone has asked for: a course, a website, a system, a new feature."),
+         ("Problem", "What is actually not working, and for whom."),
+         ("Evidence", "What we can observe or verify about the problem."),
+         ("Cause", "Why the problem is happening, rather than how it shows up."),
+         ("Requirement", "What any solution must achieve to address the cause."),
+         ("Solution", "The option that meets the requirement best, at a cost that makes sense.")]
+EVIDENCE = [("Evidence", "Directly observable or supported."), ("Inference", "A reasonable conclusion drawn from evidence."),
+            ("Assumption", "Something not yet proven."), ("Recommendation", "What should happen next.")]
+chain_html = "".join(f'<li class="chain-step"><span class="chain-name">{n}</span><span class="chain-desc">{d}</span></li>' for n, d in CHAIN)
+evid_html = "".join(f'<div class="ev"><dt>{n}</dt><dd>{d}</dd></div>' for n, d in EVIDENCE)
+ba_body = pillar_page_body(
+    "Business Analysis &amp; Improvement", "Business Analysis &amp; Improvement",
+    "Sometimes the solution you ask for isn&rsquo;t the problem you need to solve. Prelude helps organisations understand the current state, define what needs to change, test assumptions and make better decisions before committing time and money to a solution.",
+    [
+        f'''<section class="sec">
+  <div class="wrap split-2">
+    <div class="reveal">
+{section_head("Start with the problem", "A request is not a requirement.", "Most projects start with a request. Good decisions come from working down the chain before choosing a solution, so that what gets built or bought addresses the cause rather than the symptom.")}    </div>
+    <ol class="chain reveal" data-d="1" aria-label="From request to solution">{chain_html}</ol>
+  </div>
+</section>
+''',
+        list_section("What Prelude can help with", "Practical business analysis, without the jargon.", "",
+                     ["Business problem definition", "Current-state and future-state analysis", "Stakeholder analysis",
+                      "Requirements elicitation", "Process mapping", "Root-cause analysis", "Proposition analysis",
+                      "Product and service review", "UX/UI review", "Accessibility review", "Operating-model analysis",
+                      "System requirements", "Options appraisal", "Procurement and business cases",
+                      "Market and competitor analysis", "Implementation roadmaps", "Benefits and measures", "Decision support"], tint=True)
+        + '''<div class="wrap"><p class="fine-print reveal" style="margin-top:-36px">Accessibility and UX reviews are expert assessments against recognised principles, not formal certification. Prelude does not provide legal, financial or cybersecurity advice; where a decision needs it, we will say so.</p></div>
+''',
+        f'''<section class="sec">
+  <div class="wrap">
+{section_head("From assumption to evidence", "Every finding is labelled for what it is.", "Prelude reports separate what is known from what is concluded and what is still to be tested. Decision-makers can see how much weight each finding will bear.")}    <dl class="evidence-grid reveal">{evid_html}</dl>
+  </div>
+</section>
+''',
+        anon_examples("Not every solution survives the analysis", "The request changed once the problem was understood.",
+                      "Two recent pieces of work where the deeper question turned out to be more valuable than the original brief."),
+    ],
+    "", [],
+    "Have a problem but not sure what the solution is?", "Discuss it with Prelude. The first conversation is about the problem, not a pitch.")
+
+# ---- Workforce Development
+wd_body = pillar_page_body(
+    "Workforce Development", "Workforce Development",
+    "Training is one intervention, not the default intervention. When learning genuinely is the answer, Prelude designs it to change performance and proves whether it did.",
+    [
+        prose_section("The principle", "Training can only fix problems training can fix.",
+                      ["Before designing any programme, Prelude checks that the gap is genuinely one of knowledge or skill. Where it is, the learning is built around the performance required, not around the content available.",
+                       "Where it isn&rsquo;t, you will hear that early, along with what is more likely to work."]),
+        list_section("What Prelude can help with", "Learning and development that earns its place.", "",
+                     ["Training Needs Analysis", "Learning strategy", "Instructional design", "Digital learning",
+                      "Capability frameworks", "Leadership and management development", "Learning governance",
+                      "Assessment", "Evaluation", "Performance support"], tint=True),
+    ],
+    "Detailed workforce services",
+    [("learning-strategy.html", "Learning Strategy"), ("leadership-development.html", "Leadership Development"),
+     ("digital-learning.html", "Digital Learning"), ("talent-development.html", "Talent Development"),
+     ("apprenticeships.html", "Apprenticeships"), ("lms-optimisation.html", "LMS Optimisation"),
+     ("learning-operations.html", "Learning Operations")],
+    "Is training really the answer?", "Let&rsquo;s check before you commission it.")
+
+# ================================================================== APPROACH
+approach_body = f'''<header class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow reveal in">Approach</div>
+    <h1 class="reveal in" data-d="1">The Prelude Performance &amp; Capability Cycle</h1>
+    <p class="hero-sub reveal in" data-d="2">Five stages that connect capability consulting, business analysis and workforce development. The point is not the method. It is making sure the solution matches the problem.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">{cycle_svg()}</div>
+    <div>{cycle_list()}</div>
+  </div>
+</section>
+
+<section class="sec sec-tint">
+  <div class="wrap">
+{section_head("In practice", "Scaled to the decision being made.", "Not every request needs a full analysis. The depth of work matches the risk and cost of getting the decision wrong, from a one-hour triage to a full study.")}    <div class="prose reveal">
+      <p>Each stage produces something you can use: a shared statement of the outcome, an evidence-based diagnosis, a set of requirements, a recommended combination of changes and a plan for measuring them. Findings are labelled as evidence, inference or assumption, so you can see what each conclusion rests on.</p>
+      <p>The cycle is set out in full in <a href="training-isnt-always-the-answer/">{BOOK_TITLE}</a>, alongside the tools used at each stage. For what working together looks like week by week, see <a href="how-i-work.html">how an engagement runs</a>.</p>
+    </div>
+  </div>
+</section>
+
+{pillars_section("Where it applies", "The same cycle across all three areas.", "")}
+{cta("Want to start at stage one?", "Tell us what you are trying to achieve and what is getting in the way.", secondary=("Explore services", "services.html"))}'''
+
+# ================================================================== BOOK PAGE
+WHATS_INSIDE = ["Training Needs Analysis, explained plainly", "Performance diagnosis", "DSAT, and what Defence gets right about training",
+                "ADDIE: useful, but not enough", "Business analysis techniques for L&amp;D", "Root-cause analysis",
+                "Capability analysis", "Intervention selection", "Assessment", "Evaluation", "Rapid TNA",
+                "Two anonymised consultancy studies", "A practical toolkit"]
+WHO_FOR = ["L&amp;D practitioners", "Instructional designers", "Trainers", "Capability leads", "HR and OD professionals",
+           "Consultants", "Managers", "Business analysts", "Change professionals"]
+PARTS = [("Part One", "The Training Trap"), ("Part Two", "Making Sense of TNA"), ("Part Three", "Diagnose"),
+         ("Part Four", "Define"), ("Part Five", "Intervene"), ("Part Six", "Prove"), ("Part Seven", "Doing It for Real")]
+book_buy_note = ("" if AMAZON_URL else '<p class="fine-print">The Amazon listing link will be added here at publication.</p>')
+book_body = f'''<header class="page-hero book-hero">
+  <div class="wrap book-hero-inner">
+    <div>
+      <div class="eyebrow reveal in">The book</div>
+      <h1 class="reveal in" data-d="1">{BOOK_TITLE}</h1>
+      <p class="book-subtitle reveal in" data-d="1">{BOOK_SUB}</p>
+      <p class="hero-sub reveal in" data-d="2">By Jason Smith. A practical guide for anyone asked to &ldquo;sort out some training&rdquo; who suspects that training might not be the whole answer.</p>
+      <div class="hero-actions reveal in" data-d="3">
+        <a href="{AMAZON_URL or '#buy'}" class="btn btn-primary" data-event="book_buy_click">Buy the book {ARROW}</a>
+        <a href="book-toolkit/" class="btn btn-ghost">Already own it? Download the toolkit</a>
+      </div>
+    </div>
+    {book_cover("book-cover book-cover-hero", "eager")}
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+{section_head("Why this book?", "Training can only fix problems training can fix.")}    <div class="prose reveal">
+      <p>Organisations spend a great deal on training that was never going to work, because the problem was never a lack of knowledge or skill. The book shows practitioners how to move from:</p>
+      <p class="pullquote">&ldquo;What training do we need?&rdquo;</p>
+      <p>to:</p>
+      <p class="pullquote">&ldquo;What performance is required, what is preventing it, and what intervention will close the gap?&rdquo;</p>
+      <p>It brings together Training Needs Analysis, Defence&rsquo;s Systems Approach to Training and the tools business analysts use every day, and organises them around one five-stage method: the Prelude Performance &amp; Capability Cycle.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-tint">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">
+{section_head("What&rsquo;s inside", "Method, examples and tools.")}      <ul class="stat-list">
+        <li><strong>Approximately 300</strong> pages</li>
+        <li><strong>{BOOK_FIGURES}</strong> diagrams</li>
+        <li><strong>{BOOK_TOOLS}</strong> ready-to-use tools</li>
+      </ul>
+      <ol class="parts-list">{"".join(f"<li><span>{p}</span> {t}</li>" for p, t in PARTS)}</ol>
+    </div>
+    <ul class="tick-list reveal" data-d="1">{"".join(f"<li>{x}</li>" for x in WHATS_INSIDE)}</ul>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+{section_head("Who is it for?", "For people asked to fix performance through training.")}    <ul class="chip-list reveal">{"".join(f"<li>{x}</li>" for x in WHO_FOR)}</ul>
+  </div>
+</section>
+
+<section class="sec sec-tint">
+  <div class="wrap about-strip">
+    <img class="about-photo reveal" src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith" width="803" height="1200" loading="lazy">
+    <div class="reveal" data-d="1">
+      <div class="eyebrow">About the author</div>
+      <h2 class="section-title">Jason Smith</h2>
+      <p class="book-subtitle" style="margin-top:-8px">Founder, Prelude Learning &amp; Consultancy &middot; Former Royal Navy &middot; DSAT specialist</p>
+      <div class="prose">
+        <p>Jason Smith is the founder of Prelude Learning &amp; Consultancy, an independent capability, readiness and workforce development consultancy.</p>
+        <p>He served for 23 years in the Royal Navy, in the Above Water Tactical branch, rising to senior operations, training and capability roles in ships including HMS Diamond, HMS Defender and HMS Kent, and in joint maritime headquarters. Along the way he spent nearly three years designing and delivering technical training at HMS Collingwood.</p>
+        <p>Since leaving the Navy he has led national learning and development operations for a healthcare provider supporting around 15,000 colleagues, designed leadership and onboarding programmes in social housing and, most recently, led DSAT-aligned Training Needs Analysis and learning architecture work on the Ministry of Defence&rsquo;s Digital Skills for Defence programme.</p>
+        <p>He is a DSAT specialist and a PRINCE2 Practitioner, and holds CMI Level 6 Leadership &amp; Management and CMI Level 5 Coaching &amp; Mentoring qualifications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="buy">
+  <div class="wrap narrow center">
+{section_head("Get the book", "Paperback and Kindle.")}    <div class="btn-row center reveal">
+      <a href="{AMAZON_URL or '#buy'}" class="btn btn-primary" data-event="book_buy_click">Buy the book {ARROW}</a>
+      <a href="book-toolkit/" class="btn btn-ghost">Download the toolkit</a>
+    </div>
+    {book_buy_note}
+  </div>
+</section>'''
+
+BOOK_SCHEMA = {
+    "@context": "https://schema.org", "@type": "Book",
+    "@id": f"{SITE_URL}/training-isnt-always-the-answer/#book",
+    "name": "Training Isn't Always the Answer",
+    "alternativeHeadline": "A Practical Guide to Training Needs Analysis, Performance Diagnosis and Building Capability That Works",
+    "author": {"@type": "Person", "@id": f"{SITE_URL}/about.html#person", "name": "Jason Smith"},
+    "publisher": {"@id": f"{SITE_URL}/#organization"},
+    "inLanguage": "en-GB", "numberOfPages": BOOK_PAGES,
+    "image": f"{SITE_URL}/{BOOK_COVER}",
+    "url": f"{SITE_URL}/training-isnt-always-the-answer/",
+    "workExample": [{"@type": "Book", "bookFormat": "https://schema.org/Paperback"},
+                    {"@type": "Book", "bookFormat": "https://schema.org/EBook"}],
+}
+PERSON_SCHEMA = {
+    "@context": "https://schema.org", "@type": "Person", "@id": f"{SITE_URL}/about.html#person",
+    "name": "Jason Smith", "jobTitle": "Founder", "worksFor": {"@id": f"{SITE_URL}/#organization"},
+    "image": f"{SITE_URL}/assets/photos/professional-photograph-of-jason-smith.jpeg",
+    "url": f"{SITE_URL}/about.html",
+    "knowsAbout": ["Training Needs Analysis", "Performance diagnosis", "Capability consulting", "Business analysis",
+                   "Defence Systems Approach to Training (DSAT)", "Workforce development"],
+}
+
+# ================================================================== TOOLKIT
+# File formats are not yet confirmed. Change "ext" per item once the files exist;
+# the download handler serves whatever is listed here (see book-toolkit/lib/manifest.json).
+TOOLKIT_EXT = "docx"
+TOOLS = ["Training Request Challenge", "Performance Gap Canvas", "Stakeholder Map", "First Conversation Question Set",
+         "Evidence Plan", "Root-Cause Worksheet", "Capability Diagnostic", "Should We Train? Decision Tree",
+         "Performance Definition Canvas", "Task Analysis", "KSA / KSB Analysis", "Know It / Find It / Do It",
+         "Golden Thread", "Intervention Selection Matrix", "Objective Builder", "Assessment &amp; Evaluation Plan",
+         "60-Minute TNA Template", "Five-Day Rapid TNA Plan"]
+EXTENDED = [("one-day-tna-template", "One-Day TNA Template"),
+            ("five-day-rapid-tna-workbook", "Five-Day Rapid TNA Workbook"),
+            ("full-tna-report-template", "Full TNA Report Template")]
+COMBINED = ("tools-01-18-combined-workbook", "Tools 01&ndash;18 Combined Workbook")
+
+def _slug(t):
+    import html as _h
+    t = _h.unescape(t).lower().replace("&", "and").replace("?", "").replace("/", " ")
+    return "-".join("".join(c if c.isalnum() else " " for c in t).split())
+
+def toolkit_manifest():
+    import html as _h
+    items = [dict(id=COMBINED[0], title=_h.unescape(COMBINED[1]), ext=TOOLKIT_EXT,
+                  download_name=f"Training-Isnt-Always-the-Answer-Toolkit-Tools-01-18.{TOOLKIT_EXT}")]
+    for i, t in enumerate(TOOLS, 1):
+        items.append(dict(id=f"tool-{i:02d}", title=_h.unescape(t), ext=TOOLKIT_EXT,
+                          download_name=f"Tool-{i:02d}-{_slug(t).title()}.{TOOLKIT_EXT}"))
+    for sid, t in EXTENDED:
+        items.append(dict(id=sid, title=_h.unescape(t), ext=TOOLKIT_EXT, download_name=f"{_slug(t).title()}.{TOOLKIT_EXT}"))
+    return items
+
+LEVELS = [("60 minutes", "Triage the request."), ("One day", "Reach a defensible initial diagnosis."),
+          ("Five days", "Conduct evidence-based analysis of a significant requirement."),
+          ("Full TNA", "Complete comprehensive analysis for complex or high-risk requirements.")]
+levels_html = "".join(f'<li class="level reveal" data-d="{i}"><span class="level-bar" style="--depth:{i+1}"></span><h3>{n}</h3><p>{d}</p></li>' for i, (n, d) in enumerate(LEVELS))
+
+toolkit_body = f'''<header class="page-hero">
+  <div class="wrap narrow-hero">
+    <div class="eyebrow reveal in">The Training Isn&rsquo;t Always the Answer Toolkit</div>
+    <h1 class="reveal in" data-d="1">Download the editable tools from {BOOK_TITLE}</h1>
+    <p class="hero-sub reveal in" data-d="2">The book explains the method. These are the tools for using it. Purchasers can download editable, full-size versions of all {BOOK_TOOLS} tools from the book, plus the extended TNA templates.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap split-2 align-start">
+    <div class="reveal">
+      <h2 class="section-title small">Get access</h2>
+      <p>Tell us where to send your link. The download page opens as soon as you submit, and we&rsquo;ll email you a link back to it.</p>
+      <form class="tk-form" id="toolkitForm" action="/book-toolkit/submit.php" method="post" novalidate>
+        <div class="form-errors" id="tkErrors" role="alert" aria-live="assertive" hidden></div>
+        <div class="field"><label for="tk-first">First name <span class="req">(required)</span></label>
+          <input id="tk-first" name="first_name" type="text" autocomplete="given-name" required maxlength="80" aria-describedby="tk-first-err"><p class="field-err" id="tk-first-err" hidden></p></div>
+        <div class="field"><label for="tk-email">Email address <span class="req">(required)</span></label>
+          <input id="tk-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="tk-email-err"><p class="field-err" id="tk-email-err" hidden></p></div>
+        <div class="field"><label for="tk-org">Organisation <span class="opt">(optional)</span></label>
+          <input id="tk-org" name="organisation" type="text" autocomplete="organization" maxlength="160"></div>
+        <div class="field"><label for="tk-role">Role or job title <span class="opt">(optional)</span></label>
+          <input id="tk-role" name="role" type="text" autocomplete="organization-title" maxlength="160"></div>
+        <div class="hp" aria-hidden="true"><label for="tk-website">Leave this field empty</label><input id="tk-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+        <div class="check"><input id="tk-updates" name="updates" type="checkbox" value="yes">
+          <label for="tk-updates">I&rsquo;d also like occasional practical updates, tools and insights from Prelude Learning &amp; Consultancy. <span class="opt">(Optional. Not needed to access the toolkit.)</span></label></div>
+        <button type="submit" class="btn btn-primary" data-event="toolkit_form_submit">Get the toolkit {ARROW}</button>
+        <p class="fine-print">We&rsquo;ll use your details to provide access to the toolkit and, if you opt in, send occasional Prelude updates. See our <a href="privacy.html">Privacy Policy</a>.</p>
+      </form>
+    </div>
+    <div class="reveal" data-d="1">
+      <h2 class="section-title small">What&rsquo;s included</h2>
+      <ul class="tick-list">
+        <li>All {BOOK_TOOLS} tools from the book, as editable files</li>
+        <li>The Tools 01&ndash;18 combined workbook</li>
+        <li>One-Day TNA Template</li>
+        <li>Five-Day Rapid TNA Workbook</li>
+        <li>Full TNA Report Template</li>
+      </ul>
+      <p class="licence">Purchasers of the book may use and adapt these templates for their own professional work, including internal and client engagements. The blank templates may not be resold, redistributed or published as a competing resource.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-tint">
+  <div class="wrap">
+{section_head("Four levels of analysis", "Use the smallest level that gives you a defensible decision.", "These are different levels of analytical depth, not a sequence. A request does not need to progress through all four.")}    <ol class="levels">{levels_html}</ol>
+  </div>
+</section>'''
+
+def dl_row(item_id, title, num=""):
+    n = f'<span class="dl-num">{num}</span>' if num else ""
+    return (f'<li class="dl-row">{n}<span class="dl-title">{title}</span>'
+            f'<a class="dl-link" href="/book-toolkit/download.php?f={item_id}" data-event="toolkit_individual_download" data-file="{item_id}">'
+            f'Download<span class="sr-only"> {title}</span> <span class="dl-ext">{TOOLKIT_EXT.upper()}</span></a></li>')
+
+downloads_body = f'''<header class="page-hero">
+  <div class="wrap narrow-hero">
+    <div class="eyebrow reveal in">Toolkit downloads</div>
+    <h1 class="reveal in" data-d="1">Your {BOOK_TITLE} toolkit</h1>
+    <p class="hero-sub reveal in" data-d="2">Thanks for reading. Everything is below. We&rsquo;ve also emailed you a link back to this page.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="dl-hero reveal">
+      <div>
+        <h2 class="section-title small">Download everything</h2>
+        <p>{COMBINED[1]}: all {BOOK_TOOLS} tools in one editable file.</p>
+      </div>
+      <a class="btn btn-primary" href="/book-toolkit/download.php?f={COMBINED[0]}" data-event="toolkit_complete_download">Download the complete toolkit {ARROW}</a>
+    </div>
+
+    <h2 class="section-title small reveal" style="margin-top:64px">Individual tools</h2>
+    <ul class="dl-list reveal">{"".join(dl_row(f"tool-{i:02d}", t, f"{i:02d}") for i, t in enumerate(TOOLS, 1))}</ul>
+
+    <h2 class="section-title small reveal" style="margin-top:64px">Extended TNA resources</h2>
+    <ul class="dl-list reveal">{"".join(dl_row(sid, t) for sid, t in EXTENDED)}</ul>
+
+    <p class="licence reveal">Purchasers of the book may use and adapt these templates for their own professional work, including internal and client engagements. The blank templates may not be resold, redistributed or published as a competing resource.</p>
+  </div>
+</section>'''
+
+DOWNLOADS_PROLOGUE = "<?php require __DIR__ . '/../lib/toolkit.php'; toolkit_require_access(); ?>\n"
+
+# ---- services hub, insights and privacy: targeted edits to existing pages
+services_body = services_body.replace(
+    '''    <div class="eyebrow reveal in">Services</div>
+    <h1 class="reveal in" data-d="1">Grouped around your problem, not my product list.</h1>
+    <p class="hero-sub reveal in" data-d="2">Three areas of work. Open any service to see the client challenges, my approach, the outcomes and an example of the work.</p>
+  </div>
+</header>''',
+    '''    <div class="eyebrow reveal in">Services</div>
+    <h1 class="reveal in" data-d="1">Services</h1>
+    <p class="hero-sub reveal in" data-d="2">Capability consulting, business analysis &amp; improvement and workforce development. Below the three areas you&rsquo;ll find every individual service, with the challenges it addresses and an example of the work.</p>
+  </div>
+</header>
+''' + pillars_section("Three areas", "Start with the area closest to your problem.", ""), 1)
+
+insights_body = insights_body.replace("</header>", "</header>\n" + book_band(), 1)
+
+# ------------------------------------------------------------------ write new routes
+page("capability-consulting/index.html", "Capability Consulting | Prelude Learning &amp; Consultancy",
+     "Capability consulting and Training Needs Analysis: define the capability you need, find the gap and what is preventing it, then choose the right combination of changes. DSAT specialist.",
+     cap_body, "capability-consulting", breadcrumb="Capability Consulting")
+page("business-analysis/index.html", "Business Analysis &amp; Improvement | Prelude Learning &amp; Consultancy",
+     "Business analysis and improvement consultancy: problem definition, current and future state, requirements, process mapping, options appraisal and business cases, before you commit to a solution.",
+     ba_body, "business-analysis", breadcrumb="Business Analysis &amp; Improvement")
+page("workforce-development/index.html", "Workforce Development &amp; L&amp;D Consultancy | Prelude Learning &amp; Consultancy",
+     "Learning and development consultancy where training is one intervention, not the default: TNA, learning strategy, instructional and digital design, leadership development, assessment and evaluation.",
+     wd_body, "workforce-development", breadcrumb="Workforce Development")
+page("approach/index.html", "Approach: The Prelude Performance &amp; Capability Cycle | Prelude",
+     "Understand, Diagnose, Define, Intervene, Prove. The five-stage cycle Prelude uses to make sure the solution matches the problem, across capability, business analysis and workforce work.",
+     approach_body, "approach", breadcrumb="Approach")
+page("training-isnt-always-the-answer/index.html", "Training Isn't Always the Answer by Jason Smith | TNA &amp; Performance Diagnosis Book",
+     "A practical guide to Training Needs Analysis, performance diagnosis and building capability that works. Around 300 pages, 28 diagrams and 18 ready-to-use tools. By Jason Smith.",
+     book_body, "book", og="book", breadcrumb="Training Isn't Always the Answer", schema=[BOOK_SCHEMA, PERSON_SCHEMA])
+page("book-toolkit/index.html", "The Training Isn't Always the Answer Toolkit | Prelude",
+     "Download editable versions of the 18 tools from Training Isn't Always the Answer, plus One-Day TNA, Five-Day Rapid TNA and Full TNA Report templates.",
+     toolkit_body, "book-toolkit", breadcrumb="Book toolkit", extra_body='<script src="toolkit-form.js"></script>\n')
+page("book-toolkit/downloads/index.php", "Toolkit downloads | Prelude",
+     "Toolkit downloads for readers of Training Isn't Always the Answer.",
+     downloads_body, "book-toolkit", noindex=True, prologue=DOWNLOADS_PROLOGUE)
+
+os.makedirs("book-toolkit/lib", exist_ok=True)
+with open("book-toolkit/lib/manifest.json", "w") as _f:
+    json.dump(toolkit_manifest(), _f, indent=2)
+print("wrote book-toolkit/lib/manifest.json")
+# ================================================================== /2026-10 REFINEMENT
+
+page("index.html", "Prelude Learning &amp; Consultancy | Capability Consulting, Business Analysis &amp; Workforce Development",
+     "Understand the problem before prescribing the solution. Prelude helps organisations work out what actually needs to change: capability consulting, business analysis and improvement, and workforce development.",
      home_body, "home")
 
 page("defence.html", "DSAT Consultant | JSP 822 &amp; Defence Training Governance | Prelude",
@@ -4368,7 +5089,7 @@ page("insights.html", "Insights &amp; Resources — DSAT, TNA, Capability &amp; 
      keywords="DSAT, JSP 822, Training Needs Analysis checklist, capability framework template, learning governance health check, leadership diagnostic",
      breadcrumb="Insights")
 
-page("contact.html", "Contact — Discuss Your Capability Challenge | Jason Smith, Prelude",
+page("contact.html", "Contact | Prelude Learning &amp; Consultancy",
      "Discuss your capability, readiness or training governance challenge with Jason Smith. A practical, problem-first conversation — no sales pitch. Defence, Healthcare, Housing and public sector.",
      contact_body, "contact", breadcrumb="Contact")
 
@@ -4488,6 +5209,26 @@ privacy_body = f'''<header class="page-hero">
   </div>
 </section>'''
 
+# ---- 2026-10 privacy additions (toolkit, cookies)
+privacy_body = privacy_body.replace("Last updated: 11 July 2026", "Last updated: 8 October 2026", 1)
+privacy_body = privacy_body.replace(
+    '''      <li>The <strong>resource request form</strong> — email address and the resource you've asked for.</li>
+    </ul>''',
+    '''      <li>The <strong>resource request form</strong> — email address and the resource you've asked for.</li>
+      <li>The <strong>book toolkit form</strong> — first name and email address (required), and optionally your organisation and role. We also record the date and time of your request and whether you ticked the separate box asking for updates.</li>
+    </ul>
+
+    <h2 class="reveal">The book toolkit</h2>
+    <p class="reveal">Readers of <em>Training Isn&rsquo;t Always the Answer</em> are entitled to the toolkit, so access never depends on agreeing to marketing. We use your toolkit details to give you access and to send one email containing a link back to the downloads page. We send occasional Prelude updates only if you tick the separate, optional box, and we record that choice separately. You can withdraw it at any time by replying to any email or writing to us.</p>
+    <p class="reveal">Toolkit requests are stored in a private area of our web hosting account (GoDaddy), which acts as our data processor; they are not stored in a publicly accessible location. The access email is sent through our email provider.</p>
+
+    <h2 class="reveal">Cookies</h2>
+    <p class="reveal">This site does not use analytics, advertising or tracking cookies. If you request the toolkit, we set one strictly necessary cookie that keeps the downloads page available to you; it contains a random access code, not your personal details, and expires after 12 months.</p>''', 1)
+privacy_body = privacy_body.replace(
+    "We process enquiry and resource-request data on the basis of legitimate interests",
+    "We process enquiry, resource-request and toolkit-access data on the basis of legitimate interests (and, for toolkit access, to provide the resource promised to book purchasers)", 1)
+
+
 page("privacy.html", "Privacy Policy | Prelude Learning &amp; Consultancy",
      "How Prelude Learning &amp; Consultancy Ltd collects, uses and protects personal data submitted through this website, and your rights under UK GDPR.",
      privacy_body, "", breadcrumb="Privacy Policy")
@@ -4495,6 +5236,12 @@ page("privacy.html", "Privacy Policy | Prelude Learning &amp; Consultancy",
 # ------------------------------------------------------------------ sitemap.xml
 SITEMAP_PAGES = [
     ("index.html", "1.0", "monthly"),
+    ("capability-consulting/", "0.9", "monthly"),
+    ("business-analysis/", "0.9", "monthly"),
+    ("workforce-development/", "0.9", "monthly"),
+    ("approach/", "0.8", "monthly"),
+    ("training-isnt-always-the-answer/", "0.9", "monthly"),
+    ("book-toolkit/", "0.6", "yearly"),
     ("defence.html", "0.9", "monthly"),
     ("healthcare.html", "0.9", "monthly"),
     ("housing.html", "0.9", "monthly"),

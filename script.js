@@ -27,7 +27,22 @@
     links.classList.toggle('open', willOpen);
     nav.classList.toggle('menu-open', willOpen);
     document.body.style.overflow = willOpen ? 'hidden' : '';
+    if (burger) {
+      burger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      burger.setAttribute('aria-label', willOpen ? 'Close menu' : 'Open menu');
+    }
   }
+
+  /* Escape closes the mobile menu and any open dropdown, returning focus sensibly */
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.nav-item.has-dropdown.open').forEach(function (item) {
+      item.classList.remove('open');
+      var b = item.querySelector('.nav-drop-btn');
+      if (b) { b.setAttribute('aria-expanded', 'false'); b.focus(); }
+    });
+    if (links && links.classList.contains('open')) { toggleMenu(false); if (burger) burger.focus(); }
+  });
 
   if (burger) {
     burger.addEventListener('click', function () { toggleMenu(); });
@@ -167,4 +182,22 @@
     }, { threshold: 0.5 });
     figures.forEach(function (f) { cobs.observe(f); });
   }
+
+  /* ---- Analytics hook (2026-10) ----------------------------------------
+     No analytics platform is installed and the privacy policy says so.
+     Elements carry data-event names (book_buy_click, toolkit_form_submit,
+     toolkit_complete_download, toolkit_individual_download, contact_click,
+     service_cta_click). If a cookieless provider is added later, events
+     forward automatically; until then this does nothing. */
+  window.preludeTrack = function (name, props) {
+    try {
+      if (typeof window.plausible === 'function') window.plausible(name, { props: props || {} });
+      else if (typeof window.gtag === 'function') window.gtag('event', name, props || {});
+    } catch (err) { /* never block navigation */ }
+  };
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest && e.target.closest('[data-event]');
+    if (!el || el.tagName === 'BUTTON' && el.type === 'submit') return;
+    window.preludeTrack(el.getAttribute('data-event'), el.dataset.file ? { file: el.dataset.file } : undefined);
+  });
 })();

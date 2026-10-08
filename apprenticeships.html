@@ -33,7 +33,8 @@
   "url": "https://www.prelude-learning.com",
   "logo": "https://www.prelude-learning.com/assets/logo/prelude-logo-primary.svg",
   "image": "https://www.prelude-learning.com/assets/og/prelude-og-image.jpg",
-  "description": "Capability, readiness and workforce development consultancy for Defence, Healthcare, Housing, the Public Sector and Professional Services. DSAT and JSP 822 specialists.",
+  "description": "Independent consultancy working across capability consulting, business analysis and improvement, and workforce development. Understand the problem before prescribing the solution.",
+  "slogan": "Setting the conditions for success",
   "email": "jason.smith@prelude-learning.com",
   "areaServed": "GB",
   "address": {
@@ -46,6 +47,10 @@
     "value": "16918049"
   },
   "knowsAbout": [
+    "Capability Consulting",
+    "Business Analysis",
+    "Business Process Improvement",
+    "Training Needs Analysis",
     "Capability Development",
     "Learning Strategy",
     "Performance Consulting",
@@ -136,33 +141,36 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
-<nav id="nav">
+<nav id="nav" aria-label="Main">
   <div class="wrap nav-inner">
-    <a href="index.html" class="logo" aria-label="Prelude home">
-      <img src="assets/logo/prelude-icon.svg" alt="Prelude" width="34" height="34">
+    <a href="index.html" class="logo" aria-label="Prelude Learning &amp; Consultancy — home">
+      <img src="assets/logo/prelude-icon.svg" alt="" width="34" height="34">
       <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
     </a>
     <div class="nav-links" id="navLinks">
       <div class="nav-item has-dropdown">
-        <button class="nav-drop-btn" aria-expanded="false" aria-haspopup="true">Sectors <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-        <div class="nav-dropdown">
-        <a href="defence.html">Defence</a>
-        <a href="healthcare.html">Healthcare</a>
-        <a href="housing.html">Housing</a>
-        <a href="public-sector.html">Public Sector</a>
-        <a href="professional-services.html">Professional Services</a>
+        <button type="button" class="nav-drop-btn active" aria-expanded="false" aria-controls="menu-services">Services <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-dropdown" id="menu-services">
+        <a href="capability-consulting/">Capability Consulting</a>
+        <a href="business-analysis/">Business Analysis &amp; Improvement</a>
+        <a href="workforce-development/">Workforce Development</a>
+        <a href="services.html" class="active" aria-current="page">All services</a>
         </div>
       </div>
-      <a href="services.html" class="active">Services</a>
-      <a href="who-i-help.html">Who I Help</a>
-      <a href="how-i-work.html">How I Work</a>
-      <a href="case-studies.html">Case Studies</a>
+      <a href="approach/">Approach</a>
       <a href="insights.html">Insights</a>
+      <div class="nav-item has-dropdown">
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="menu-book">Book <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-dropdown" id="menu-book">
+        <a href="training-isnt-always-the-answer/">Training Isn&rsquo;t Always the Answer</a>
+        <a href="book-toolkit/">Toolkit</a>
+        </div>
+      </div>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <a href="capability-readiness-review.html" class="nav-cta">Capability Review</a>
+      <a href="contact.html#book" class="nav-cta" data-event="contact_click">Discuss a problem</a>
     </div>
-    <div class="burger" id="burger" role="button" tabindex="0" aria-label="Menu"><span></span><span></span><span></span></div>
+    <button type="button" class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <main id="main"><header class="page-hero">
@@ -171,7 +179,7 @@
     <h1 class="reveal in" data-d="1">95% completion, not just enrolment.</h1>
     <p class="hero-sub reveal in" data-d="2">Structured pathways, coaching and active progress management that keep apprentices on track and funding compliant throughout — building genuine capability, not just certificates.</p>
     <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="contact.html#book" class="btn btn-primary">Discuss a problem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a href="services.html" class="btn btn-ghost">All services</a>
     </div>
   </div>
@@ -268,7 +276,7 @@
     <h2 class="reveal">Need help with apprenticeships?</h2>
     <p class="reveal" data-d="1">A practical, problem-first conversation — no sales pitch. We'll work out what's really going on and whether I can help.</p>
     <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a problem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a href="services.html" class="btn btn-ghost">View all services</a>
     </div>
   </div>
@@ -278,56 +286,42 @@
     <div class="foot-top">
       <div>
         <div class="logo">
-          <img src="assets/logo/prelude-icon.svg" alt="Prelude" width="32" height="32" style="width:32px;height:32px">
+          <img src="assets/logo/prelude-icon.svg" alt="" width="32" height="32" style="width:32px;height:32px">
           <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
         </div>
-        <p class="foot-tag">Jason Smith — Capability, Readiness &amp; Workforce Development Advisor. Training is rarely the problem. Capability is — and that's what I help Defence and public sector organisations build.</p>
-        <p class="foot-tag" style="margin-top:14px;color:var(--gold);font-family:var(--display);font-size:13px;letter-spacing:.06em">Active SC · DSAT Specialist · PRINCE2 · CMI</p>
+        <p class="foot-tag">Capability consulting, business analysis and workforce development. Understand the problem before prescribing the solution.</p>
+        <p class="foot-strap">Setting the conditions for success</p>
       </div>
       <div class="foot-domains">
-        <span>Sectors</span>
-        <a href="defence.html">Defence</a>
-        <a href="healthcare.html">Healthcare</a>
-        <a href="housing.html">Housing</a>
-        <a href="public-sector.html">Public Sector</a>
-        <a href="professional-services.html">Professional Services</a>
+        <span>Services</span>
+        <a href="capability-consulting/">Capability Consulting</a>
+        <a href="business-analysis/">Business Analysis &amp; Improvement</a>
+        <a href="workforce-development/">Workforce Development</a>
+        <a href="approach/">Approach</a>
+        <a href="case-studies.html">Case studies</a>
       </div>
       <div class="foot-domains">
-        <span>Explore</span>
-        <a href="who-i-help.html">Who I Help</a>
-        <a href="services.html">Services</a>
-        <a href="how-i-work.html">How I Work</a>
-        <a href="capability-readiness-review.html">Capability Review</a>
-        <a href="case-studies.html">Case Studies</a>
-        <a href="why-training-isnt-the-problem.html">Manifesto</a>
+        <span>Book</span>
+        <a href="training-isnt-always-the-answer/">Training Isn&rsquo;t Always the Answer</a>
+        <a href="book-toolkit/">Toolkit</a>
         <a href="insights.html">Insights</a>
         <a href="glossary.html">Glossary</a>
-        <a href="about.html">About</a>
       </div>
       <div class="foot-domains">
-        <span>Contact</span>
+        <span>Company</span>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
         <a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a>
-        <a href="https://prelude-learning.com">prelude-learning.com</a>
-        <a href="contact.html">Enquire</a>
-        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html">Privacy &amp; cookies</a>
       </div>
     </div>
+    <p class="foot-sectors">Sectors: <a href="defence.html">Defence</a> &middot; <a href="healthcare.html">Healthcare</a> &middot; <a href="housing.html">Housing</a> &middot; <a href="public-sector.html">Public Sector</a> &middot; <a href="professional-services.html">Professional Services</a></p>
     <div class="foot-bottom">
-      <p>© <span id="yr"></span> Prelude Learning &amp; Consultancy Ltd. Company No. 16918049. All rights reserved. · <a href="privacy.html" style="color:var(--stone-dim);text-decoration:underline">Privacy Policy</a></p>
-      <p>Learning Designed for Impact</p>
+      <p>&copy; <span id="yr"></span> Prelude Learning &amp; Consultancy Ltd. Registered in England and Wales, Company No. 16918049.</p>
+      <p>Prelude is an independent consultancy. It is not part of, affiliated with or endorsed by the Ministry of Defence or any client organisation named on this site.</p>
     </div>
   </div>
 </footer>
-
-<div class="sticky-cta" id="stickyCta">
-  <div class="wrap sticky-cta-inner">
-    <span class="sticky-cta-text">Ready to talk about your capability challenge?</span>
-    <div class="sticky-cta-actions">
-      <a href="contact.html#book" class="btn btn-primary">Discuss Your Capability Challenge <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <button class="sticky-cta-close" id="stickyCtaClose" aria-label="Dismiss">&times;</button>
-    </div>
-  </div>
-</div>
 
 <script src="script.js"></script>
 </body>

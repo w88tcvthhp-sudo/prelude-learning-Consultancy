@@ -1,2 +1,4 @@
 .DS_Store
 .claude/
+prelude-private/
+config.php

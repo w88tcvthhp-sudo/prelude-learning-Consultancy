@@ -1,0 +1,196 @@
+<?php require __DIR__ . '/../lib/toolkit.php'; toolkit_require_access(); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#081D16">
+<title>Toolkit downloads | Prelude</title>
+<meta name="description" content="Toolkit downloads for readers of Training Isn't Always the Answer.">
+<link rel="canonical" href="https://www.prelude-learning.com/book-toolkit/downloads/">
+<meta name="robots" content="noindex,follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prelude Learning &amp; Consultancy">
+<meta property="og:title" content="Toolkit downloads | Prelude">
+<meta property="og:description" content="Toolkit downloads for readers of Training Isn't Always the Answer.">
+<meta property="og:url" content="https://www.prelude-learning.com/book-toolkit/downloads/">
+<meta property="og:image" content="https://www.prelude-learning.com/assets/og/prelude-og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Toolkit downloads | Prelude">
+<meta name="twitter:description" content="Toolkit downloads for readers of Training Isn't Always the Answer.">
+<meta name="twitter:image" content="https://www.prelude-learning.com/assets/og/prelude-og-image.jpg">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "@id": "https://www.prelude-learning.com/#organization",
+  "name": "Prelude Learning & Consultancy",
+  "alternateName": "Prelude Learning & Consultancy Ltd",
+  "url": "https://www.prelude-learning.com",
+  "logo": "https://www.prelude-learning.com/assets/logo/prelude-logo-primary.svg",
+  "image": "https://www.prelude-learning.com/assets/og/prelude-og-image.jpg",
+  "description": "Independent consultancy working across capability consulting, business analysis and improvement, and workforce development. Understand the problem before prescribing the solution.",
+  "slogan": "Setting the conditions for success",
+  "email": "jason.smith@prelude-learning.com",
+  "areaServed": "GB",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "GB"
+  },
+  "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "UK Companies House",
+    "value": "16918049"
+  },
+  "knowsAbout": [
+    "Capability Consulting",
+    "Business Analysis",
+    "Business Process Improvement",
+    "Training Needs Analysis",
+    "Capability Development",
+    "Learning Strategy",
+    "Performance Consulting",
+    "Leadership Development",
+    "Defence DSAT",
+    "JSP 822",
+    "Training Governance",
+    "Workforce Development",
+    "Organisational Development",
+    "Learning Technology"
+  ],
+  "founder": {
+    "@type": "Person",
+    "@id": "https://www.prelude-learning.com/about.html#person",
+    "name": "Jason Smith",
+    "jobTitle": "Founder & Capability Advisor",
+    "image": "https://www.prelude-learning.com/assets/photos/professional-photograph-of-jason-smith.jpeg",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Prelude Learning & Consultancy Ltd"
+    },
+    "knowsAbout": [
+      "Capability Development",
+      "Learning Strategy",
+      "Performance Consulting",
+      "Leadership Development",
+      "Defence DSAT",
+      "JSP 822",
+      "Training Governance",
+      "Workforce Development",
+      "Organisational Development"
+    ]
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<nav id="nav" aria-label="Main">
+  <div class="wrap nav-inner">
+    <a href="../../index.html" class="logo" aria-label="Prelude Learning &amp; Consultancy — home">
+      <img src="../../assets/logo/prelude-icon.svg" alt="" width="34" height="34">
+      <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <div class="nav-item has-dropdown">
+        <button type="button" class="nav-drop-btn" aria-expanded="false" aria-controls="menu-services">Services <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-dropdown" id="menu-services">
+        <a href="../../capability-consulting/">Capability Consulting</a>
+        <a href="../../business-analysis/">Business Analysis &amp; Improvement</a>
+        <a href="../../workforce-development/">Workforce Development</a>
+        <a href="../../services.html">All services</a>
+        </div>
+      </div>
+      <a href="../../approach/">Approach</a>
+      <a href="../../insights.html">Insights</a>
+      <div class="nav-item has-dropdown">
+        <button type="button" class="nav-drop-btn active" aria-expanded="false" aria-controls="menu-book">Book <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="nav-dropdown" id="menu-book">
+        <a href="../../training-isnt-always-the-answer/">Training Isn&rsquo;t Always the Answer</a>
+        <a href="../../book-toolkit/" class="active" aria-current="page">Toolkit</a>
+        </div>
+      </div>
+      <a href="../../about.html">About</a>
+      <a href="../../contact.html">Contact</a>
+      <a href="../../contact.html#book" class="nav-cta" data-event="contact_click">Discuss a problem</a>
+    </div>
+    <button type="button" class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<main id="main"><header class="page-hero">
+  <div class="wrap narrow-hero">
+    <div class="eyebrow reveal in">Toolkit downloads</div>
+    <h1 class="reveal in" data-d="1">Your Training Isn&rsquo;t Always the Answer toolkit</h1>
+    <p class="hero-sub reveal in" data-d="2">Thanks for reading. Everything is below. We&rsquo;ve also emailed you a link back to this page.</p>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="dl-hero reveal">
+      <div>
+        <h2 class="section-title small">Download everything</h2>
+        <p>Tools 01&ndash;18 Combined Workbook: all 18 tools in one editable file.</p>
+      </div>
+      <a class="btn btn-primary" href="/book-toolkit/download.php?f=tools-01-18-combined-workbook" data-event="toolkit_complete_download">Download the complete toolkit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <h2 class="section-title small reveal" style="margin-top:64px">Individual tools</h2>
+    <ul class="dl-list reveal"><li class="dl-row"><span class="dl-num">01</span><span class="dl-title">Training Request Challenge</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-01" data-event="toolkit_individual_download" data-file="tool-01">Download<span class="sr-only"> Training Request Challenge</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">02</span><span class="dl-title">Performance Gap Canvas</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-02" data-event="toolkit_individual_download" data-file="tool-02">Download<span class="sr-only"> Performance Gap Canvas</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">03</span><span class="dl-title">Stakeholder Map</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-03" data-event="toolkit_individual_download" data-file="tool-03">Download<span class="sr-only"> Stakeholder Map</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">04</span><span class="dl-title">First Conversation Question Set</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-04" data-event="toolkit_individual_download" data-file="tool-04">Download<span class="sr-only"> First Conversation Question Set</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">05</span><span class="dl-title">Evidence Plan</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-05" data-event="toolkit_individual_download" data-file="tool-05">Download<span class="sr-only"> Evidence Plan</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">06</span><span class="dl-title">Root-Cause Worksheet</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-06" data-event="toolkit_individual_download" data-file="tool-06">Download<span class="sr-only"> Root-Cause Worksheet</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">07</span><span class="dl-title">Capability Diagnostic</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-07" data-event="toolkit_individual_download" data-file="tool-07">Download<span class="sr-only"> Capability Diagnostic</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">08</span><span class="dl-title">Should We Train? Decision Tree</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-08" data-event="toolkit_individual_download" data-file="tool-08">Download<span class="sr-only"> Should We Train? Decision Tree</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">09</span><span class="dl-title">Performance Definition Canvas</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-09" data-event="toolkit_individual_download" data-file="tool-09">Download<span class="sr-only"> Performance Definition Canvas</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">10</span><span class="dl-title">Task Analysis</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-10" data-event="toolkit_individual_download" data-file="tool-10">Download<span class="sr-only"> Task Analysis</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">11</span><span class="dl-title">KSA / KSB Analysis</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-11" data-event="toolkit_individual_download" data-file="tool-11">Download<span class="sr-only"> KSA / KSB Analysis</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">12</span><span class="dl-title">Know It / Find It / Do It</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-12" data-event="toolkit_individual_download" data-file="tool-12">Download<span class="sr-only"> Know It / Find It / Do It</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">13</span><span class="dl-title">Golden Thread</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-13" data-event="toolkit_individual_download" data-file="tool-13">Download<span class="sr-only"> Golden Thread</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">14</span><span class="dl-title">Intervention Selection Matrix</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-14" data-event="toolkit_individual_download" data-file="tool-14">Download<span class="sr-only"> Intervention Selection Matrix</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">15</span><span class="dl-title">Objective Builder</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-15" data-event="toolkit_individual_download" data-file="tool-15">Download<span class="sr-only"> Objective Builder</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">16</span><span class="dl-title">Assessment &amp; Evaluation Plan</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-16" data-event="toolkit_individual_download" data-file="tool-16">Download<span class="sr-only"> Assessment &amp; Evaluation Plan</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">17</span><span class="dl-title">60-Minute TNA Template</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-17" data-event="toolkit_individual_download" data-file="tool-17">Download<span class="sr-only"> 60-Minute TNA Template</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-num">18</span><span class="dl-title">Five-Day Rapid TNA Plan</span><a class="dl-link" href="/book-toolkit/download.php?f=tool-18" data-event="toolkit_individual_download" data-file="tool-18">Download<span class="sr-only"> Five-Day Rapid TNA Plan</span> <span class="dl-ext">DOCX</span></a></li></ul>
+
+    <h2 class="section-title small reveal" style="margin-top:64px">Extended TNA resources</h2>
+    <ul class="dl-list reveal"><li class="dl-row"><span class="dl-title">One-Day TNA Template</span><a class="dl-link" href="/book-toolkit/download.php?f=one-day-tna-template" data-event="toolkit_individual_download" data-file="one-day-tna-template">Download<span class="sr-only"> One-Day TNA Template</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-title">Five-Day Rapid TNA Workbook</span><a class="dl-link" href="/book-toolkit/download.php?f=five-day-rapid-tna-workbook" data-event="toolkit_individual_download" data-file="five-day-rapid-tna-workbook">Download<span class="sr-only"> Five-Day Rapid TNA Workbook</span> <span class="dl-ext">DOCX</span></a></li><li class="dl-row"><span class="dl-title">Full TNA Report Template</span><a class="dl-link" href="/book-toolkit/download.php?f=full-tna-report-template" data-event="toolkit_individual_download" data-file="full-tna-report-template">Download<span class="sr-only"> Full TNA Report Template</span> <span class="dl-ext">DOCX</span></a></li></ul>
+
+    <p class="licence reveal">Purchasers of the book may use and adapt these templates for their own professional work, including internal and client engagements. The blank templates may not be resold, redistributed or published as a competing resource.</p>
+  </div>
+</section></main><footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="logo">
+          <img src="../../assets/logo/prelude-icon.svg" alt="" width="32" height="32" style="width:32px;height:32px">
+          <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
+        </div>
+        <p class="foot-tag">Capability consulting, business analysis and workforce development. Understand the problem before prescribing the solution.</p>
+        <p class="foot-strap">Setting the conditions for success</p>
+      </div>
+      <div class="foot-domains">
+        <span>Services</span>
+        <a href="../../capability-consulting/">Capability Consulting</a>
+        <a href="../../business-analysis/">Business Analysis &amp; Improvement</a>
+        <a href="../../workforce-development/">Workforce Development</a>
+        <a href="../../approach/">Approach</a>
+        <a href="../../case-studies.html">Case studies</a>
+      </div>
+      <div class="foot-domains">
+        <span>Book</span>
+        <a href="../../training-isnt-always-the-answer/">Training Isn&rsquo;t Always the Answer</a>
+        <a href="../../book-toolkit/">Toolkit</a>
+        <a href="../../insights.html">Insights</a>
+        <a href="../../glossary.html">Glossary</a>
+      </div>
+      <div class="foot-domains">
+        <span>Company</span>
+        <a href="../../about.html">About</a>
+        <a href="../../contact.html">Contact</a>
+        <a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a>
+        <a href="../../privacy.html">Privacy &amp; cookies</a>
+      </div>
+    </div>
+    <p class="foot-sectors">Sectors: <a href="../../defence.html">Defence</a> &middot; <a href="../../healthcare.html">Healthcare</a> &middot; <a href="../../housing.html">Housing</a> &middot; <a href="../../public-sector.html">Public Sector</a> &middot; <a href="../../professional-services.html">Professional Services</a></p>
+    <div class="foot-bottom">
+      <p>&copy; <span id="yr"></span> Prelude Learning &amp; Consultancy Ltd. Registered in England and Wales, Company No. 16918049.</p>
+      <p>Prelude is an independent consultancy. It is not part of, affiliated with or endorsed by the Ministry of Defence or any client organisation named on this site.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../../script.js"></script>
+</body>
+</html>

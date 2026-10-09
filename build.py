@@ -717,144 +717,6 @@ def case(sector_attr, sector_label, title, metric_fig, metric_label, problem, wh
     </article>
 '''
 
-# ================================================================== HOME
-home_body = f'''<header id="top">
-  <svg class="ref-motif" viewBox="0 0 880 880" aria-hidden="true">
-    <g class="rotate-slow">
-      <line class="spoke" x1="440" y1="40" x2="440" y2="840"/><line class="spoke" x1="40" y1="440" x2="840" y2="440"/>
-      <line class="spoke" x1="156" y1="156" x2="724" y2="724"/><line class="spoke" x1="724" y1="156" x2="156" y2="724"/>
-    </g>
-    <circle class="ring" cx="440" cy="440" r="380"/><circle class="ring em" cx="440" cy="440" r="280"/>
-    <circle class="ring" cx="440" cy="440" r="180"/><circle class="ring" cx="440" cy="440" r="90"/>
-    <circle class="ring em pulse" cx="440" cy="440" r="120"/>
-    <circle class="node" cx="440" cy="440" r="7"/><circle class="node-em" cx="440" cy="160" r="5"/>
-    <circle class="node" cx="720" cy="440" r="4"/><circle class="node-em" cx="252" cy="628" r="4"/><circle class="node" cx="628" cy="252" r="3.5"/>
-  </svg>
-  <div class="wrap hero-content">
-    <div class="eyebrow reveal in">Capability · Learning · Workforce Development</div>
-    <h1 class="reveal in" data-d="1">Solving Capability Problems <span class="gold">Training Alone Can't Fix.</span></h1>
-    <p class="hero-sub reveal in" data-d="2">Training is rarely the problem. Capability is. When readiness slips, compliance fails or managers aren't performing, the cause is almost never a missing course. As a capability, readiness and workforce development advisor, I diagnose the real problem first — then use learning as one of several tools to fix it. 23+ years, DSAT specialist, Active SC clearance.</p>
-    <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary">Discuss a challenge {ARROW}</a>
-      <a href="case-studies.html" class="btn btn-ghost">View Case Studies</a>
-    </div>
-  </div>
-  <div class="scroll-hint"><span class="line"></span>Scroll</div>
-</header>
-
-{proof()}
-<section style="padding-top:84px">
-  <div class="wrap">
-    <div class="eyebrow reveal">Track record</div>
-    <p class="lead reveal" data-d="1">Evidence, not promises.</p>
-    <div class="metric-grid reveal" data-d="2">
-      <div class="metric"><div class="figure" data-count="15000">15,000</div><div class="label">Employees supported across a single organisation</div></div>
-      <div class="metric"><div class="figure" data-count="25" data-suffix="%">25<span class="unit">%</span></div><div class="label">Improvement in operational performance (up to)</div></div>
-      <div class="metric"><div class="figure" data-count="95" data-suffix="%">95<span class="unit">%</span></div><div class="label">Apprenticeship completion rate</div></div>
-      <div class="metric"><div class="figure" data-count="100" data-suffix="%">100<span class="unit">%</span></div><div class="label">Funding compliance</div></div>
-      <div class="metric"><div class="figure">5 <span class="unit">sectors</span></div><div class="label">Defence, Healthcare, Housing, Public Sector &amp; Professional Services</div></div>
-      <div class="metric"><div class="figure">Active <span class="unit">SC</span></div><div class="label">Security clearance held (former DV)</div></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <p class="lead reveal">Training is rarely the problem. Capability is. <span class="dim">When performance slips, most organisations commission a course before they understand the problem. Capability comes from people, behaviours, governance, leadership, structure, assurance and learning working together — so I diagnose before I prescribe.</span></p>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow reveal">Our intellectual property</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The model behind every engagement.</h2>
-    {fw_prelude_model()}
-  </div>
-</section>
-
-<section style="padding-top:24px">
-  <div class="wrap">
-    <div class="eyebrow reveal">Common challenges I help solve</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">If you recognise your organisation here, we should talk.</h2>
-    <div class="challenge-grid">
-      <div class="challenge-col reveal">
-        <div class="ch-head"><img src="assets/icons/sector-defence.svg" alt=""><h3>Defence</h3></div>
-        <ul><li>Training governance concerns</li><li>DSAT compliance requirements</li><li>Digital skills capability gaps</li><li>Operational readiness challenges</li><li>Workforce capability issues</li></ul>
-        <a class="ch-foot" href="defence.html">Defence capability &amp; DSAT consultancy →</a>
-      </div>
-      <div class="challenge-col reveal" data-d="1">
-        <div class="ch-head"><img src="assets/icons/sector-healthcare.svg" alt=""><h3>Healthcare</h3></div>
-        <ul><li>Compliance performance</li><li>Mandatory training effectiveness</li><li>Leadership capability</li><li>Learning technology challenges</li><li>Workforce development</li></ul>
-        <a class="ch-foot" href="healthcare.html">Healthcare &amp; NHS consultancy →</a>
-      </div>
-      <div class="challenge-col reveal" data-d="2">
-        <div class="ch-head"><img src="assets/icons/sector-housing.svg" alt=""><h3>Housing</h3></div>
-        <ul><li>Manager onboarding</li><li>Succession planning</li><li>Cultural transformation</li><li>Service standards</li><li>Workforce capability</li></ul>
-        <a class="ch-foot" href="housing.html">Housing association consultancy →</a>
-      </div>
-      <div class="challenge-col reveal">
-        <div class="ch-head"><img src="assets/icons/sector-public.svg" alt=""><h3>Public Sector</h3></div>
-        <ul><li>Role &amp; workforce redesign</li><li>Transformation capability</li><li>Leadership under pressure</li><li>Training governance for public money</li><li>Restructuring at pace</li></ul>
-        <a class="ch-foot" href="public-sector.html">Public sector consultancy →</a>
-      </div>
-      <div class="challenge-col reveal" data-d="1">
-        <div class="ch-head"><img src="assets/icons/leadership.svg" alt=""><h3>Professional Services</h3></div>
-        <ul><li>Partner-track leadership</li><li>Associate retention</li><li>Onboarding speed</li><li>Progression frameworks</li><li>Capability through growth</li></ul>
-        <a class="ch-foot" href="professional-services.html">Professional services consultancy →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-{crr_teaser()}
-<div class="divider"></div>
-
-{methodology()}
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow reveal">Selected work</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Problems I've solved in environments like yours.</h2>
-    <div class="feature-grid">
-      <div class="feature-card reveal"><span class="tag-pill">Defence</span><h3>MOD Digital Skills for Defence (DS4D)</h3><p>Enterprise-wide digital capability analysis and DSAT-aligned TNA used for Defence-wide planning.</p></div>
-      <div class="feature-card reveal" data-d="1"><span class="tag-pill">Defence</span><h3>Capability Framework Design</h3><p>A multi-specialisation framework and skills mapping that lifted operational readiness by 20%.</p></div>
-      <div class="feature-card reveal" data-d="2"><span class="tag-pill">Healthcare</span><h3>Healthcare Learning Transformation</h3><p>Totara dashboards across 15,000 colleagues, cutting compliance gaps by 18%.</p></div>
-    </div>
-    <div style="margin-top:40px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">View all case studies {ARROW}</a></div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-{roles_section()}
-<div class="divider"></div>
-
-{comparison_section()}
-<div class="divider"></div>
-
-{trust(heading="Why you can trust me", sub="Senior defence leadership experience, the right clearances, and recognised qualifications.")}
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow reveal">In their words</div>
-    <div class="quote-block reveal" data-d="1">
-      <p>"In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly."</p>
-      <cite>Senior Client · Digital Skills for Defence (DS4D)</cite>
-    </div>
-    <p class="muted reveal" data-d="2" style="margin-top:18px">Further references available on request across Defence, Healthcare and Housing.</p>
-  </div>
-</section>
-
-{cta("Let's discuss your capability challenge.", "A practical, problem-first conversation — no sales pitch. We'll work out what's really going on and whether I can help.", secondary=("Explore services", "services.html"))}'''
-
 # ================================================================== DEFENCE
 DEFENCE_FAQ = [
     ("Is your DSAT knowledge current, or from years ago?", "Current. DSAT and JSP 822 application is ongoing specialist work, not a historic qualification — I keep pace with how the policy is actually being applied and audited today."),
@@ -929,12 +791,12 @@ defence_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Defence track record</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Delivered across MOD, Royal Navy and NATO programmes.</h2>
+    <div class="eyebrow reveal">Founder-led Defence experience</div>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Experience across MOD, Royal Navy and NATO programmes.</h2>
     <div class="feature-grid">
-      <div class="feature-card reveal"><span class="tag-pill">DS4D</span><h3>Digital Skills for Defence</h3><p>DSAT-aligned capability analysis, TNA and learning architecture adopted for Defence-wide planning.</p></div>
-      <div class="feature-card reveal" data-d="1"><span class="tag-pill">+20% readiness</span><h3>Capability Framework Design</h3><p>Consistent competency standards that increased operational readiness by 20%.</p></div>
-      <div class="feature-card reveal" data-d="2"><span class="tag-pill">+17% pass rates</span><h3>NATO &amp; Royal Navy Modernisation</h3><p>DSAT-compliant TNA, blended learning and coaching — 17% higher pass rates, 20% fewer failures.</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">DS4D</span><h3><a href="mod-digital-skills-for-defence.html">Digital Skills for Defence</a></h3><p>DSAT-aligned capability analysis, TNA and learning architecture for Defence-wide digital skills planning.</p></div>
+      <div class="feature-card reveal" data-d="1"><span class="tag-pill">Capability framework</span><h3><a href="defence-capability-framework-design.html">Defence Capability Framework Design</a></h3><p>Consistent competency standards across specialisations, giving one trusted view of readiness.</p></div>
+      <div class="feature-card reveal" data-d="2"><span class="tag-pill">DSAT TNA</span><h3><a href="nato-royal-navy-training-modernisation.html">NATO &amp; Royal Navy Training Modernisation</a></h3><p>A DSAT-compliant TNA that found where learners were failing, followed by targeted blended learning and coaching.</p></div>
     </div>
     <div style="margin-top:40px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">All Defence case studies {ARROW}</a></div>
   </div>
@@ -1020,10 +882,10 @@ healthcare_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Healthcare track record</div>
+    <div class="eyebrow reveal">Founder-led healthcare experience</div>
     <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Reliable data changes behaviour faster than more mandatory training.</h2>
     <div class="feature-grid">
-      <div class="feature-card reveal"><span class="tag-pill">-18% compliance gaps</span><h3>Healthcare Learning Transformation</h3><p>Totara dashboards and structured pathways across 15,000 colleagues, cutting compliance gaps by 18% and giving leaders visibility they could trust.</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">Learning technology</span><h3><a href="healthcare-learning-transformation.html">Healthcare Learning Transformation</a></h3><p>Totara dashboards and structured pathways across 15,000 colleagues, giving leaders compliance data they could trust.</p></div>
     </div>
     <div style="margin-top:40px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">All case studies {ARROW}</a></div>
   </div>
@@ -1040,7 +902,7 @@ healthcare_body = f'''<header class="page-hero">
 # ================================================================== HOUSING
 HOUSING_FAQ = [
     ("Our managers are experienced but inconsistent — is that a training problem?", "Usually not. Inconsistent management is more often a sign that expectations and standards were never written down, not that managers lack skills. The fix is usually structure and clarity, with development layered on top — not a course on its own."),
-    ("How quickly can new starters become productive?", "The Housing Leadership &amp; Onboarding Transformation case study cut time-to-competence by 20% — by designing values and expectations into onboarding deliberately, rather than leaving new managers to learn by chance."),
+    ("How quickly can new starters become productive?", "Faster than most organisations expect, once values and expectations are designed into onboarding deliberately rather than left for new managers to learn by chance. The Housing Leadership &amp; Onboarding Transformation case study shows how."),
     ("Do you work with ALMOs and combined authority housing teams, as well as traditional housing associations?", "Yes. The same capability thinking applies whether you're a large G15 housing association, a smaller regional provider, or an ALMO managing stock on behalf of a local authority."),
     ("Can this work alongside our existing L&D team rather than replacing it?", "That's the usual arrangement. I work as a diagnostic and design partner alongside your existing team's capacity, not as a replacement for it."),
     ("What size of organisation do you typically work with?", "From housing associations with a few hundred staff to organisations managing tens of thousands of homes. The Capability Readiness Review scales to the size of the problem, not a fixed engagement size."),
@@ -1109,10 +971,10 @@ housing_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Housing track record</div>
+    <div class="eyebrow reveal">Founder-led housing experience</div>
     <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Values and expectations have to be designed in — not left to osmosis.</h2>
     <div class="feature-grid">
-      <div class="feature-card reveal"><span class="tag-pill">-20% time-to-competence</span><h3>Housing Leadership &amp; Onboarding Transformation</h3><p>Leadership pathways and values-based onboarding that cut time-to-competence by 20% and lifted consistency of leadership standards.</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">Leadership and onboarding</span><h3><a href="housing-leadership-onboarding-transformation.html">Housing Leadership &amp; Onboarding Transformation</a></h3><p>Leadership pathways and values-based onboarding that made expectations explicit for new and promoted managers.</p></div>
     </div>
     <div style="margin-top:40px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">All case studies {ARROW}</a></div>
   </div>
@@ -1197,10 +1059,10 @@ public_sector_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Public sector track record</div>
+    <div class="eyebrow reveal">Founder-led public sector experience</div>
     <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">In a crisis, clarity of role beats volume of training every time.</h2>
     <div class="feature-grid">
-      <div class="feature-card reveal"><span class="tag-pill">+15% response effectiveness</span><h3>Operational Role Architecture Redesign (Op Isotrope)</h3><p>Role architecture redesign during national crisis response, improving response effectiveness by 15% and enabling faster, clearer scaling.</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">Crisis response</span><h3><a href="op-isotrope-role-architecture-redesign.html">Operational Role Architecture Redesign (Op Isotrope)</a></h3><p>Role architecture redesign during a national crisis response, so teams could scale quickly and cleanly.</p></div>
     </div>
     <div style="margin-top:40px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">All case studies {ARROW}</a></div>
   </div>
@@ -1285,8 +1147,8 @@ professional_services_body = f'''<header class="page-hero">
     <div class="eyebrow reveal">The same method, proven elsewhere</div>
     <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Different sector. Same discipline: diagnose before you prescribe.</h2>
     <div class="feature-grid">
-      <div class="feature-card reveal"><span class="tag-pill">95% completion</span><h3>Talent &amp; Progression Pathways</h3><p>Structured pathways and coaching driving 95% completion where drop-off had previously been driven by weak progress management, not ability.</p></div>
-      <div class="feature-card reveal" data-d="1"><span class="tag-pill">-20% time-to-competence</span><h3>Leadership &amp; Onboarding Design</h3><p>Values-based onboarding and leadership pathways cutting time-to-competence by 20% for new and promoted managers.</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">Defence</span><h3><a href="defence-apprenticeship-success-programme.html">Apprenticeship progression pathways</a></h3><p>Structured pathways and coaching, after diagnosis showed drop-off was driven by weak progress management, not ability.</p></div>
+      <div class="feature-card reveal" data-d="1"><span class="tag-pill">Housing</span><h3><a href="housing-leadership-onboarding-transformation.html">Leadership and onboarding design</a></h3><p>Values-based onboarding and leadership pathways for new and promoted managers.</p></div>
     </div>
     <div style="margin-top:40px" class="reveal"><a href="case-studies.html" class="btn btn-ghost">See how the method was applied {ARROW}</a></div>
   </div>
@@ -1375,12 +1237,12 @@ cap_gov = (
         ["Investing in training without knowing the true gap", "Symptoms treated instead of causes", "No baseline to measure improvement"],
         "A structured TNA that separates capability problems from training problems using evidence, so investment goes where it moves performance.",
         ["Evidence-based recommendations", "A clear baseline and priorities", "Confidence that spend is targeted"],
-        "DSAT-compliant TNA underpinning a 17% increase in pass rates on Royal Navy / NATO programmes.", slug="training-needs-analysis")
+        "DSAT-compliant TNA that targeted the failure points in Royal Navy and NATO training pipelines.", slug="training-needs-analysis")
     + acc_item("03", "Capability Framework Design",
         ["No consistent competency standards", "Roles and skills defined differently across teams", "Hard to plan workforce or measure readiness"],
         "I design multi-specialisation capability frameworks, map skills to roles, and make them usable for assessment, development and planning.",
         ["Consistent, defensible standards", "Skills mapping and workforce planning", "Improved operational readiness"],
-        "Multi-specialisation Defence framework contributing to a 20% increase in operational readiness.", slug="capability-framework-design")
+        "A multi-specialisation Defence framework giving one trusted standard for readiness.", slug="capability-framework-design")
     + acc_item("04", "Training Governance &amp; Assurance",
         ["Governance that can't keep pace with delivery", "Assurance that doesn't reassure", "Risk hidden until audit"],
         "I build governance and assurance that is both audit-ready and useful — giving leaders confidence and inspectors evidence.",
@@ -1392,34 +1254,34 @@ lead_wf = (
         ["Technically strong people promoted without support", "Inconsistent leadership under pressure", "Development that doesn't transfer to the job"],
         "Leadership and management development grounded in real operational experience and CMI-aligned coaching — building judgement and confidence.",
         ["Leaders who carry capability through change", "Consistent leadership standards", "Stronger succession and retention"],
-        "Leadership pathways and values-based onboarding for a housing association, cutting time-to-competence by 20%.", slug="leadership-development")
+        "Leadership pathways and values-based onboarding for a housing association.", slug="leadership-development")
     + acc_item("06", "Talent Development",
         ["Talent leaving before it matures", "No clear development pathways", "Over-reliance on recruitment"],
         "Structured talent and development pathways that grow capability from within and give people a reason to stay.",
         ["A sustainable internal pipeline", "Clear progression", "Reduced recruitment cost and risk"],
-        "Coaching and structured pathways driving 95% apprenticeship completion.", slug="talent-development")
+        "Coaching and structured pathways for a Defence apprenticeship programme.", slug="talent-development")
     + acc_item("07", "Workforce Planning",
         ["Capability and demand out of step", "Roles unclear during change or scaling", "No line of sight from skills to mission"],
         "I align roles, skills and structure to operational demand — so the workforce is ready for what's coming, not just what's here.",
         ["Roles and skills aligned to demand", "Clearer structure under change", "Improved readiness"],
-        "Role architecture redesign during national crisis response (OP ISOTROPE), improving response effectiveness by 15%.", slug="workforce-planning")
+        "Role architecture redesign during a national crisis response (OP ISOTROPE).", slug="workforce-planning")
     + acc_item("08", "Apprenticeships",
         ["Low completion rates", "Funding compliance risk", "Programmes that don't build real capability"],
         "Structured pathways, coaching and active progress management that keep learners on track and funding compliant throughout.",
-        ["95% completion rates", "100% funding compliance", "Genuine capability, not just certificates"],
-        "Defence Apprenticeship Success Programme — 95% completion, 100% funding compliance.", slug="apprenticeships")
+        ["Higher completion", "Evidenced funding compliance", "Genuine capability, not just certificates"],
+        "Defence Apprenticeship Success Programme: completion treated as an operations problem.", slug="apprenticeships")
 )
 learn_tx = (
     acc_item("09", "Digital Learning",
         ["Digital learning bought but underused", "Content that doesn't change behaviour", "Transformation that stalls after launch"],
         "Digital and blended learning designed for outcomes and adoption — so modernisation improves performance, not just format.",
         ["Higher engagement and completion", "Measurable performance gains", "Sustainable, adopted change"],
-        "Blended and e-learning interventions reducing failure rates by 20% on operational training.", slug="digital-learning")
+        "Blended and e-learning interventions targeted at failure points in operational training.", slug="digital-learning")
     + acc_item("10", "LMS Optimisation",
         ["An LMS that frustrates more than it helps", "Compliance reporting that can't be trusted", "Poor visibility of learning data"],
         "LMS optimisation — dashboards, pathways and information management (including Totara) that turn your platform into reliable capability intelligence.",
         ["Trustworthy compliance reporting", "Clear dashboards and pathways", "Reduced compliance gaps"],
-        "Totara dashboards across 15,000 healthcare colleagues, cutting compliance gaps by 18%.", slug="lms-optimisation")
+        "Totara dashboards giving leaders trusted compliance data across 15,000 healthcare colleagues.", slug="lms-optimisation")
     + acc_item("11", "Learning Operations",
         ["Learning delivery that's inconsistent or manual", "Effort spent on admin, not impact", "No reliable view of what's working"],
         "I streamline how learning is planned, delivered and measured — so the operation runs predictably and frees time for what matters.",
@@ -1501,11 +1363,11 @@ def service_page(slug, cat_label, num, title, h1, hero_sub, problem, diagnosis, 
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">See how we&rsquo;ve applied this approach</div>
+    <div class="eyebrow reveal">Where this approach has been applied</div>
     <div class="feature-grid" style="grid-template-columns:1fr">
-      <div class="feature-card reveal"><span class="tag-pill">{case_metric}</span><h3>{f'<a href="{_CASE_SLUGS[case_title]}.html">{case_title}</a>' if case_title in _CASE_SLUGS else case_title}</h3><p>{case_text}</p></div>
+      <div class="feature-card reveal"><span class="tag-pill">Founder-led case study</span><h3>{f'<a href="{_CASE_SLUGS[case_title]}.html">{case_title}</a>' if case_title in _CASE_SLUGS else case_title}</h3><p>{case_text}</p></div>
     </div>
-    <p class="fine-print reveal">Founder-led experience. Figures are reported outcomes from the original work; baselines and measurement methods are not published here.</p>
+    <p class="fine-print reveal">Founder-led experience from Jason Smith&rsquo;s previous roles. Reported outcomes, and how they were reported, are on the case study page.</p>
     <div style="margin-top:32px" class="reveal"><a href="{_CASE_SLUGS.get(case_title, 'case-studies')}.html" class="btn btn-ghost">Read the case study {ARROW}</a> <a href="case-studies.html" class="btn btn-ghost">All case studies</a></div>
   </div>
 </section>
@@ -1541,8 +1403,8 @@ SERVICES = [
          approach="A structured TNA that separates capability problems from training problems using evidence, so investment goes where it moves performance, not just where it's easiest to commission a course.",
          deliverables=["A DSAT-compliant TNA report with a clear evidence base", "A prioritised set of recommendations, ranked by impact", "A performance baseline to measure improvement against", "A defensible rationale for what's training and what isn't"],
          outcomes=["Evidence-based recommendations leaders can defend", "A clear baseline and set of priorities", "Confidence that spend is targeted at what actually moves performance"],
-         case_title="NATO &amp; Royal Navy Training Modernisation", case_metric="+17% pass rates",
-         case_text="A DSAT-compliant TNA pinpointed the specific points in the training pipeline where learners were being set up to fail — lifting pass rates by 17% and cutting failures by 20%.",
+         case_title="NATO &amp; Royal Navy Training Modernisation", case_metric="",
+         case_text="A DSAT-compliant TNA pinpointed the specific points in the training pipeline where learners were being set up to fail, so the redesign concentrated on those points rather than the whole programme.",
          faqs=[
              ("How is this different from a standard training needs survey?", "A survey asks people what training they want. A TNA tests whether training is the right answer at all — using evidence, not opinion, and stopping at the point where the real issue turns out to be structural."),
              ("Do you run TNAs outside Defence?", "Yes — the method is sector-agnostic. DSAT compliance is specific to Defence and regulated environments, but the underlying discipline of testing cause before prescribing a solution applies everywhere."),
@@ -1556,8 +1418,8 @@ SERVICES = [
          approach="I design multi-specialisation capability frameworks, map skills to roles, and make the framework genuinely usable for assessment, development and workforce planning — not a document that gets published once and never opened again.",
          deliverables=["A multi-specialisation capability framework document", "A skills-to-role mapping matrix", "Assessment criteria that different assessors can apply consistently", "A workforce planning tool built on the same standards"],
          outcomes=["Consistent, defensible standards across every team", "Skills mapping that supports real workforce planning", "Measurably improved operational readiness"],
-         case_title="Defence Capability Framework Design", case_metric="+20% readiness",
-         case_text="A multi-specialisation framework and skills mapping exercise that gave the organisation a single, trusted view of capability — lifting operational readiness by 20%.",
+         case_title="Defence Capability Framework Design", case_metric="",
+         case_text="A multi-specialisation framework and skills mapping exercise that gave the organisation a single, trusted view of capability, usable for assessment, development and workforce planning.",
          faqs=[
              ("Does this replace our existing job descriptions?", "Not necessarily — it usually sits above them, giving a consistent standard that job descriptions and assessment processes can be checked against, rather than replacing everything from scratch."),
              ("How long does a framework take to design?", "It depends on the number of specialisations and how fragmented current practice is. A focused single-specialisation framework can be weeks; an enterprise multi-specialisation framework is a longer, phased piece of work."),
@@ -1586,8 +1448,8 @@ SERVICES = [
          approach="Leadership and management development grounded in real operational experience and CMI-aligned coaching — building judgement and confidence under pressure, not just theoretical models that don't survive contact with a real team.",
          deliverables=["A leadership development pathway, mapped to your management levels", "A structured coaching programme", "A manager onboarding toolkit that sets expectations explicitly from day one", "Assessment criteria to track leadership capability, not just attendance"],
          outcomes=["Leaders who carry capability through organisational change", "Consistent leadership standards across teams", "Stronger succession planning and retention"],
-         case_title="Housing Leadership &amp; Onboarding Transformation", case_metric="-20% time-to-competence",
-         case_text="Leadership pathways and values-based onboarding for a housing association, cutting time-to-competence by 20% and lifting consistency of leadership standards.",
+         case_title="Housing Leadership &amp; Onboarding Transformation", case_metric="",
+         case_text="Leadership pathways and values-based onboarding for a housing association, designed so new and promoted managers knew what was expected of them from day one.",
          faqs=[
              ("Is this generic leadership training, or tailored to our organisation?", "Tailored. Generic leadership content is exactly what this approach is built to avoid — the pathway and coaching are built around your actual management levels, pressures and expectations."),
              ("Do you coach individuals, or design programmes for cohorts?", "Both, depending on the problem — sometimes it's one-to-one coaching for people stepping into a role now, sometimes it's a structured pathway for a whole management cohort."),
@@ -1601,8 +1463,8 @@ SERVICES = [
          approach="Structured talent and development pathways that grow capability from within — giving people a genuine, visible reason to stay and progress, rather than leaving development to chance or informal mentoring relationships.",
          deliverables=["A talent pathway framework with clear progression criteria", "A structured coaching and mentoring model", "Development milestones tied to real capability, not just tenure", "A retention risk assessment for your current talent pool"],
          outcomes=["A sustainable internal pipeline, not a permanent recruitment problem", "Clear, visible progression for people who might otherwise leave", "Reduced recruitment cost and risk"],
-         case_title="Defence Apprenticeship Success Programme", case_metric="95% completion",
-         case_text="Coaching and structured development pathways drove 95% apprenticeship completion, where drop-off had previously been caused by weak progress management, not learner ability.",
+         case_title="Defence Apprenticeship Success Programme", case_metric="",
+         case_text="Coaching, active progress management and structured pathways, after diagnosis showed drop-off was caused by weak progress management, not learner ability.",
          faqs=[
              ("Is this only relevant to formal talent programmes, or also day-to-day retention?", "Both — the same pathway thinking applies whether you're running a formal talent scheme or just trying to stop good people leaving because they can't see a future."),
              ("How is this different from a standard succession plan?", "A succession plan identifies who might fill a role next. This builds the actual development pathway that gets people ready for it — the two are meant to work together, not substitute for each other."),
@@ -1616,23 +1478,23 @@ SERVICES = [
          approach="I align roles, skills and structure to actual operational demand — so the workforce is ready for what's coming, not just resourced for what's here today.",
          deliverables=["A role architecture review and redesign", "A workforce plan mapping skills to current and future demand", "Structural recommendations for scaling or restructuring cleanly", "A skills-to-mission traceability map"],
          outcomes=["Roles and skills genuinely aligned to demand", "Clearer structure and accountability under change", "Measurably improved readiness"],
-         case_title="Operational Role Architecture Redesign (Op Isotrope)", case_metric="+15% response effectiveness",
-         case_text="Role architecture redesign during a national crisis response, improving response effectiveness by 15% by removing role ambiguity — the biggest drag on effectiveness under crisis pace.",
+         case_title="Operational Role Architecture Redesign (Op Isotrope)", case_metric="",
+         case_text="Role architecture redesign during a national crisis response, removing the role ambiguity that was the biggest drag on effectiveness under crisis pace.",
          faqs=[
              ("Do you only do this for crisis or emergency scenarios?", "No — Op Isotrope is the clearest proof point because the pressure was extreme, but the same discipline applies to routine restructuring, growth, or service redesign."),
              ("How is workforce planning different from a headcount review?", "A headcount review asks how many people. This asks what roles, skills and structure are actually needed to deliver the mission — headcount follows from that, not the other way round."),
              ("Can this be done without disrupting current delivery?", "Yes — the analysis phase runs alongside business as usual, and implementation is typically phased so delivery isn't put at risk while the workforce plan is being rolled out."),
          ]),
     dict(slug="apprenticeships", cat="Leadership &amp; Workforce", num="08", title="Apprenticeships",
-         h1="95% completion, not just enrolment.",
+         h1="Apprenticeships that complete, not just enrol.",
          hero_sub="Structured pathways, coaching and active progress management that keep apprentices on track and funding compliant throughout — building genuine capability, not just certificates.",
          problem="Low completion rates and funding compliance risk are the two problems that consistently undermine apprenticeship programmes — and both usually trace back to the same root cause: programmes that aren't actively managed once someone is enrolled.",
          diagnosis="I look at where drop-off actually happens in your pipeline, and test whether it's driven by learner ability — which is rare — or by weak progress management and support, which is common. I also check whether your funding evidence would survive an ESFA audit today.",
          approach="Structured pathways, coaching and active progress management that keep learners on track and funding compliant throughout — treating completion as an operations problem as much as a teaching one.",
          deliverables=["A progress management system with early-warning triggers", "A coaching and support framework for apprentices at risk of dropping off", "A funding compliance audit trail", "Programme design recommendations to build genuine capability, not just pass an exam"],
-         outcomes=["95% completion rates, proven at scale", "100% funding compliance", "Genuine capability built, not just qualifications gained"],
-         case_title="Defence Apprenticeship Success Programme", case_metric="95% / 100%",
-         case_text="Coaching, progress management and structured pathways delivered 95% completion and 100% funding compliance — proof that completion is an operations problem as much as a teaching one.",
+         outcomes=["Higher completion, with risks spotted early", "Funding compliance evidenced throughout", "Genuine capability built, not just qualifications gained"],
+         case_title="Defence Apprenticeship Success Programme", case_metric="",
+         case_text="Coaching, progress management and structured pathways, built on the finding that completion is an operations problem as much as a teaching one.",
          faqs=[
              ("Is this specific to Defence apprenticeships, or does it apply more broadly?", "The method applies to any apprenticeship programme — Defence, healthcare, housing or elsewhere. Funding rules differ by sector; the underlying discipline of active progress management doesn't."),
              ("What causes most apprenticeship drop-off, in your experience?", "Weak progress management and support, far more often than learner ability. People disengage when they lose sight of where they are in the programme and nobody notices early enough to intervene."),
@@ -1646,8 +1508,8 @@ SERVICES = [
          approach="Digital and blended learning designed for outcomes and adoption from the outset — so modernisation improves performance, not just the format the content happens to be delivered in.",
          deliverables=["A digital learning design aligned to real behaviour-change goals", "An adoption and rollout plan, including manager reinforcement", "A measurement framework tracking behaviour change, not just completion", "Recommendations on blended vs. fully digital delivery, by content type"],
          outcomes=["Higher engagement and completion rates", "Measurable performance gains, not just activity metrics", "Sustainable, adopted change rather than a launch-week spike"],
-         case_title="NATO &amp; Royal Navy Training Modernisation", case_metric="-20% failure rate",
-         case_text="Blended and e-learning interventions, designed around where learners were actually failing, reduced failure rates by 20% on operational training.",
+         case_title="NATO &amp; Royal Navy Training Modernisation", case_metric="",
+         case_text="Blended and e-learning interventions on operational training, designed around where learners were actually failing.",
          faqs=[
              ("Do you build the digital content yourselves, or design the strategy?", "The focus is diagnosis and design — working out what should be digital, why, and how it will actually be adopted — then working with your existing content or development resource, or recommending where to source it."),
              ("How do you measure whether digital learning has actually changed behaviour?", "Against the operational metric the learning was meant to influence — error rates, compliance, performance data — not just completion percentages, which measure activity, not impact."),
@@ -1661,8 +1523,8 @@ SERVICES = [
          approach="LMS optimisation — dashboards, pathways and information management, including Totara — that turns your existing platform into reliable capability intelligence rather than recommending a costly re-platform as the default fix.",
          deliverables=["An LMS configuration and information architecture review", "Dashboard design for leadership-level reporting", "An information management framework for ongoing data reliability", "Pathway redesign aligned to real learner and compliance needs"],
          outcomes=["Trustworthy compliance reporting leaders can act on", "Clear dashboards and learning pathways", "Materially reduced compliance gaps"],
-         case_title="Healthcare Learning Transformation", case_metric="-18% compliance gaps",
-         case_text="Totara dashboards and structured pathways across 15,000 colleagues cut compliance gaps by 18%, giving leaders visibility they could finally trust.",
+         case_title="Healthcare Learning Transformation", case_metric="",
+         case_text="Totara dashboards and structured pathways across 15,000 colleagues, giving leaders compliance data they could finally trust.",
          faqs=[
              ("Do we need to replace our LMS to fix this?", "Usually not. Most of the engagements behind this page's results were configuration, dashboards and information management on an existing platform — not a re-platform."),
              ("Do you work with platforms other than Totara?", "Yes — Totara features prominently in the case studies here, but the diagnostic approach to dashboards, pathways and information management applies to most modern LMS platforms."),
@@ -1794,7 +1656,7 @@ def case_study_page(cs):
       <p>{cs["context"]}</p>
       <h2>3. The approach</h2>
       <ul class="tick-list">{li(cs["approach"])}</ul>
-      <h2>4. What we found</h2>
+      <h2>4. What was found</h2>
       <p>{ex["found"]}</p>
       <h2>5. What changed</h2>
       <ul class="tick-list">{li(cs["deliverables"])}</ul>
@@ -1954,9 +1816,9 @@ CASE_BASIS = {
     "founder": ("Founder-led experience", "Work led or delivered by Prelude&rsquo;s founder, Jason Smith, including in previous roles and as part of wider teams."),
     "anonymised": ("Anonymised Prelude example", "Recent Prelude consultancy work, shared without client names, sector detail or commercial figures."),
 }
-CASE_EVIDENCE_NOTE = ("Figures are reported outcomes from the original work. The baseline, measurement method and period "
-                      "behind each figure are not published here, and results depend on context; they are not a prediction "
-                      "of results elsewhere.")
+CASE_EVIDENCE_NOTE = ("Figures were measured and reported by the organisation at the time of the work. Prelude does not hold "
+                      "the underlying data, and the baseline, method and period are not published here. Results depend on "
+                      "context and are not a prediction of results elsewhere.")
 
 # ================================================================== GLOSSARY
 # Each entry: (slug, term, definition, link_href, link_label)
@@ -2124,7 +1986,7 @@ INSIGHTS_FULL = [
                "A close third is treating every request as equally urgent, rather than prioritising by evidenced impact on performance."]),
              ("What a defensible TNA looks like",
               ["The NATO and Royal Navy Training Modernisation case study is a clear example: a DSAT-compliant TNA pinpointed the specific points in the training pipeline where learners were being set up to fail, rather than recommending a wholesale redesign.",
-               "That precision — targeting the few points that actually move performance, rather than redesigning everything — lifted pass rates by 17% and cut failures by 20%, with far less wasted effort than a blanket response would have taken."]),
+               "That precision — targeting the few points that actually move performance, rather than redesigning everything — improved results with far less wasted effort than a blanket response would have taken."]),
          ],
          faqs=[
              ("How long should a proper TNA take?", "It depends on scope, but a focused TNA against a specific performance problem is typically weeks, not months. Scope creep — trying to analyse everything at once — is usually what turns a TNA into a multi-month project."),
@@ -2154,7 +2016,7 @@ INSIGHTS_FULL = [
               ["The clearest test of whether a framework is working: can two different managers assess the same person against the same standard and reach the same conclusion? If the answer varies by manager, the framework isn't providing the consistency it was built for, however well-written the document is.",
                "This is exactly the risk the Defence Capability Framework Design case study addressed — before the framework, 'ready' meant different things in different teams, which is an operational risk, not just an administrative inconvenience."]),
              ("Proof it can work",
-              ["That multi-specialisation framework and skills mapping exercise lifted operational readiness by 20% — not because the document itself changed anything, but because it was designed from the outset to be usable for assessment, development and workforce planning, and was actually adopted as a result."]),
+              ["That multi-specialisation framework and skills mapping exercise worked not because the document itself changed anything, but because it was designed from the outset to be usable for assessment, development and workforce planning, and was actually adopted as a result."]),
          ],
          faqs=[
              ("How is a capability framework different from a set of job descriptions?", "Job descriptions describe a role. A capability framework defines the standard of competence expected — usable for assessing anyone against that standard, regardless of exact job title, and for planning the workforce against future needs."),
@@ -2181,12 +2043,12 @@ INSIGHTS_FULL = [
               ["A recurring failure pattern: technically excellent people are promoted into leadership roles on the strength of their technical ability, then given little real support for the very different demands of leading a team, especially under pressure.",
                "The result is inconsistent leadership — not because the person lacks capability, but because nobody built the specific judgement and confidence the new role actually requires."]),
              ("Building leaders before the pressure arrives",
-              ["The most effective interventions set expectations explicitly from day one, rather than leaving new leaders to work out what's expected of them through trial and error while already carrying a team. The Housing Leadership & Onboarding Transformation case study is a direct example — values-based onboarding and leadership pathways cut time-to-competence by 20%, precisely because expectations were designed in rather than left to chance."]),
+              ["The most effective interventions set expectations explicitly from day one, rather than leaving new leaders to work out what's expected of them through trial and error while already carrying a team. The Housing Leadership & Onboarding Transformation case study is a direct example — values-based onboarding and leadership pathways worked precisely because expectations were designed in rather than left to chance."]),
          ],
          faqs=[
              ("Is this only relevant to organisations with genuinely high-stakes operations?", "The discipline transfers even where the stakes are lower — any organisation promoting technical experts into leadership roles without deliberate support faces the same underlying gap, just with a smaller blast radius when it goes wrong."),
              ("Can leadership judgement really be taught, or is it innate?", "It can be built deliberately, through realistic practice, coaching and honest feedback — but it rarely develops from classroom instruction alone, which is why the approach here is grounded in real operational experience rather than theoretical models."),
-             ("How long does it take to see a difference in leadership consistency?", "It depends on the starting point, but the housing sector case study saw a measurable 20% reduction in time-to-competence, which reflects how quickly deliberate onboarding and pathway design can change outcomes versus leaving development to chance."),
+             ("How long does it take to see a difference in leadership consistency?", "It depends on the starting point. In the housing sector case study, deliberate onboarding and pathway design changed outcomes faster than leaving development to chance had done."),
          ],
          related_slug="leadership-development", related_title="Leadership Development",
          related_reading=[
@@ -2208,7 +2070,7 @@ INSIGHTS_FULL = [
               ["In public sector contexts, workforce capability gaps surface as service failures, scrutiny committee findings, or reputational risk — not just as internal inefficiency. Treating workforce planning as a risk management discipline, not just an HR process, tends to get it the attention and resource it needs."]),
              ("The Op Isotrope example",
               ["The Operational Role Architecture Redesign delivered during a national crisis response demonstrates the point under the most extreme version of budget and time pressure imaginable: role ambiguity, not individual skill or lack of resource, was the biggest drag on effectiveness.",
-               "Clarity of role — who does what, with what authority — improved response effectiveness by 15%, without requiring additional headcount. That's the workforce planning discipline public sector organisations need even outside a crisis."]),
+               "Clarity of role — who does what, with what authority — improved response effectiveness without requiring additional headcount. That's the workforce planning discipline public sector organisations need even outside a crisis."]),
          ],
          faqs=[
              ("Can workforce development recommendations survive procurement and scrutiny processes?", "Yes, provided they're evidence-based from the outset — recommendations built on defensible analysis, rather than assertion, are designed to withstand scrutiny committee and audit questioning."),
@@ -2233,7 +2095,7 @@ INSIGHTS_FULL = [
                "The question worth asking first is always: is this a platform problem, or an information management problem sitting on top of a perfectly adequate platform?"]),
              ("Dashboards leaders actually trust",
               ["An LMS produces data by default, but data isn't the same as trustworthy reporting. Leaders need to be confident enough in the numbers to put them in a board report unchecked — and that confidence comes from deliberate dashboard design and information governance, not from the platform's out-of-the-box reports.",
-               "The Healthcare Learning Transformation case study cut compliance gaps by 18% largely because dashboards were redesigned around what leaders actually needed to see and trust, not around what the platform generated by default."]),
+               "In the Healthcare Learning Transformation case study, compliance gaps closed largely because dashboards were redesigned around what leaders actually needed to see and trust, not around what the platform generated by default."]),
              ("Adoption is the real project",
               ["Whether you configure an existing platform or genuinely need a new one, the harder and more important project is adoption: making sure managers, learners and administrators actually use the system as intended, week after week, not just in the launch period.",
                "Digital learning that stalls after launch almost always stalls for this reason — the technology worked, but nobody designed for what happens in week two."]),
@@ -2250,7 +2112,7 @@ INSIGHTS_FULL = [
              ("Totara vs Off-the-Shelf LMS Platforms: What to Consider", "totara-vs-off-the-shelf-lms"),
          ]),
     dict(slug="apprenticeship-success-strategies", category="Talent", title="Apprenticeship Success Strategies",
-         h1="What Drives 95% Completion and 100% Funding Compliance",
+         h1="What Drives Apprenticeship Completion and Funding Compliance",
          hero_sub="Apprenticeship completion is largely an operations and progress-management problem, not a teaching quality problem — and treating it that way is what actually moves the numbers.",
          sections=[
              ("Completion is an operations problem",
@@ -2260,7 +2122,7 @@ INSIGHTS_FULL = [
               ["Apprentices rarely drop out at a single dramatic moment. More often, disengagement builds gradually — missed milestones that nobody flagged, unclear next steps, or a loss of visible progress — until leaving feels like the only option.",
                "Identifying the specific points in your own pipeline where this pattern shows up is more useful than assuming it's evenly distributed across the whole programme."]),
              ("Progress management vs teaching quality",
-              ["The Defence Apprenticeship Success Programme achieved 95% completion and 100% funding compliance through coaching, active progress management and structured development pathways — not through a change in what was being taught.",
+              ["The Defence Apprenticeship Success Programme improved completion and funding compliance through coaching, active progress management and structured development pathways, not through a change in what was being taught.",
                "Early-warning triggers, regular check-ins and visible milestones give a programme the chance to intervene before disengagement becomes dropout."]),
              ("Funding compliance as a byproduct, not a separate exercise",
               ["Funding compliance is often treated as a parallel administrative exercise, bolted onto delivery. In practice, the same progress-management discipline that drives completion also produces the audit trail that protects funding — because you're tracking exactly the evidence a funding audit will ask for anyway.",
@@ -2352,7 +2214,7 @@ INSIGHTS_FULL = [
              ("Presenting findings so leaders act on them",
               ["A TNA that never gets acted on has usually failed at the reporting stage, not the analysis stage — buried in methodology when the board needed a decision, or silent on cost of inaction when that's exactly what would have moved budget. Presenting findings well is a distinct skill from running the analysis, and it's covered in full in the dedicated article."]),
              ("What a defensible TNA looks like in practice",
-              ["The NATO and Royal Navy Training Modernisation case study is the clearest example on this site: a DSAT-compliant TNA pinpointed the specific points in the training pipeline where learners were being set up to fail, rather than recommending a wholesale redesign — lifting pass rates by 17% and cutting failures by 20%.",
+              ["The NATO and Royal Navy Training Modernisation case study is the clearest example on this site: a DSAT-compliant TNA pinpointed the specific points in the training pipeline where learners were being set up to fail, rather than recommending a wholesale redesign. Pass rates rose and failures fell as a result.",
                "The Senior Information Officer Rapid TNA case study makes the companion point: run properly, as a decision framework rather than a process to endure, a TNA accelerates good decisions instead of delaying them. The constraint in that engagement wasn't methodology — it was unclear requirements, resolved quickly once the right questions were asked."]),
          ],
          faqs=[
@@ -2630,14 +2492,14 @@ INSIGHTS_FULL = [
              ("Succession planning for critical roles",
               ["Waiting for a vacancy to start thinking about who's ready to fill it turns succession into crisis management. Identifying critical roles — not just senior ones — and building the pipeline before it's needed is a distinct discipline from general leadership development, covered in the dedicated article."]),
              ("What this looks like in practice",
-              ["The Housing Leadership &amp; Onboarding Transformation case study is a direct example of the whole cluster working together: values-based onboarding and defined leadership pathways cut time-to-competence by 20%, precisely because expectations were designed in from day one rather than left to chance.",
+              ["The Housing Leadership &amp; Onboarding Transformation case study is a direct example of the whole cluster working together: values-based onboarding and defined leadership pathways shortened time-to-competence, precisely because expectations were designed in from day one rather than left to chance.",
                "None of that required waiting for a crisis to reveal the gap — it was built before the pressure arrived, which is the point of this entire cluster."]),
          ],
          faqs=[
              ("Is this only relevant to organisations with genuinely high-stakes operations?", "The discipline transfers even where the stakes are lower — any organisation promoting technical experts into leadership roles without deliberate support faces the same underlying gap, just with a smaller blast radius when it goes wrong."),
              ("Can leadership judgement really be taught, or is it innate?", "It can be built deliberately through realistic practice, coaching and honest feedback — but it rarely develops from classroom instruction alone."),
              ("Where should an organisation start if it wants to build this deliberately?", "With whichever gap is most exposed right now — a promotion decision, a new-manager onboarding process, or an undefined succession pipeline for a critical role — the three dedicated articles below cover each in depth."),
-             ("How long does it take to see a difference in leadership consistency?", "It depends on the starting point, but the Housing case study saw a measurable 20% reduction in time-to-competence, which reflects how quickly deliberate onboarding and pathway design can change outcomes versus leaving development to chance."),
+             ("How long does it take to see a difference in leadership consistency?", "It depends on the starting point. In the Housing case study, deliberate onboarding and pathway design changed outcomes faster than leaving development to chance had done."),
          ],
          related_slug="leadership-development", related_title="Leadership Development service",
          related_reading=[
@@ -2683,7 +2545,7 @@ INSIGHTS_FULL = [
              ("What actually needs to be explicit from day one",
               ["Explicit expectations on decision-making authority, communication norms, and what support is available when judgement calls get hard remove the guesswork a new leader would otherwise have to resolve alone, often at the exact moment they can least afford to get it wrong."]),
              ("Building a repeatable onboarding pathway",
-              ["The Housing Leadership &amp; Onboarding Transformation case study is a direct example: a defined, values-based onboarding pathway for new leaders cut time-to-competence by 20%, because expectations were designed in rather than left for each new manager to discover independently."]),
+              ["The Housing Leadership &amp; Onboarding Transformation case study is a direct example: a defined, values-based onboarding pathway for new leaders shortened time-to-competence, because expectations were designed in rather than left for each new manager to discover independently."]),
          ],
          faqs=[
              ("Does this apply equally to internal promotions and external hires?", "Both need it, though internal promotions often get it skipped entirely on the assumption that familiarity with the organisation is enough — it isn't, for the leadership-specific expectations covered here."),
@@ -2739,7 +2601,7 @@ INSIGHTS_FULL = [
              ("Multi-specialisation capability frameworks",
               ["Organisations with multiple specialisations or role types often end up with inconsistent, locally-invented standards, because nobody owns a framework spanning all of them. Multi-specialisation design deliberately maps common ground across roles while preserving genuine differences — the dedicated article covers how."]),
              ("What this looks like in practice",
-              ["The Defence Capability Framework Design case study is the clearest evidence on this site: before the framework, 'ready' meant different things in different teams — an operational risk, not just an administrative inconvenience. The multi-specialisation framework and skills mapping exercise that followed lifted operational readiness by 20%, because it was designed from the outset to be usable for assessment, development and workforce planning, and was actually adopted as a result."]),
+              ["The Defence Capability Framework Design case study is the clearest evidence on this site: before the framework, 'ready' meant different things in different teams — an operational risk, not just an administrative inconvenience. The multi-specialisation framework and skills mapping exercise that followed improved operational readiness because it was designed from the outset to be usable for assessment, development and workforce planning, and was actually adopted as a result."]),
          ],
          faqs=[
              ("Is capability development just a rebrand of training and development?", "No — it's a broader discipline that includes training as one possible input, alongside governance, structure, process and evidence. Where those other layers are missing, more training doesn't build capability."),
@@ -2842,7 +2704,7 @@ INSIGHTS_FULL = [
              ("Building consistency without flattening real distinctions",
               ["The design challenge is making cross-specialisation comparison possible — so workforce planning and assessment mean the same thing everywhere — without erasing what's genuinely different about each specialisation's actual requirements. That balance is the entire point of the exercise; either extreme is easier and less useful."]),
              ("Proof it works",
-              ["The Defence Capability Framework Design case study is direct evidence: before the framework, 'ready' meant different things in different teams. The multi-specialisation framework and skills mapping exercise that followed lifted operational readiness by 20%, and made cross-specialisation workforce planning possible for the first time."]),
+              ["The Defence Capability Framework Design case study is direct evidence: before the framework, 'ready' meant different things in different teams. The multi-specialisation framework and skills mapping exercise that followed improved operational readiness and made cross-specialisation workforce planning possible for the first time."]),
          ],
          faqs=[
              ("How many specialisations justify a multi-specialisation framework?", "There's no fixed threshold — the trigger is inconsistent local standards across roles that should be comparable, which can show up with as few as two or three specialisations."),
@@ -2871,7 +2733,7 @@ INSIGHTS_FULL = [
              ("What happens after week one",
               ["Week-one access numbers are the most misleading metric in digital learning, because they measure curiosity, not adoption. What happens in the weeks after is what actually determines whether the investment pays off — the dedicated article covers the levers that drive or kill sustained use."]),
              ("What this looks like in practice",
-              ["The Healthcare Learning Transformation case study demonstrates the underlying discipline: cutting compliance gaps by 18% came largely from configuration, dashboard design and information management on an existing platform — not from the platform or format itself, but from designing deliberately for how people would actually use it, week after week."]),
+              ["The Healthcare Learning Transformation case study demonstrates the underlying discipline: closing compliance gaps came largely from configuration, dashboard design and information management on an existing platform — not from the platform or format itself, but from designing deliberately for how people would actually use it, week after week."]),
          ],
          faqs=[
              ("Is fully digital always cheaper than blended delivery?", "Usually cheaper to deliver, but cost of delivery isn't the right comparison if the fully digital version doesn't achieve the required behaviour change — cheaper delivery of the wrong format isn't a saving."),
@@ -3113,7 +2975,7 @@ INSIGHTS_FULL = [
              ("What good evaluation actually requires",
               ["Good evaluation requires a baseline captured before the intervention, a defined measure of the outcome that actually matters, and a realistic timeframe for that outcome to show up. Skip any of the three, and the resulting evaluation — however sophisticated the model behind it — is not defensible."]),
              ("What this looks like in practice",
-              ["The Healthcare Learning Transformation case study is direct evidence of evaluation done well: cutting compliance gaps by 18% was measurable precisely because dashboards and reporting were designed around the outcome that mattered to leaders, not around whatever the platform generated by default."]),
+              ["The Healthcare Learning Transformation case study is direct evidence of evaluation done well: the reduction in compliance gaps was measurable precisely because dashboards and reporting were designed around the outcome that mattered to leaders, not around whatever the platform generated by default."]),
          ],
          faqs=[
              ("Is completion data worth tracking at all?", "Yes, as an operational delivery metric confirming the intended audience was reached — but it shouldn't be reported as evidence that the intervention worked."),
@@ -3244,7 +3106,7 @@ INSIGHTS_FULL = [
              ("From training to readiness — measuring what matters",
               ["Diagnosis is only half the discipline; the other half is measuring the right outcome afterwards. The From Training to Readiness article covers why completion rates are the wrong headline metric, and what readiness actually looks like when it's measured properly."]),
              ("What this looks like in practice",
-              ["The Operational Role Architecture Redesign (Op Isotrope) case study is direct evidence of performance consulting under the most extreme time pressure imaginable: role ambiguity, not individual skill or resource shortage, was the real drag on effectiveness. Clarifying roles — not training anyone further — improved response effectiveness by 15%, without additional headcount."]),
+              ["The Operational Role Architecture Redesign (Op Isotrope) case study is direct evidence of performance consulting under the most extreme time pressure imaginable: role ambiguity, not individual skill or resource shortage, was the real drag on effectiveness. Clarifying roles, not training anyone further, improved response effectiveness without additional headcount."]),
          ],
          faqs=[
              ("Is performance consulting the same as a Training Needs Analysis?", "Related but broader — a TNA specifically tests whether a gap is a training gap. Performance consulting is the wider diagnostic discipline that a TNA sits inside, applicable even where training was never seriously being considered as the answer."),
@@ -3321,7 +3183,7 @@ INSIGHTS_FULL = [
              ("Headcount thinking vs capability thinking",
               ["Under budget pressure, the public sector default is often to think in headcount — how many posts can be afforded — rather than in capability requirement and structure. Headcount thinking treats every role as interchangeable, which breaks down precisely when a genuine performance problem needs specific capability, not just bodies."]),
              ("What this looks like in practice",
-              ["The Operational Role Architecture Redesign (Op Isotrope), delivered during a national crisis response, is the clearest example: role ambiguity, not headcount or individual skill, was the real drag on effectiveness. Clarity of role improved response effectiveness by 15% without any additional resource — exactly the kind of finding that needs to survive scrutiny, and did."]),
+              ["The Operational Role Architecture Redesign (Op Isotrope), delivered during a national crisis response, is the clearest example: role ambiguity, not headcount or individual skill, was the real drag on effectiveness. Clarity of role improved response effectiveness without any additional resource: exactly the kind of finding that needs to survive scrutiny."]),
          ],
          faqs=[
              ("Does public sector performance consulting take longer because of scrutiny requirements?", "The diagnosis itself doesn't need to take longer, but the evidence base needs to be built to survive scrutiny from the outset, rather than assembled retroactively if challenged."),
@@ -3454,9 +3316,9 @@ INSIGHTS_FULL = [
              ("Skills frameworks for workforce planning and succession",
               ["A skills framework only earns its keep once it's actually used for workforce planning and succession — identifying gaps against future need, not just assessing current performance. The dedicated article covers how to make that connection real rather than aspirational."]),
              ("Where apprenticeships fit in",
-              ["Apprenticeship programmes are one of the clearest places a skills framework proves its worth — giving structure to what 'progressing' actually means and evidence for funding compliance. The Apprenticeship Success Strategies article covers what drove 95% completion and 100% funding compliance on one such programme."]),
+              ["Apprenticeship programmes are one of the clearest places a skills framework proves its worth — giving structure to what 'progressing' actually means and evidence for funding compliance. The Apprenticeship Success Strategies article covers what drove completion and funding compliance on one such programme."]),
              ("What this looks like in practice",
-              ["The Defence Apprenticeship Success Programme is direct evidence: coaching, active progress management and structured development pathways — underpinned by clear skills standards — achieved 95% completion and 100% funding compliance, not through a change in course content but through giving progression a clear, trackable structure."]),
+              ["The Defence Apprenticeship Success Programme is direct evidence: coaching, active progress management and structured development pathways — underpinned by clear skills standards — improved completion and funding compliance, not through a change in course content but through giving progression a clear, trackable structure."]),
          ],
          faqs=[
              ("Do we need both a skills framework and a capability framework?", "Often, yes — they serve different purposes and work well together, with the skills framework providing the operational detail underneath the capability framework's broader standard."),
@@ -3562,7 +3424,7 @@ INSIGHTS_FULL = [
              ("Adoption is the real project, not the platform",
               ["Whether you configure an existing platform or genuinely need a new one, the harder and more important project is adoption — making sure managers, learners and administrators actually use the system as intended, week after week, not just during launch."]),
              ("What this looks like in practice",
-              ["The Healthcare Learning Transformation case study cut compliance gaps by 18% largely through configuration, dashboard redesign and information management on an existing Totara platform — proof that most LMS value comes from how a platform is used, not which platform is chosen."]),
+              ["In the Healthcare Learning Transformation case study, compliance gaps closed largely through configuration, dashboard redesign and information management on an existing Totara platform — proof that most LMS value comes from how a platform is used, not which platform is chosen."]),
          ],
          faqs=[
              ("How do we know if our problem is the platform or the configuration?", "Test whether current reporting is trustworthy and whether pathways match how people actually work — if not, that's usually a configuration and information management gap, fixable without replacing the platform."),
@@ -3639,7 +3501,7 @@ INSIGHTS_FULL = [
              ("The credibility test",
               ["A dashboard earns credibility when a leader can trace a headline number back to its underlying source and method without needing to ask someone to check it first. Dashboards that require regular caveats or manual verification before use haven't yet earned that trust, however sophisticated they look."]),
              ("What this looks like in practice",
-              ["The Healthcare Learning Transformation case study cut compliance gaps by 18% largely because dashboards were redesigned around what leaders actually needed to see and trust — not around what the platform generated by default. That redesign, not a platform change, was where the value came from."]),
+              ["In the Healthcare Learning Transformation case study, compliance gaps closed largely because dashboards were redesigned around what leaders actually needed to see and trust — not around what the platform generated by default. That redesign, not a platform change, was where the value came from."]),
          ],
          faqs=[
              ("How many metrics should a leadership dashboard show?", "As few as answer the specific decision it's meant to support — a dashboard trying to show everything tends to be trusted less than one that shows the right few things clearly."),
@@ -3668,7 +3530,7 @@ INSIGHTS_FULL = [
              ("Public sector constraints on transformation",
               ["Public sector transformation carries constraints — budget scrutiny, political visibility, defensibility to auditors — that shape how both change management and capability building need to be applied. The Public Sector Workforce Development article covers what's genuinely different."]),
              ("What this looks like in practice",
-              ["The Operational Role Architecture Redesign (Op Isotrope), delivered during a national crisis response, is direct evidence: role ambiguity, not skill or headcount, was the real drag on effectiveness. Clarifying roles improved response effectiveness by 15%, without additional resource — exactly the kind of capability-building work that has to sit alongside change management, not be replaced by it."]),
+              ["The Operational Role Architecture Redesign (Op Isotrope), delivered during a national crisis response, is direct evidence: role ambiguity, not skill or headcount, was the real drag on effectiveness. Clarifying roles improved response effectiveness without additional resource — exactly the kind of capability-building work that has to sit alongside change management, not be replaced by it."]),
          ],
          faqs=[
              ("Is change management unnecessary if capability building is done well?", "No — both are needed. Capability building without change management risks a technically capable workforce that never adopts the new way of working."),
@@ -3695,7 +3557,7 @@ INSIGHTS_FULL = [
              ("What good role clarity delivers operationally",
               ["Clear role architecture doesn't add capability that wasn't already there — it removes the friction and hesitation caused by not knowing who's authorised to act. That's often enough, on its own, to materially improve effectiveness without any additional headcount or skill."]),
              ("Proof it works",
-              ["The Operational Role Architecture Redesign (Op Isotrope), delivered during a national crisis response, is direct evidence: role ambiguity, not individual skill or resource shortage, was the biggest drag on effectiveness. Clarifying roles improved response effectiveness by 15%, without requiring additional headcount."]),
+              ["The Operational Role Architecture Redesign (Op Isotrope), delivered during a national crisis response, is direct evidence: role ambiguity, not individual skill or resource shortage, was the biggest drag on effectiveness. Clarifying roles improved response effectiveness without requiring additional headcount."]),
          ],
          faqs=[
              ("How fast can a role architecture redesign realistically happen under crisis conditions?", "The Op Isotrope programme demonstrated meaningful improvement is achievable quickly when the redesign is tightly scoped to the highest-stakes decisions first, rather than attempting comprehensive coverage."),
@@ -3957,7 +3819,7 @@ insights_body = f'''<header class="page-hero">
       <article class="insight-card reveal"><div class="ic-top"><img src="assets/icons/leadership.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Leadership</span><h3>Leadership in High-Pressure Environments</h3><p>What the military teaches about leaders who hold up when it counts.</p><a class="read" href="leadership-in-high-pressure-environments.html">Read the article &rarr;</a></div></article>
       <article class="insight-card reveal" data-d="1"><div class="ic-top"><img src="assets/icons/sector-public.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Public Sector</span><h3>Public Sector Workforce Development</h3><p>Building capability and pipelines under real budget pressure.</p><a class="read" href="public-sector-workforce-development.html">Read the article &rarr;</a></div></article>
       <article class="insight-card reveal" data-d="2"><div class="ic-top"><img src="assets/icons/development.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Technology</span><h3>Learning Technology Lessons</h3><p>Why so many LMS investments underdeliver — and how to get value.</p><a class="read" href="learning-technology-lessons.html">Read the article &rarr;</a></div></article>
-      <article class="insight-card reveal"><div class="ic-top"><img src="assets/icons/systems.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Talent</span><h3>Apprenticeship Success Strategies</h3><p>What drives 95% completion and 100% funding compliance.</p><a class="read" href="apprenticeship-success-strategies.html">Read the article &rarr;</a></div></article>
+      <article class="insight-card reveal"><div class="ic-top"><img src="assets/icons/systems.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Talent</span><h3>Apprenticeship Success Strategies</h3><p>What drives completion and funding compliance.</p><a class="read" href="apprenticeship-success-strategies.html">Read the article &rarr;</a></div></article>
       <article class="insight-card reveal" data-d="1"><div class="ic-top"><img src="assets/icons/sector-defence.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Defence</span><h3>Defence Training Governance</h3><p>Making governance audit-ready and useful — not just for inspectors.</p><a class="read" href="defence-training-governance.html">Read the article &rarr;</a></div></article>
       <article class="insight-card reveal" data-d="2"><div class="ic-top"><img src="assets/icons/readiness.svg" alt=""></div><div class="ic-body"><span class="ic-cat">Readiness</span><h3>From Training to Readiness</h3><p>Connecting learning investment to the outcomes leaders are measured on.</p><a class="read" href="from-training-to-readiness.html">Read the article &rarr;</a></div></article>
     </div>
@@ -4471,56 +4333,6 @@ def about_strip():
 </section>
 '''
 
-# ================================================================== HOME (redefined)
-home_body = f'''<header class="hero-2026" id="top">
-  <div class="wrap">
-    <div class="eyebrow reveal in">Setting the conditions for success</div>
-    <h1 class="reveal in" data-d="1">Training isn&rsquo;t always the answer.</h1>
-    <p class="hero-lead reveal in" data-d="2">Neither is a new system, process or piece of technology.</p>
-    <p class="hero-sub reveal in" data-d="2">Start with the problem. Understand what is getting in the way. Then decide what needs to change. Prelude works across capability consulting, business analysis &amp; improvement and workforce development.</p>
-    <div class="hero-actions reveal in" data-d="3">
-      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
-      <a href="services.html" class="btn btn-ghost" data-event="service_cta_click">Explore services</a>
-    </div>
-  </div>
-</header>
-
-{pillars_section("What does Prelude actually do?", "Find out what needs to change. Then help change it.")}
-<section class="sec sec-tint">
-  <div class="wrap approach-teaser">
-    <div class="reveal">
-{section_head("The approach", "One method across all three areas.", "The Prelude Performance &amp; Capability Cycle is the thread that runs through every engagement, and through the book.")}      <a class="btn btn-ghost" href="approach/">See how the approach works {ARROW}</a>
-    </div>
-    <div class="reveal" data-d="1">{cycle_svg()}</div>
-  </div>
-</section>
-
-{anon_examples()}
-{book_band()}
-{about_strip()}
-<section class="sec">
-  <div class="wrap narrow">
-    <figure class="quote-2026 reveal">
-      <blockquote><p>&ldquo;In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly.&rdquo;</p></blockquote>
-      <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
-    </figure>
-  </div>
-</section>
-
-<section class="sec">
-  <div class="wrap">
-{section_head("Insights", "Practical thinking on performance problems.")}    <ul class="link-list reveal">
-      <li><a href="is-your-performance-problem-really-a-training-problem.html">Is your performance problem really a training problem?</a></li>
-      <li><a href="training-needs-analysis-complete-guide.html">Training Needs Analysis: the complete guide</a></li>
-      <li><a href="common-tna-mistakes.html">Common TNA mistakes, and how to avoid them</a></li>
-      <li><a href="performance-consulting-complete-guide.html">Performance consulting: a practical guide</a></li>
-    </ul>
-    <a class="text-link reveal" href="insights.html">All insights {ARROW}</a>
-  </div>
-</section>
-
-{cta("Have a problem but not sure what the solution is?", "Describe it in a few lines. We&rsquo;ll work out what is actually getting in the way, and whether Prelude can help.", secondary=("Explore services", "services.html"))}'''
-
 # ================================================================== PILLAR PAGES
 def pillar_page_body(eyebrow, h1, lead, sections, links_title, links, cta_title, cta_text):
     secs = ""
@@ -4993,9 +4805,9 @@ def _case_outcome(cs):
             return ("Reported outcome", o)
     return ("Outcome", cs["outcome"][0])
 
-def case_card(cs, d=0):
+def case_card(cs, d=0, figure=False):
     ex = CASE_EXTRAS[cs["slug"]]
-    label, out = _case_outcome(cs)
+    label, out = _case_outcome(cs) if figure else ("Focus", ex["headline"])
     return f'''      <article class="cs-card reveal" data-d="{d}">
         <p class="cs-meta"><span class="cs-badge">{CASE_BASIS[ex["basis"]][0]}</span><span>{cs["sector"]}</span></p>
         <h3><a href="{cs["slug"]}.html">{cs["title"]}</a></h3>
@@ -5023,7 +4835,7 @@ def applied_section(pillar, tint=False):
         cards += "".join(anon_card(ex, 1 + i) for i, ex in enumerate(ANON_EXAMPLES[:2]))
     return f'''<section class="sec{' sec-tint' if tint else ''}">
   <div class="wrap">
-{section_head("Case studies", "See how we&rsquo;ve applied this approach.")}    <div class="cs-grid">
+{section_head("Case studies", "Where this approach has been applied.")}    <div class="cs-grid">
 {cards}    </div>
     <a class="text-link reveal" href="case-studies.html">All case studies {ARROW}</a>
   </div>
@@ -5045,7 +4857,7 @@ def cs_pillar_section(key, tint):
     intro = {"capability": "Training Needs Analysis, DSAT, capability frameworks and readiness.",
              "business": "Operating models, roles and structure, and the analysis that comes before any solution.",
              "workforce": "Learning, leadership, onboarding and workforce programmes that had to change performance."}[key]
-    cards = "".join(case_card(cs, i % 3) for i, cs in enumerate(cases_for(key)))
+    cards = "".join(case_card(cs, i % 3, figure=True) for i, cs in enumerate(cases_for(key)))
     if key == "business":
         cards += "".join(anon_card(ex, (len(cases_for(key)) + i) % 3) for i, ex in enumerate(ANON_EXAMPLES))
     anchor = href.strip("/")
@@ -5420,7 +5232,7 @@ home_body = f'''<header class="hero-2026" id="top">
 
 <section class="sec">
   <div class="wrap">
-{section_head("Selected case studies", "See how we&rsquo;ve applied this approach.", "From enterprise Defence programmes to an owner-led service business.")}    <div class="cs-grid">
+{section_head("Selected case studies", "Where this approach has been applied.", "From enterprise Defence programmes to an owner-led service business.")}    <div class="cs-grid">
 {_home_cases}    </div>
     <a class="btn btn-ghost reveal" href="case-studies.html" style="margin-top:36px">View case studies {ARROW}</a>
   </div>

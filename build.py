@@ -50,7 +50,7 @@ BOOK_MENU = [
 # 2026-10 remediation IA: Home / About / Services (dropdown) / Case Studies / Insights (dropdown) / Contact.
 # Approach sits under Services; the book, toolkit, free resources and glossary sit under Insights.
 TOP_LINKS = [
-    ("index.html", "Home", "home"),
+    ("/", "Home", "home"),
     ("about.html", "About", "about"),
     ("__SERVICES__", "", ""),
     ("case-studies.html", "Case Studies", "case-studies"),
@@ -257,7 +257,7 @@ def nav(active):
         out += f'      <a href="{href}"{cur}>{label}</a>\n'
     return f'''<nav id="nav" aria-label="Main">
   <div class="wrap nav-inner">
-    <a href="index.html" class="logo" aria-label="Prelude Learning &amp; Consultancy — home">
+    <a href="/" class="logo" aria-label="Prelude Learning &amp; Consultancy — home">
       <img src="assets/logo/prelude-icon.svg" alt="" width="34" height="34">
       <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
     </a>
@@ -283,7 +283,7 @@ def nav_legacy(active):
     drop_btn_cls = ' active' if sector_active else ''
     return f'''<nav id="nav">
   <div class="wrap nav-inner">
-    <a href="index.html" class="logo" aria-label="Prelude home">
+    <a href="/" class="logo" aria-label="Prelude home">
       <img src="assets/logo/prelude-icon.svg" alt="Prelude" width="34" height="34">
       <span class="mark">PRELUDE<span>Learning &amp; Consultancy</span></span>
     </a>
@@ -1687,7 +1687,7 @@ def case_study_page(cs):
     note_html = f'<p class="fine-print">{CASE_EVIDENCE_NOTE}</p>' if has_figures else ""
     body = f'''<header class="page-hero">
   <div class="wrap">
-    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="case-studies.html">Case studies</a> / <span aria-current="page">{cs["title"]}</span></div>
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="case-studies.html">Case studies</a> / <span aria-current="page">{cs["title"]}</span></div>
     <p class="cs-meta reveal in"><span class="cs-badge">{basis_label}</span><span>{cs["sector"]}</span><span><a href="{pillar_href}">{pillar_label}</a></span></p>
     <h1 class="reveal in" data-d="1">{cs["title"]}</h1>
     <p class="hero-sub reveal in" data-d="2">{ex["headline"]}.</p>
@@ -4363,7 +4363,7 @@ def pillar_page_body(eyebrow, h1, lead, sections, links_title, links, cta_title,
 ''' if links else ""
     return f'''<header class="page-hero">
   <div class="wrap">
-    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="services.html">Services</a> / <span aria-current="page">{eyebrow}</span></div>
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="services.html">Services</a> / <span aria-current="page">{eyebrow}</span></div>
     <h1 class="reveal in" data-d="1">{h1}</h1>
     <p class="hero-sub reveal in" data-d="2">{lead}</p>
     <div class="hero-actions reveal in" data-d="3">
@@ -4889,7 +4889,7 @@ def cs_pillar_section(key, tint):
 cs_jump = "".join(f'<li><a href="#{h.strip("/")}">{l}</a></li>' for k, (l, h) in CASE_PILLARS.items())
 cs_body = f'''<header class="page-hero">
   <div class="wrap">
-    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span aria-current="page">Case studies</span></div>
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a> / <span aria-current="page">Case studies</span></div>
     <h1 class="reveal in" data-d="1">Case studies</h1>
     <p class="hero-sub reveal in" data-d="2">How the approach has been applied: capability, business improvement and workforce work across Defence, public services, healthcare and housing, plus anonymised examples from recent consultancy with growing organisations. Each one starts with the problem, not the solution.</p>
     <ul class="jump-list reveal in" data-d="3" aria-label="Case studies by service area">{cs_jump}</ul>
@@ -5138,7 +5138,7 @@ def resource_library(heading_eyebrow="Free resources", h2="Practical tools you c
 
 resources_body = f'''<header class="page-hero">
   <div class="wrap">
-    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="index.html">Home</a> / <a href="insights.html">Insights</a> / <span aria-current="page">Free resources</span></div>
+    <div class="crumbs" role="navigation" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="insights.html">Insights</a> / <span aria-current="page">Free resources</span></div>
     <h1 class="reveal in" data-d="1">Free resources</h1>
     <p class="hero-sub reveal in" data-d="2">Guides, checklists and assessment tools for diagnosing performance and capability problems before you invest in a solution. Written for Defence and public-sector teams and for commercial organisations of any size.</p>
   </div>
@@ -5445,7 +5445,7 @@ thank_you_body = f'''<header class="page-hero">
     </div>
     <div style="margin-top:40px" class="reveal">
       <a href="case-studies.html" class="btn btn-primary">View case studies {ARROW}</a>
-      <a href="index.html" class="btn btn-ghost" style="margin-left:14px">Back to homepage</a>
+      <a href="/" class="btn btn-ghost" style="margin-left:14px">Back to homepage</a>
     </div>
   </div>
 </section>

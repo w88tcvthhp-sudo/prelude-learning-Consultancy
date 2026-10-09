@@ -1,5 +1,22 @@
 # 07 · Change log
 
+## Homepage MVP · 9 October 2026
+
+Details, before-and-after map and test results are in `08-homepage-mvp.md`.
+
+- **Homepage:** 11 sections become 6:
+  - hero;
+  - the problems we solve;
+  - how we help;
+  - evidence of experience;
+  - who you work with;
+  - final CTA.
+
+  The visible text drops from 1,071 to 632 words, and the button CTAs from 8 to 3. Title, description, canonical URL and schema are unchanged.
+- **Who I Help:** a new "Sectors" section, moved from the homepage.
+- **Insights:** a new "Start here" list of four core articles, moved from the homepage.
+- **`styles.css`:** a homepage block has been appended (compact hero, problem cards, two-column evidence, founder layout, CTA aside).
+
 ## Phase 1 · 9 October 2026 · credibility and integrity
 
 Decisions behind these changes are recorded in `01-website-audit.md`, section 8.

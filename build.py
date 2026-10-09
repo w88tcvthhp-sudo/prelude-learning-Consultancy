@@ -5214,49 +5214,133 @@ whoihelp_body = _rep(whoihelp_body, '''    </div>
 
 ''' + comparison_section(), 1)
 
-# ---- homepage
-_sel = [cs for cs in CASE_STUDIES_FULL if cs["slug"] in ("mod-digital-skills-for-defence", "healthcare-learning-transformation")]
-_home_cases = "".join(case_card(cs, i) for i, cs in enumerate(_sel)) + anon_card(ANON_EXAMPLES[0], 2)
-_res_list = "".join(f'<li><a href="resources/#r-{rid}">{t}</a><span>{"Direct download" if not g else "Free PDF"}</span></li>' for rid, t, d, f, p, g, ic in RESOURCES)
+# ---- homepage (2026-10 MVP: six sections; see docs/08-homepage-mvp.md)
 SPECIALIST = ["Defence and the Armed Forces", "Central and local government", "NHS and healthcare", "Housing associations", "Regulated and operational environments"]
 WIDER = ["Large commercial organisations", "SMEs and owner-managed businesses", "Start-ups and technology companies", "Engineering and manufacturing",
          "Professional services", "Health and social care providers", "Education", "Charities and social enterprises"]
 
-home_body = f'''<header class="hero-2026" id="top">
+HOME_PROBLEMS = [
+    ("Training requested, need unclear",
+     "A course has been asked for, but nobody has yet shown what is causing the performance problem it is meant to fix.",
+     "training-needs-analysis.html", "Training Needs Analysis"),
+    ("Performance held back",
+     "Unclear roles, inefficient processes or missing capability keep results below what the organisation needs, however hard people work.",
+     "business-analysis/", "Business Analysis &amp; Improvement"),
+    ("No proof that it is working",
+     "Money and effort have gone into programmes and change, but nobody can show whether performance has actually improved.",
+     "learning-strategy.html", "Learning strategy and evaluation"),
+]
+HOME_SERVICES = [
+    ("capability-consulting/", "Capability Consulting",
+     "Training Needs Analysis, DSAT and capability frameworks that establish what people must be able to do, where the gaps are and what is really causing them."),
+    ("business-analysis/", "Business Analysis &amp; Improvement",
+     "Problem definition, requirements, process mapping and options appraisal, so you know what needs to change before committing time and money to a solution."),
+    ("workforce-development/", "Learning &amp; Workforce Development",
+     "Learning strategy, leadership development and digital learning, designed around a defined performance need and evaluated against the outcome it was meant to change."),
+]
+HOME_CASES = [
+    ("mod-digital-skills-for-defence", "Defence", "MOD Digital Skills for Defence (DS4D)",
+     "Defence was framing a digital skills problem as a training problem, when the real question was what digital capability it actually required.",
+     "Jason led the DSAT-aligned Training Needs Analysis, then helped define the capability requirement, a skills and behaviours framework and a learning architecture aligned to strategic outcomes."),
+    ("healthcare-learning-transformation", "Healthcare", "Healthcare Learning Transformation",
+     "Learning compliance data across around 15,000 colleagues could not be trusted, so leaders were managing risk without reliable visibility.",
+     "Redesigned Totara dashboards, role-based learning pathways and information management, so leaders could rely on their own compliance reporting."),
+]
+DS4D_QUOTE = ("&ldquo;In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. "
+              "Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly.&rdquo;")
+
+_problems = "".join(f'''      <article class="pillar home-problem reveal" data-d="{n}">
+        <h3>{t}</h3>
+        <p>{d}</p>
+        <a class="text-link" href="{h}">{l} {ARROW}</a>
+      </article>
+''' for n, (t, d, h, l) in enumerate(HOME_PROBLEMS))
+_services = "".join(f'''      <article class="pillar reveal" data-d="{n}">
+        <span class="pillar-num">0{n+1}</span>
+        <h3><a href="{h}" data-event="service_cta_click">{t}</a></h3>
+        <p>{d}</p>
+        <a class="text-link" href="{h}" data-event="service_cta_click" aria-hidden="true" tabindex="-1">Explore {t} {ARROW}</a>
+      </article>
+''' for n, (h, t, d) in enumerate(HOME_SERVICES))
+_cases = "".join(f'''      <article class="cs-card home-case reveal" data-d="{n}">
+        <p class="cs-meta"><span class="cs-badge">{CASE_BASIS["founder"][0]}</span><span>{sec}</span></p>
+        <h3><a href="{slug}.html">{title}</a></h3>
+        <p><strong>Challenge.</strong> {ch}</p>
+        <p><strong>Contribution.</strong> {co}</p>
+        <a class="text-link" href="{slug}.html" aria-hidden="true" tabindex="-1">Read the case study {ARROW}</a>
+      </article>
+''' for n, (slug, sec, title, ch, co) in enumerate(HOME_CASES))
+_svc_intro = 'Every engagement begins with the problem and the evidence, then chooses the smallest intervention that will work. <a class="inline-link" href="approach/">See how we work</a>.'
+_facts = "".join(f"<li>{f}</li>" for f in ["DSAT specialist", "PRINCE2 Practitioner", "CMI Level 6 Leadership &amp; Management", "Active SC clearance"])
+
+home_body = f'''<header class="hero-2026 hero-compact" id="top">
   <div class="wrap">
     <div class="eyebrow reveal in">Independent UK consultancy</div>
     <h1 class="reveal in" data-d="1">Solving problems training alone can&rsquo;t fix.</h1>
     <p class="hero-pillars reveal in" data-d="2">Capability Consulting <span aria-hidden="true">&middot;</span> Business Analysis &amp; Improvement <span aria-hidden="true">&middot;</span> Learning &amp; Workforce Development</p>
-    <p class="hero-sub reveal in" data-d="2">Prelude Learning &amp; Consultancy helps organisations diagnose complex challenges, identify performance and capability gaps, and deliver practical, evidence-based improvements. With specialist experience across Defence, public services and regulated environments, we bring structured analysis and practical consultancy to organisations of every size and sector.</p>
-    <p class="hero-principle reveal in" data-d="3">From complex Defence programmes to growing businesses, the principle is the same: understand the problem before designing the solution.</p>
+    <p class="hero-sub reveal in" data-d="2">We help organisations find the real cause of performance and capability problems, then make proportionate, evidence-based improvements. Specialist experience in Defence and public services; organisations of every size.</p>
     <div class="hero-actions reveal in" data-d="3">
       <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
-      <a href="services.html" class="btn btn-ghost" data-event="service_cta_click">Explore our services</a>
+      <a href="case-studies.html" class="btn btn-ghost">Explore our work</a>
     </div>
   </div>
 </header>
 
-{pillars_section("What Prelude does", "Three connected services. One starting point.", "Each starts in the same place: understanding the problem properly before anyone decides what the solution should be.")}
-<section class="sec sec-tint">
-  <div class="wrap approach-teaser">
-    <div class="reveal">
-{section_head("How Prelude works", "Don&rsquo;t start with the intervention. Start with the problem.", "The Prelude Performance &amp; Capability Cycle runs through every engagement: understand the outcome, diagnose the cause, define what must change, choose the smallest effective intervention, and prove whether it worked.")}      <a class="btn btn-ghost" href="approach/">See how the approach works {ARROW}</a>
-    </div>
-    <div class="reveal" data-d="1">{cycle_svg()}</div>
+<section class="sec">
+  <div class="wrap">
+{section_head("The problems we solve", "Where our work usually starts.", "Most organisational performance problems are not training problems, even when training is the first answer offered.")}    <div class="pillars home-problems">
+{_problems}    </div>
   </div>
 </section>
 
 <section class="sec">
   <div class="wrap">
-{section_head("Selected case studies", "Where this approach has been applied.", "From enterprise Defence programmes to an owner-led service business.")}    <div class="cs-grid">
-{_home_cases}    </div>
-    <a class="btn btn-ghost reveal" href="case-studies.html" style="margin-top:36px">View case studies {ARROW}</a>
+{section_head("How we help", "Three services. One starting point.", _svc_intro)}    <div class="pillars">
+{_services}    </div>
   </div>
 </section>
 
-<section class="sec sec-tint">
+<section class="sec sec-tint home-evidence">
   <div class="wrap">
-{section_head("Who we work with", "Specialist experience in Defence and public services.", "Practical consultancy for organisations of every size and sector.")}    <div class="split-2 align-start market">
+{section_head("Evidence of experience", "Founder-led work in complex, high-stakes environments.")}    <div class="cs-grid two">
+{_cases}    </div>
+    <figure class="quote-2026 home-quote reveal">
+      <blockquote><p>{DS4D_QUOTE}</p></blockquote>
+      <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
+    </figure>
+    <p class="fine-print reveal">These studies come from Jason Smith&rsquo;s previous roles. Prelude&rsquo;s own recent engagements, with an owner-led service business and a digital start-up, are summarised anonymously on the <a href="case-studies.html#business-analysis">case studies page</a>.</p>
+  </div>
+</section>
+
+<section class="sec home-founder">
+  <div class="wrap about-strip">
+    <img class="about-photo reveal" src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy">
+    <div class="reveal" data-d="1">
+      <div class="eyebrow">Who you work with</div>
+      <h2 class="section-title small">Senior-led, from first conversation to final recommendation.</h2>
+      <p>Prelude is led by its founder, Jason Smith. Before founding Prelude he served 23 years in the Royal Navy, rising to senior operations, training and capability roles, then led national learning and development operations in healthcare, designed leadership programmes in social housing and led Training Needs Analysis on the MOD&rsquo;s Digital Skills for Defence programme.</p>
+      <p>You work with Jason directly. The person you meet is the person who does the work.</p>
+      <ul class="fact-list">{_facts}</ul>
+      <a class="text-link" href="about.html">More about Jason {ARROW}</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2 class="reveal">What challenge are you trying to solve?</h2>
+    <p class="reveal" data-d="1">Whether you need a focused diagnostic, specialist support or help shaping a wider programme, start with a conversation about the problem.</p>
+    <div class="cta-actions reveal" data-d="2">
+      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
+    </div>
+    <p class="cta-aside reveal" data-d="3">Not ready to talk yet? Try the free <a href="capability-readiness-review.html">Capability Readiness Review</a>, a ten-question self-assessment.</p>
+  </div>
+</section>'''
+
+# relocated from the homepage: sectors and transferability (Who I Help)
+whoihelp_body = _rep(whoihelp_body, "</header>\n", "</header>\n" + f'''<section class="sec">
+  <div class="wrap">
+{section_head("Sectors", "Specialist experience in Defence and public services.", "Practical consultancy for organisations of every size and sector.")}    <div class="split-2 align-start market">
       <div class="reveal">
         <h3>Where our experience is deepest</h3>
         <ul class="tick-list">{"".join(f"<li>{x}</li>" for x in SPECIALIST)}</ul>
@@ -5271,44 +5355,21 @@ home_body = f'''<header class="hero-2026" id="top">
     <p class="market-scale reveal">Engagements are scaled to the organisation and the decision, from a short problem triage or fixed-scope review to a full diagnostic or ongoing specialist support.</p>
   </div>
 </section>
-{about_strip()}
-<section class="sec">
-  <div class="wrap narrow">
-    <figure class="quote-2026 reveal">
-      <blockquote><p>&ldquo;In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly.&rdquo;</p></blockquote>
-      <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
-    </figure>
-  </div>
-</section>
+''')
 
-<section class="sec sec-tint">
-  <div class="wrap split-2 align-start">
-    <div class="reveal">
-{section_head("Capability diagnostic", "Is training really the answer?", "Ten questions that test whether you understand the problem well enough to invest in a solution. Free, about five minutes, and nothing you enter leaves your browser.")}      <div class="btn-row">
-        <a class="btn btn-primary" href="capability-readiness-review.html">Take the Capability Readiness Review {ARROW}</a>
-      </div>
-      <p class="fine-print">An indicative self-assessment. A facilitated review tests the answers against evidence.</p>
-    </div>
-    <div class="reveal" data-d="1">
-{section_head("Free resources", "Practical tools you can use straight away.")}      <ul class="res-list">{_res_list}</ul>
-      <a class="text-link" href="resources/">Explore free resources {ARROW}</a>
-    </div>
-  </div>
-</section>
-{book_band()}
-<section class="sec">
+# relocated from the homepage: featured insights (Insights), placed before the free resources
+START_HERE = f'''<section class="sec" id="start-here">
   <div class="wrap">
-{section_head("Insights", "Practical thinking on performance problems.")}    <ul class="link-list reveal">
+{section_head("Start here", "Practical thinking on performance problems.")}    <ul class="link-list reveal">
       <li><a href="is-your-performance-problem-really-a-training-problem.html">Is your performance problem really a training problem?</a></li>
       <li><a href="training-needs-analysis-complete-guide.html">Training Needs Analysis: the complete guide</a></li>
       <li><a href="why-transformation-programmes-stall-after-go-live.html">Why transformation programmes stall after go-live</a></li>
       <li><a href="performance-consulting-complete-guide.html">Performance consulting: a practical guide</a></li>
     </ul>
-    <a class="text-link reveal" href="insights.html">All insights {ARROW}</a>
   </div>
 </section>
-
-{cta("Have a problem but not sure what the solution is?", "Describe it in a few lines. We&rsquo;ll work out what is actually getting in the way, and whether Prelude can help.", secondary=("Explore our services", "services.html"))}'''
+'''
+insights_body = _rep(insights_body, '<section class="sec" id="free-resources">', START_HERE + '<section class="sec" id="free-resources">')
 
 WEBSITE_SCHEMA = {"@context": "https://schema.org", "@type": "WebSite", "@id": f"{SITE_URL}/#website",
                   "url": f"{SITE_URL}/", "name": "Prelude Learning & Consultancy", "inLanguage": "en-GB",

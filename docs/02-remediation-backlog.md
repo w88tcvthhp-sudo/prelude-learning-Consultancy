@@ -18,12 +18,12 @@ Prioritised with MoSCoW. Status as at 9 October 2026, end of Phase 1. Item refer
 
 | Ref | Item | Depends on | Status |
 |---|---|---|---|
-| S1 | Homepage sequence: problems recognised, typical outputs, evidence before method, closing question | — | To do |
+| S1 | Homepage sequence: problems recognised, typical outputs, evidence before method, closing question | — | **Done** (homepage MVP, `08-homepage-mvp.md`) |
 | S2 | Engagement routes A–D (no prices) on pillar pages, services hub and contact | Decision 11 | To do |
 | S3 | Move legacy page bodies (12 service pages, 5 sectors, services, how-i-work, who-i-help, CRR, glossary, privacy, manifesto; About and Contact partly done) onto the newer components, with breadcrumbs everywhere | — | To do |
 | S4 | Voice: "we" for Prelude, Jason in the third person, site-wide | — | Partly done (About, Contact, sector framework headings, FAQs changed in Phase 1) |
 | S5 | Titles (70) and descriptions (55) to sensible lengths | — | To do |
-| S6 | Fix the remaining heading skips (CRR, Services, Who I Help) | — | 2 of 5 done |
+| S6 | Fix the remaining heading skips (CRR, Services) | — | 3 of 5 done |
 | S7 | Person and Service schema; FAQPage only where substantive; real-depth breadcrumbs | — | To do |
 | S8 | WebP and `srcset`; WebP hero; fonts | Decision 10 for fonts | To do |
 

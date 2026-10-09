@@ -5,5 +5,7 @@ Disallow: /assets/resources/prelude-capability-readiness-playbook.pdf
 Disallow: /assets/resources/prelude-defence-tna-checklist.pdf
 Disallow: /assets/resources/prelude-learning-governance-health-check.pdf
 Disallow: /assets/resources/prelude-workforce-capability-assessment.pdf
+Disallow: /api/
+Disallow: /book-toolkit/downloads/
 
 Sitemap: https://www.prelude-learning.com/sitemap.xml

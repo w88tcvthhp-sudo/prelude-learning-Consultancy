@@ -4792,10 +4792,10 @@ PERSON_SCHEMA = {
 
 # ================================================================== TOOLKIT
 # File formats are not yet confirmed. Change "ext" per item once the files exist;
-# the download handler serves whatever is listed here (see book-toolkit/lib/manifest.json).
+# the download function serves whatever is listed here (see api/_lib/toolkit-manifest.js).
 TOOLKIT_EXT = "docx"
 # Inventory as supplied in the Online Toolkit Pack (00_Read-Me). Files are stored in
-# prelude-private/toolkit/ under these exact names; replace a file by uploading the same name.
+# the private Vercel Blob store under toolkit/<exact name>; replace a file by uploading the same name.
 TOOLS = [  # (title, file, chapter)
     ("Training Request Challenge", "Tool-01_Training-Request-Challenge.docx", "1"),
     ("Performance Gap Canvas", "Tool-02_Performance-Gap-Canvas.docx", "2"),
@@ -4850,13 +4850,15 @@ toolkit_body = f'''<header class="page-hero">
   <div class="wrap split-2 align-start">
     <div class="reveal">
       <h2 class="section-title small">Get access</h2>
-      <p>Tell us where to send your link. The download page opens as soon as you submit, and we&rsquo;ll email you a link back to it.</p>
-      <form class="tk-form" id="toolkitForm" action="/book-toolkit/submit.php" method="post" novalidate>
+      <p>Enter the access code printed in the book, at the start of The Toolkit section near the back. The downloads page opens as soon as you submit, and this browser remembers your access for 12 months. You can enter the code again at any time, on any device.</p>
+      <form class="tk-form" id="toolkitForm" action="/api/toolkit-access" method="post" novalidate>
         <div class="form-errors" id="tkErrors" role="alert" aria-live="assertive" hidden></div>
         <div class="field"><label for="tk-first">First name <span class="req">(required)</span></label>
           <input id="tk-first" name="first_name" type="text" autocomplete="given-name" required maxlength="80" aria-describedby="tk-first-err"><p class="field-err" id="tk-first-err" hidden></p></div>
         <div class="field"><label for="tk-email">Email address <span class="req">(required)</span></label>
           <input id="tk-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="tk-email-err"><p class="field-err" id="tk-email-err" hidden></p></div>
+        <div class="field"><label for="tk-code">Access code from the book <span class="req">(required)</span></label>
+          <input id="tk-code" name="access_code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" required maxlength="60" aria-describedby="tk-code-hint tk-code-err"><p class="field-hint" id="tk-code-hint">Printed on the first page of The Toolkit, at the back of the book. Capitals, spaces and hyphens don&rsquo;t matter.</p><p class="field-err" id="tk-code-err" hidden></p></div>
         <div class="field"><label for="tk-org">Organisation <span class="opt">(optional)</span></label>
           <input id="tk-org" name="organisation" type="text" autocomplete="organization" maxlength="160"></div>
         <div class="field"><label for="tk-role">Role or job title <span class="opt">(optional)</span></label>
@@ -4891,14 +4893,14 @@ def dl_row(item_id, title, num="", chapter=""):
     n = f'<span class="dl-num">{num}</span>' if num else ""
     ch = f'<span class="dl-ch">{"Chapters" if " and " in chapter else "Chapter"} {chapter}</span>' if chapter else ""
     return (f'<li class="dl-row">{n}<span class="dl-title">{title}{ch}</span>'
-            f'<a class="dl-link" href="/book-toolkit/download.php?f={item_id}" data-event="toolkit_individual_download" data-file="{item_id}">'
+            f'<a class="dl-link" href="/api/toolkit-download?f={item_id}" data-event="toolkit_individual_download" data-file="{item_id}">'
             f'Download<span class="sr-only"> {title}</span> <span class="dl-ext">{TOOLKIT_EXT.upper()}</span></a></li>')
 
 downloads_body = f'''<header class="page-hero">
   <div class="wrap narrow-hero">
     <div class="eyebrow reveal in">Toolkit downloads</div>
     <h1 class="reveal in" data-d="1">Your {BOOK_TITLE} toolkit</h1>
-    <p class="hero-sub reveal in" data-d="2">Thanks for reading. Everything is below. We&rsquo;ve also emailed you a link back to this page.</p>
+    <p class="hero-sub reveal in" data-d="2">Thanks for reading. Everything is below. Bookmark this page: this browser remembers your access for 12 months, and you can re-enter the code from the book at any time.</p>
   </div>
 </header>
 
@@ -4909,7 +4911,7 @@ downloads_body = f'''<header class="page-hero">
         <h2 class="section-title small">Download everything</h2>
         <p>The {COMBINED[1]}: all {BOOK_TOOLS} tools in one editable Word file. Tools 14 and 16 are set in landscape to give their wide tables room.</p>
       </div>
-      <a class="btn btn-primary" href="/book-toolkit/download.php?f={COMBINED[0]}" data-event="toolkit_complete_download">Download the complete toolkit {ARROW}</a>
+      <a class="btn btn-primary" href="/api/toolkit-download?f={COMBINED[0]}" data-event="toolkit_complete_download">Download the complete toolkit {ARROW}</a>
     </div>
 
     <h2 class="section-title small reveal" style="margin-top:64px">Individual tools</h2>
@@ -4923,7 +4925,6 @@ downloads_body = f'''<header class="page-hero">
   </div>
 </section>'''
 
-DOWNLOADS_PROLOGUE = "<?php require __DIR__ . '/../lib/toolkit.php'; toolkit_require_access(); ?>\n"
 
 # ---- services hub, insights and privacy: targeted edits to existing pages
 services_body = services_body.replace(
@@ -5534,14 +5535,16 @@ page("training-isnt-always-the-answer/index.html", "Training Isn't Always the An
 page("book-toolkit/index.html", "The Training Isn't Always the Answer Toolkit | Prelude",
      "Download editable versions of the 18 tools from Training Isn't Always the Answer, plus One-Day TNA, Five-Day Rapid TNA and Full TNA Report templates.",
      toolkit_body, "book-toolkit", breadcrumb="Book toolkit", extra_body='<script src="toolkit-form.js"></script>\n')
-page("book-toolkit/downloads/index.php", "Toolkit downloads | Prelude",
+page("book-toolkit/downloads/index.html", "Toolkit downloads | Prelude",
      "Toolkit downloads for readers of Training Isn't Always the Answer.",
-     downloads_body, "book-toolkit", noindex=True, prologue=DOWNLOADS_PROLOGUE)
+     downloads_body, "book-toolkit", noindex=True)
 
-os.makedirs("book-toolkit/lib", exist_ok=True)
-with open("book-toolkit/lib/manifest.json", "w") as _f:
-    json.dump(toolkit_manifest(), _f, indent=2)
-print("wrote book-toolkit/lib/manifest.json")
+# read by api/toolkit-download.js; files live in the private Vercel Blob store under toolkit/<file>
+os.makedirs("api/_lib", exist_ok=True)
+with open("api/_lib/toolkit-manifest.js", "w") as _f:
+    _f.write("// Generated by build.py from TOOLS / EXTENDED / COMBINED. Do not edit by hand.\n"
+             "export const MANIFEST = " + json.dumps(toolkit_manifest(), indent=2) + ";\n")
+print("wrote api/_lib/toolkit-manifest.js")
 # ================================================================== /2026-10 REFINEMENT
 
 page("index.html", "Prelude Learning &amp; Consultancy | Capability Consulting, Business Analysis &amp; Workforce Development",
@@ -5690,7 +5693,7 @@ privacy_body = f'''<header class="page-hero">
     <p class="reveal">We process enquiry and resource-request data on the basis of legitimate interests — responding to a business enquiry you've initiated — and, for any ongoing email updates, on the basis of your consent, which you can withdraw at any time.</p>
 
     <h2 class="reveal">Who we share it with</h2>
-    <p class="reveal">Form submissions are processed by Formspree (Formspree, Inc., a US-based form-handling provider) acting as our data processor, which delivers your submission to us by email. This involves a transfer of your data outside the UK; Formspree's own privacy policy is available at <a href="https://formspree.io/legal/privacy-policy" style="color:var(--gold)" target="_blank" rel="noopener">formspree.io/legal/privacy-policy</a>. We do not share your data with any other third party, and we do not sell it. If the specific provider we use changes, this policy will be updated to reflect it.</p>
+    <p class="reveal">Form submissions are processed by Formspree (Formspree, Inc., a US-based form-handling provider) acting as our data processor, which delivers your submission to us by email. This involves a transfer of your data outside the UK; Formspree's own privacy policy is available at <a href="https://formspree.io/legal/privacy-policy" style="color:var(--gold)" target="_blank" rel="noopener">formspree.io/legal/privacy-policy</a>. Our website is hosted by Vercel (Vercel Inc., US-based), which processes technical request data such as IP addresses to deliver the site and also acts as our data processor. We do not share your data with any other third party, and we do not sell it. If the specific provider we use changes, this policy will be updated to reflect it.</p>
 
     <h2 class="reveal">How long we keep it</h2>
     <p class="reveal">We keep enquiry and resource-request data only as long as necessary to respond to you and maintain a reasonable business record of the correspondence — in practice, no longer than 24 months from your last contact with us, unless you ask us to delete it sooner or we're required to keep it longer by law.</p>
@@ -5717,20 +5720,20 @@ privacy_body = f'''<header class="page-hero">
 </section>'''
 
 # ---- 2026-10 privacy additions (toolkit, cookies)
-privacy_body = privacy_body.replace("Last updated: 11 July 2026", "Last updated: 8 October 2026", 1)
+privacy_body = privacy_body.replace("Last updated: 11 July 2026", "Last updated: 9 October 2026", 1)
 privacy_body = privacy_body.replace(
     '''      <li>The <strong>resource request form</strong> — email address and the resource you've asked for.</li>
     </ul>''',
     '''      <li>The <strong>free resource forms</strong> — your email address, optionally your organisation, the resource you asked for, and whether you ticked the separate, optional box asking for occasional updates (with the wording you agreed to). The download is available immediately; asking for updates is never a condition of it.</li>
-      <li>The <strong>book toolkit form</strong> — first name and email address (required), and optionally your organisation and role. We also record the date and time of your request and whether you ticked the separate box asking for updates.</li>
+      <li>The <strong>book toolkit form</strong> — first name, email address and the access code printed in the book (required), and optionally your organisation and role. We also record the date and time of your request and whether you ticked the separate box asking for updates. The access code is checked but not stored.</li>
     </ul>
 
     <h2 class="reveal">The book toolkit</h2>
-    <p class="reveal">Readers of <em>Training Isn&rsquo;t Always the Answer</em> are entitled to the toolkit, so access never depends on agreeing to marketing. We use your toolkit details to give you access and to send one email containing a link back to the downloads page. We send occasional Prelude updates only if you tick the separate, optional box, and we record that choice separately. You can withdraw it at any time by replying to any email or writing to us.</p>
-    <p class="reveal">Toolkit requests are stored in a private area of our web hosting account (GoDaddy), which acts as our data processor; they are not stored in a publicly accessible location. The access email is sent through our email provider.</p>
+    <p class="reveal">Readers of <em>Training Isn&rsquo;t Always the Answer</em> are entitled to the toolkit, so access never depends on agreeing to marketing. We use your toolkit details to give you access and to keep a record of who has requested it. We send occasional Prelude updates only if you tick the separate, optional box, and we record that choice, with the wording you agreed to, separately. You can withdraw it at any time by replying to any email or writing to us.</p>
+    <p class="reveal">The website is hosted by Vercel, and toolkit files are stored in private storage that only the website&rsquo;s own download service can read. Toolkit requests are recorded through Formspree, the same form provider used for our other forms. Both act as our data processors.</p>
 
     <h2 class="reveal">Cookies</h2>
-    <p class="reveal">This site does not use analytics, advertising or tracking cookies. If you request the toolkit, we set one strictly necessary cookie that keeps the downloads page available to you; it contains a random access code, not your personal details, and expires after 12 months.</p>''', 1)
+    <p class="reveal">This site does not use analytics, advertising or tracking cookies. If you enter the book&rsquo;s access code, we set one strictly necessary cookie that lets you download the toolkit files; it contains a random identifier and a signature, not your personal details, and expires after 12 months.</p>''', 1)
 privacy_body = privacy_body.replace(
     "We process enquiry and resource-request data on the basis of legitimate interests",
     "We process enquiry, resource-request and toolkit-access data on the basis of legitimate interests (and, for toolkit access, to provide the resource promised to book purchasers)", 1)

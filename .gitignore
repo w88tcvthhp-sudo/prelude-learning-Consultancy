@@ -3,3 +3,6 @@
 prelude-private/
 config.php
 __pycache__/
+node_modules/
+.vercel/
+.env*

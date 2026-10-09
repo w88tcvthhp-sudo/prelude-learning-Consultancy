@@ -30,10 +30,11 @@ Training vs Capability Decision Model(TM), Readiness Maturity Model(TM),
 Capability Diagnostic Framework(TM) — used across home, defence, services, how-i-work and the CRR page.
 
 ## Hosting note (October 2026)
-The site is now deployed from GitHub to Vercel. Every static page, the Formspree forms and
-the free-resource downloads work on Vercel. The book toolkit's PHP endpoints
-(book-toolkit/submit.php, download.php, downloads/index.php) and .htaccess rules do NOT run
-on Vercel; they need rebuilding as a Vercel function before the toolkit is promoted.
+The site is deployed from GitHub to Vercel. Every static page, the Formspree forms and
+the free-resource downloads work as static files. The book toolkit uses two Vercel Functions
+(api/toolkit-access.js, api/toolkit-download.js) with an access code printed in the book
+and a private Vercel Blob store; set-up is in README-TOOLKIT.md. package.json exists only
+for the functions' dependency (@vercel/blob); there is no build step on Vercel.
 
 ## Deploy to GoDaddy (cPanel) — legacy
 cPanel -> File Manager -> public_html -> upload prelude-website.zip -> Extract ->

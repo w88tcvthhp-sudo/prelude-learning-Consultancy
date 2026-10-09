@@ -1,5 +1,0 @@
-# Downloads page: PHP gate, never indexed.
-DirectoryIndex index.php
-<IfModule mod_headers.c>
-  Header set X-Robots-Tag "noindex, nofollow"
-</IfModule>

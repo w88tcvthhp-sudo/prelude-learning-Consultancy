@@ -15,7 +15,7 @@ The shared print styles (page size, running header and footer, cover, tables and
 ## Rebuild
 
 ```bash
-npm i -D playwright && npx playwright install chromium   # one-off
+npm i --no-save playwright && npx playwright install chromium   # one-off; --no-save keeps it out of package.json (Vercel installs package.json dependencies)
 node resources-src/build-resources.mjs                    # all five
 node resources-src/build-resources.mjs playbook           # just one (any part of the file name)
 ```

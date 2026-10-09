@@ -159,13 +159,15 @@
   <div class="wrap split-2 align-start">
     <div class="reveal">
       <h2 class="section-title small">Get access</h2>
-      <p>Tell us where to send your link. The download page opens as soon as you submit, and we&rsquo;ll email you a link back to it.</p>
-      <form class="tk-form" id="toolkitForm" action="/book-toolkit/submit.php" method="post" novalidate>
+      <p>Enter the access code printed in the book, at the start of The Toolkit section near the back. The downloads page opens as soon as you submit, and this browser remembers your access for 12 months. You can enter the code again at any time, on any device.</p>
+      <form class="tk-form" id="toolkitForm" action="/api/toolkit-access" method="post" novalidate>
         <div class="form-errors" id="tkErrors" role="alert" aria-live="assertive" hidden></div>
         <div class="field"><label for="tk-first">First name <span class="req">(required)</span></label>
           <input id="tk-first" name="first_name" type="text" autocomplete="given-name" required maxlength="80" aria-describedby="tk-first-err"><p class="field-err" id="tk-first-err" hidden></p></div>
         <div class="field"><label for="tk-email">Email address <span class="req">(required)</span></label>
           <input id="tk-email" name="email" type="email" autocomplete="email" required maxlength="200" aria-describedby="tk-email-err"><p class="field-err" id="tk-email-err" hidden></p></div>
+        <div class="field"><label for="tk-code">Access code from the book <span class="req">(required)</span></label>
+          <input id="tk-code" name="access_code" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" required maxlength="60" aria-describedby="tk-code-hint tk-code-err"><p class="field-hint" id="tk-code-hint">Printed on the first page of The Toolkit, at the back of the book. Capitals, spaces and hyphens don&rsquo;t matter.</p><p class="field-err" id="tk-code-err" hidden></p></div>
         <div class="field"><label for="tk-org">Organisation <span class="opt">(optional)</span></label>
           <input id="tk-org" name="organisation" type="text" autocomplete="organization" maxlength="160"></div>
         <div class="field"><label for="tk-role">Role or job title <span class="opt">(optional)</span></label>

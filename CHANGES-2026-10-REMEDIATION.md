@@ -95,12 +95,7 @@ No methodology has been renamed in this round.
 
 **P0 (critical before promoting)**
 
-1. **Book toolkit on Vercel.** `submit.php`, `download.php`, `downloads/index.php` and the `.htaccess` rules won't run on Vercel, and Vercel will serve the `.php` files as plain text. Rebuild the gate as a Vercel serverless function:
-   - signed cookie, with the secret in a Vercel environment variable;
-   - files from a non-public folder bundled with the function;
-   - records forwarded to Formspree or by email.
-
-   Until then, don't print or promote `/book-toolkit` as working.
+1. ~~**Book toolkit on Vercel.**~~ Done in the follow-up branch `toolkit-vercel-access-code`. The toolkit now uses an access code printed in the book, Vercel Functions and private Vercel Blob storage; see `README-TOOLKIT.md`. Remaining: set up the Blob store and environment variables, print the code in the book, and test on a preview deployment.
 2. **Formspree.** Confirm the plan allows AJAX and that reCAPTCHA is off for the form, then make one live test download.
 
 **P1 (high)**

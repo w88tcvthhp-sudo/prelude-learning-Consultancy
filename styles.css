@@ -1125,3 +1125,4 @@ fieldset.crr-q{border:0;border-top:1px solid rgba(200,198,189,.1);margin:0;min-w
 fieldset.crr-q:first-of-type{border-top:0}
 fieldset.crr-q legend.q{padding:0;float:left;width:100%}
 fieldset.crr-q .crr-opts{clear:both}
+.field-hint{color:var(--stone-dim);font-size:.88rem;margin-top:6px}

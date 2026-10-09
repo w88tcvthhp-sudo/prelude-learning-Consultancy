@@ -340,9 +340,9 @@ def methodology(intro=True):
 '''
 
 TRUST_ITEMS = [
-    "Active SC Clearance", "Former DV Holder", "Royal Navy Senior Leadership", "Korn Ferry Consultant",
+    "Active SC Clearance", "Former DV Holder", "Royal Navy Senior Leadership", "Former Korn Ferry Consultant",
     "Defence DSAT Specialist", "PRINCE2 Practitioner", "CMI Leadership &amp; Coaching",
-    "Supported organisations up to 15,000 staff",
+    "L&amp;D operations for around 15,000 colleagues",
 ]
 
 def trust(heading="Trust &amp; credibility", sub="The clearances, experience and qualifications behind the advice."):
@@ -411,11 +411,12 @@ def footer():
 '''
 
 def proof():
-    items = ["Ministry of Defence", "Royal Navy", "Korn Ferry", "NHS &amp; Healthcare", "Housing Associations", "Public Sector"]
+    # 2026-10 (Phase 1): the founder's career, not a client list. No employer or provider names.
+    items = ["Royal Navy, 23 years", "Ministry of Defence programmes", "NATO training", "NHS-commissioned healthcare", "Social housing"]
     row = "".join(f'<div class="proof-item">{i}</div>' for i in items)
     return f'''<section class="proof">
   <div class="wrap">
-    <div class="proof-label">Experience built in high-stakes environments</div>
+    <div class="proof-label">The founder&rsquo;s experience includes</div>
     <div class="proof-row reveal">{row}</div>
   </div>
 </section>
@@ -859,7 +860,7 @@ DEFENCE_FAQ = [
     ("Is your DSAT knowledge current, or from years ago?", "Current. DSAT and JSP 822 application is ongoing specialist work, not a historic qualification — I keep pace with how the policy is actually being applied and audited today."),
     ("Can you move at pace without cutting governance corners?", "Yes — this is exactly what the Senior Information Officer (SIO) Rapid TNA case study demonstrates. Used as a decision-support framework rather than a box-ticking process, DSAT can move fast without losing defensibility."),
     ("What clearance do you hold, and is it enough for our programme?", "I hold Active SC clearance and am a former DV holder, and I'm comfortable operating in secure, regulated environments. If your programme needs a different level of vetting, tell me early and we'll work out whether that's achievable."),
-    ("Do you work with prime contractors, or only direct with MOD?", "Both. I've supported enterprise-wide MOD programmes directly and worked alongside prime contractors and Front Line Commands on specific capability, TNA and governance workstrands."),
+    ("Do you work with prime contractors, or only direct with MOD?", "Either. Prelude can work directly with MOD teams or alongside prime contractors and Front Line Commands on specific capability, TNA and governance workstrands. Jason&rsquo;s own Defence experience includes 23 years of Royal Navy service and the enterprise-wide Digital Skills for Defence programme, delivered through Korn Ferry."),
     ("How long does a typical Defence engagement take?", "It depends on the problem: a rapid TNA can be delivered in weeks; an enterprise capability framework or DSAT governance rebuild is typically a multi-month engagement. The Capability Readiness Review at the start gives both of us a realistic view before committing to scope."),
 ]
 
@@ -950,7 +951,7 @@ defence_body = f'''<header class="page-hero">
 # ================================================================== HEALTHCARE
 HEALTHCARE_FAQ = [
     ("We already run mandatory training — why aren't our compliance gaps closing?", "Because compliance gaps are usually a data, governance or system problem, not a course-completion problem. Adding more mandatory training rarely fixes unreliable reporting or unclear ownership — diagnosing where the real gap sits usually does."),
-    ("Do you work directly with NHS trusts, or only through suppliers?", "Both. I work directly with trusts, Integrated Care Boards and independent providers, and alongside existing suppliers where that's the better fit for your organisation."),
+    ("Do you work directly with NHS trusts, or only through suppliers?", "Either. Prelude can work directly with trusts, Integrated Care Boards and independent providers, or alongside an existing supplier where that suits your organisation better. Jason&rsquo;s own healthcare experience is with a provider of NHS-commissioned services."),
     ("Can you improve our Totara or LMS reporting without a full platform replacement?", "In most cases, yes. The healthcare work behind this site's case studies was configuration, dashboards and information management — not a re-platform. A new system is rarely the fix; trustworthy data and clear pathways usually are."),
     ("What clearance or information governance standards do you work to?", "I hold Active SC clearance and I'm comfortable in regulated, audited environments. Tell me your information governance requirements early and we'll agree how to work within them."),
     ("How is this different from a generic healthcare training provider?", "I don't sell courses. The first step is always diagnosis — working out whether the real issue is training, data, leadership, governance or process — before recommending anything. Training is one tool among several, not the default answer."),
@@ -977,7 +978,7 @@ healthcare_body = f'''<header class="page-hero">
       <div class="proof-item">NHS Trusts</div><div class="proof-item">Integrated Care Boards</div><div class="proof-item">Community &amp; Mental Health Providers</div><div class="proof-item">Independent Healthcare Providers</div>
     </div>
     {photo_grid([
-      ("healthcare-nhs-strategy-meeting.jpeg", "NHS leadership team in a strategy planning meeting", 638, 360),
+      ("healthcare-nhs-strategy-meeting.jpeg", "Healthcare leadership team in a strategy planning meeting", 638, 360),
       ("healthcare-clinician-lms-tablet.jpeg", "Clinician reviewing learning pathways on a tablet device", 540, 360),
       ("healthcare-workforce-planning-meeting.jpeg", "Compliance dashboard review in a workforce planning meeting", 1000, 562),
     ], cols="3")}
@@ -1215,7 +1216,7 @@ public_sector_body = f'''<header class="page-hero">
 
 # ================================================================== PROFESSIONAL SERVICES
 PROFESSIONAL_SERVICES_FAQ = [
-    ("You mostly work with Defence and public sector — do you understand professional services firms?", "Yes. Before founding Prelude, I worked as a Korn Ferry consultant advising organisations on leadership, talent and workforce development — Korn Ferry is itself a professional services firm, and that experience sits alongside the operational and Defence background this site describes."),
+    ("You mostly work with Defence and public sector — do you understand professional services firms?", "Yes. Before founding Prelude, Jason worked inside a professional services firm: Korn Ferry, as Lead Learning &amp; Development Consultant on the Ministry of Defence&rsquo;s Digital Skills for Defence programme. That sits alongside the operational and Defence background this site describes."),
     ("We're a partnership, not a corporate hierarchy — does your approach still apply?", "Yes. The Prelude Capability Model traces performance from mission to evidence regardless of structure — it adapts to partnership and track-based progression models as readily as to line-management hierarchies."),
     ("Can this help with associate or graduate retention?", "Talent leaving before it matures is a capability and pathway problem more often than a pay problem. Structured development pathways and clearer progression are directly in scope."),
     ("Do you have case studies specifically from professional services firms?", "Not yet published on this site — the case studies here are drawn from Defence, Healthcare and Housing engagements. The method and the Korn Ferry background transfer directly; I'm happy to discuss relevant experience and references in a first conversation."),
@@ -1242,7 +1243,7 @@ professional_services_body = f'''<header class="page-hero">
     <div class="proof-row reveal" data-d="2" style="justify-content:flex-start;margin-top:30px">
       <div class="proof-item">Law Firms &amp; Partnerships</div><div class="proof-item">Accountancy &amp; Financial Advisory Firms</div><div class="proof-item">Management &amp; Specialist Consultancies</div><div class="proof-item">Insurance &amp; Financial Services</div>
     </div>
-    <p class="lead reveal" data-d="3" style="margin-top:36px;font-size:clamp(1.1rem,1.8vw,1.4rem)">Before founding Prelude, I worked as a <span class="gold">Korn Ferry consultant</span> — advising organisations on leadership, talent and workforce development. <span class="dim">That's professional services experience in its own right, not a sector I'm reaching into cold.</span></p>
+    <p class="lead reveal" data-d="3" style="margin-top:36px;font-size:clamp(1.1rem,1.8vw,1.4rem)">Before founding Prelude, Jason worked inside a professional services firm: <span class="gold">Korn Ferry</span>, as Lead Learning &amp; Development Consultant on the MOD&rsquo;s Digital Skills for Defence programme. <span class="dim">Consultancy is something we understand from the inside.</span></p>
   </div>
 </section>
 
@@ -1303,8 +1304,8 @@ professional_services_body = f'''<header class="page-hero">
 about_body = f'''<header class="page-hero">
   <div class="wrap">
     <div class="eyebrow reveal in">About</div>
-    <h1 class="reveal in" data-d="1">23+ years building capability where the stakes are real.</h1>
-    <p class="hero-sub reveal in" data-d="2">I'm Jason Smith. From Royal Navy operational leadership to advising large organisations on capability, readiness and assurance — I solve the problems training alone never fixes.</p>
+    <h1 class="reveal in" data-d="1">Capability built where the stakes are real.</h1>
+    <p class="hero-sub reveal in" data-d="2">Prelude Learning &amp; Consultancy was founded by Jason Smith after 23 years in the Royal Navy and senior learning, training and capability roles in healthcare, social housing and on Ministry of Defence programmes.</p>
   </div>
 </header>
 
@@ -1313,13 +1314,14 @@ about_body = f'''<header class="page-hero">
 <section>
   <div class="wrap split">
     <div class="reveal stack-gap">
-      <div class="eyebrow">My background</div>
-      <p>My career began in the Royal Navy, where I spent years in operational leadership — responsible for people, performance and readiness in demanding, high-pressure environments. There, capability isn't a slide in a deck; it's whether your team can deliver when it matters.</p>
-      <p>Over 23+ years I've moved from operational leadership into capability development and workforce performance — building training and assurance to exacting Defence standards, and learning to connect what happens on the ground with what the board needs to see.</p>
-      <p>Today I bring that perspective to Defence, Healthcare, Housing, the wider public sector and — through my time as a Korn Ferry consultant — professional services firms, as an independent capability advisor who has actually operated inside the environments my clients work in.</p>
+      <h2 class="eyebrow">Background</h2>
+      <p>Jason served for 23 years in the Royal Navy, in the Above Water Tactical branch, rising to senior operations, training and capability roles in ships including HMS Diamond, HMS Defender and HMS Kent, and in joint maritime headquarters. He spent nearly three years designing and delivering technical training at HMS Collingwood. In the Navy, capability isn&rsquo;t a slide in a deck. It is whether a team can deliver when it matters.</p>
+      <p>Since leaving the Navy he has led national learning and development operations for a provider of NHS-commissioned healthcare services, supporting around 15,000 colleagues, and designed leadership and onboarding programmes in social housing.</p>
+      <p>Most recently, as Lead Learning &amp; Development Consultant with Korn Ferry on the Ministry of Defence&rsquo;s Digital Skills for Defence (DS4D) programme, he was brought in to lead the DSAT-aligned Training Needs Analysis. The role grew to cover the wider digital capability requirement, a skills and behaviours framework, the learning architecture and the governance that kept decisions defensible.</p>
+      <p>He founded Prelude to bring the same discipline to organisations of every size: diagnose the problem first, then use learning as one of several tools to fix it. When you work with Prelude, you work with Jason directly.</p>
     </div>
     <div class="reveal" data-d="2">
-      <div class="photo-frame has-photo"><img src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, Founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy"></div>
+      <div class="photo-frame has-photo"><img src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -1328,15 +1330,15 @@ about_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Why organisations bring me in</div>
-    <p class="lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Not for courses — for clarity, evidence and results.</p>
+    <div class="eyebrow reveal">Why organisations bring Prelude in</div>
+    <h2 class="lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Not for courses. For clarity, evidence and a decision that holds.</h2>
     <div class="reasons reveal" data-d="2">
-      <div class="reason">{CHECK}<div class="rt">I don't sell courses — I identify capability gaps.<span>The work starts with your problem, not my product list.</span></div></div>
-      <div class="reason">{CHECK}<div class="rt">I build evidence-based solutions.<span>Recommendations stand on analysis, not assertion.</span></div></div>
-      <div class="reason">{CHECK}<div class="rt">I understand regulated environments.<span>DSAT, assurance and audit are familiar ground.</span></div></div>
-      <div class="reason">{CHECK}<div class="rt">I speak operational and executive language.<span>From the front line to the board, without translation loss.</span></div></div>
-      <div class="reason">{CHECK}<div class="rt">I align learning with organisational performance.<span>Capability is judged by outcomes, not activity.</span></div></div>
-      <div class="reason">{CHECK}<div class="rt">I've operated in high-stakes environments.<span>Royal Navy leadership, Defence programmes, national crisis response.</span></div></div>
+      <div class="reason">{CHECK}<div class="rt">We don&rsquo;t sell courses.<span>The work starts with your problem, not a product list.</span></div></div>
+      <div class="reason">{CHECK}<div class="rt">Recommendations rest on evidence.<span>Analysis, not assertion.</span></div></div>
+      <div class="reason">{CHECK}<div class="rt">Regulated environments are familiar ground.<span>DSAT, assurance and audit included.</span></div></div>
+      <div class="reason">{CHECK}<div class="rt">Operational and executive language.<span>From the front line to the board, without losing the detail.</span></div></div>
+      <div class="reason">{CHECK}<div class="rt">Learning is judged by performance.<span>Capability is measured by outcomes, not activity.</span></div></div>
+      <div class="reason">{CHECK}<div class="rt">Experience in high-stakes environments.<span>Royal Navy operations, Defence programmes and national crisis response.</span></div></div>
     </div>
   </div>
 </section>
@@ -1345,28 +1347,14 @@ about_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">The path here</div>
-    <p class="lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">A career spent building capability under pressure.</p>
+    <div class="eyebrow reveal">Career</div>
+    <h2 class="lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">A career spent building capability under pressure.</h2>
     <div class="timeline reveal" data-d="2">
-      <div class="tl-item"><div class="when">ROYAL NAVY</div><h3>Operational leadership</h3><p>Senior leadership and training delivery to Defence standards in high-pressure operational environments — where capability is measured by readiness.</p></div>
-      <div class="tl-item"><div class="when">DEFENCE</div><h3>Defence capability specialist</h3><p>Built and assured training and capability aligned to DSAT (JSP 822) — from TNA through governance and audit-ready evidence.</p></div>
-      <div class="tl-item"><div class="when">KORN FERRY</div><h3>Consultant</h3><p>Advised large organisations on capability, leadership and workforce development across Defence, Healthcare, Housing and the public sector.</p></div>
-      <div class="tl-item"><div class="when">PRELUDE</div><h3>Independent capability advisor</h3><p>Now partnering directly with leaders to turn capability and readiness challenges into measurable performance.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow reveal">By the numbers</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">Experience measured in outcomes.</h2>
-    <div class="metric-grid reveal" data-d="2">
-      <div class="metric"><div class="figure" data-count="23" data-suffix="+">23<span class="unit">+</span></div><div class="label">Years in capability, leadership &amp; readiness</div></div>
-      <div class="metric"><div class="figure" data-count="15000">15,000</div><div class="label">Staff supported across a single organisation</div></div>
-      <div class="metric"><div class="figure" data-count="95" data-suffix="%">95<span class="unit">%</span></div><div class="label">Apprenticeship completion rate</div></div>
-      <div class="metric"><div class="figure" data-count="25" data-suffix="%">25<span class="unit">%</span></div><div class="label">Operational performance improvement (up to)</div></div>
+      <div class="tl-item"><div class="when">ROYAL NAVY &middot; 23 YEARS</div><h3>Operations, training and capability</h3><p>Above Water Tactical branch, rising to senior operations, training and capability roles at sea and in joint maritime headquarters, including nearly three years designing and delivering technical training.</p></div>
+      <div class="tl-item"><div class="when">HEALTHCARE</div><h3>National learning and development operations</h3><p>Led learning and development operations for a provider of NHS-commissioned healthcare services, supporting around 15,000 colleagues.</p></div>
+      <div class="tl-item"><div class="when">SOCIAL HOUSING</div><h3>Leadership and onboarding</h3><p>Designed leadership development and onboarding programmes for new and promoted managers.</p></div>
+      <div class="tl-item"><div class="when">KORN FERRY &middot; MOD DS4D</div><h3>Lead Learning &amp; Development Consultant</h3><p>Brought in to lead the Training Needs Analysis on Digital Skills for Defence. The role grew into capability requirements, learning architecture and governance.</p></div>
+      <div class="tl-item"><div class="when">PRELUDE</div><h3>Founder</h3><p>Independent consultancy in capability consulting, business analysis and improvement, and learning and workforce development.</p></div>
     </div>
   </div>
 </section>
@@ -1374,7 +1362,7 @@ about_body = f'''<header class="page-hero">
 <div class="divider"></div>
 
 {trust()}
-{cta("Think we might be a fit?", "Tell me about your capability challenge. If I can help, I'll tell you how. If I can't, I'll tell you that too.", secondary=("See the evidence", "case-studies.html"))}'''
+{cta("Think we might be a fit?", "Tell us about the challenge. If Prelude can help, we&rsquo;ll say how. If not, we&rsquo;ll say that too.", secondary=("See the case studies", "case-studies.html"))}'''
 
 # ================================================================== SERVICES
 cap_gov = (
@@ -1898,7 +1886,7 @@ CASE_STUDIES_FULL = [
          commercial_impact="Reliable compliance reporting reduces regulatory exposure directly, and the same dashboards removed a significant amount of manual reporting effort across the organisation.",
          transferability="Any regulated organisation managing compliance training at scale — not only healthcare — faces the same trust-in-the-data problem this engagement solved.",
          lessons="Reliable data changes behaviour faster than more mandatory training.",
-         photo_src="healthcare-workforce-planning-meeting.jpeg", photo_alt="Compliance dashboard — NHS workforce planning meeting", photo_w=1000, photo_h=562,
+         photo_src="healthcare-workforce-planning-meeting.jpeg", photo_alt="Compliance dashboard: healthcare workforce planning meeting", photo_w=1000, photo_h=562,
          related_slug="lms-optimisation", related_title="LMS Optimisation"),
     dict(slug="housing-leadership-onboarding-transformation", sector="Housing", title="Housing Leadership &amp; Onboarding Transformation",
          metric_fig=None, metric_label="Reduction in time-to-competence", count="20", suffix="%",
@@ -3979,11 +3967,15 @@ insights_body = f'''<header class="page-hero">
 {cta("Want this thinking applied to your organisation?", "Insight is useful. Applied insight changes outcomes. Let's talk about yours.", secondary=("See the evidence", "case-studies.html"))}'''
 
 # ================================================================== CONTACT
+CONTACT_ENQUIRY_TYPES = ['Diagnosing a performance or capability problem', 'Training Needs Analysis or DSAT', 'Business analysis or process improvement', 'Learning, leadership or workforce development', 'Capability Readiness Review', 'Associate or consultancy partner work', 'The book or its toolkit', 'Something else']
+CONTACT_TIMESCALES = ['No fixed timescale', 'As soon as possible', 'Within three months', 'In three to six months', 'Exploring for later']
+_enq_opts = "".join(f"<option>{x}</option>" for x in CONTACT_ENQUIRY_TYPES)
+_time_opts = "".join(f"<option>{x}</option>" for x in CONTACT_TIMESCALES)
 contact_body = f'''<header class="page-hero" id="book">
   <div class="wrap">
     <div class="eyebrow reveal in">Contact</div>
     <h1 class="reveal in" data-d="1">Discuss a challenge.</h1>
-    <p class="hero-sub reveal in" data-d="2">A practical, problem-first conversation — no sales pitch. Tell me what's going on and we'll work out what's really driving it, and whether I'm the right person to help.</p>
+    <p class="hero-sub reveal in" data-d="2">A practical, problem-first conversation, not a sales pitch. Tell us what is happening and we&rsquo;ll work out what is really driving it, and whether Prelude is the right fit.</p>
   </div>
 </header>
 
@@ -3993,32 +3985,42 @@ contact_body = f'''<header class="page-hero" id="book">
   <div class="wrap contact-grid">
     <div class="reveal">
       <h2 style="font-size:1.5rem;font-weight:500;margin-bottom:8px">Send a message</h2>
-      <p class="muted" style="margin-bottom:26px">I read every enquiry personally and aim to reply within one working day.</p>
+      <p class="muted" style="margin-bottom:26px">Jason reads every enquiry personally and aims to reply within one working day.</p>
       <form class="form" action="https://formspree.io/f/xeeyazed" method="POST">
-        <input type="hidden" name="_subject" value="Prelude website: New capability enquiry">
+        <input type="hidden" name="_subject" value="Prelude website: new enquiry">
         <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html?from=contact">
+        <div class="hp" aria-hidden="true"><label for="contact-gotcha">Leave this field empty</label><input id="contact-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
         <div class="row">
-          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@organisation.gov.uk"><span class="field-error">Please enter a valid email address.</span></div>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@organisation.co.uk"><span class="field-error">Please enter a valid email address.</span></div>
         </div>
         <div class="row">
-          <div class="field"><label for="org">Organisation</label><input id="org" name="organisation" type="text" placeholder="Your organisation"></div>
-          <div class="field"><label for="sector">Sector</label>
-            <select id="sector" name="sector"><option>Defence</option><option>Healthcare / NHS</option><option>Housing</option><option>Public sector / Government</option><option>Other</option></select>
+          <div class="field"><label for="org">Organisation <span class="opt">(optional)</span></label><input id="org" name="organisation" type="text" autocomplete="organization" placeholder="Your organisation"></div>
+          <div class="field"><label for="enquiry">Nature of enquiry</label>
+            <select id="enquiry" name="enquiry_type" required><option value="" selected disabled>Choose one</option>{_enq_opts}</select><span class="field-error">Please choose the closest match.</span>
           </div>
         </div>
-        <div class="field"><label for="message">What capability challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you're trying to solve..."></textarea><span class="field-error">Please tell me a little about the challenge you're facing.</span></div>
-        <button type="submit" class="btn btn-primary">Send enquiry {ARROW}</button>
+        <div class="field"><label for="timescale">Timescale <span class="opt">(optional)</span></label>
+          <select id="timescale" name="timescale"><option value="" selected>Not sure yet</option>{_time_opts}</select>
+        </div>
+        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you&rsquo;re trying to solve..."></textarea><span class="field-error">Please tell us a little about the challenge you&rsquo;re facing.</span></div>
+        <p class="fine-print">We use these details only to reply to your enquiry and keep a record of it. They reach us through Formspree, our form provider. We won&rsquo;t add you to a mailing list. See our <a href="privacy.html">Privacy Policy</a>.</p>
+        <button type="submit" class="btn btn-primary" data-event="contact_submit">Send enquiry {ARROW}</button>
         <p class="form-note">Prefer email? Write to <a href="mailto:jason.smith@prelude-learning.com" style="color:var(--gold)">jason.smith@prelude-learning.com</a>.</p>
       </form>
     </div>
     <div class="reveal" data-d="2">
-      <div class="contact-info">
-        <div class="ci-item"><h4>No sales pitch</h4><p>A practical conversation about your problem — not a pitch for a product.</p></div>
-        <div class="ci-item"><h4>Problem-first</h4><p>We start with what's really going on, then talk about whether and how I can help.</p></div>
-        <div class="ci-item"><h4>Email</h4><a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a></div>
-        <div class="ci-item"><h4>Based in</h4><p>United Kingdom. Working with Defence and public sector organisations nationally.</p></div>
-        <div class="ci-item"><h4>Clearance</h4><p>Active SC clearance held (former DV). Comfortable in secure, regulated environments.</p></div>
+      <h2 style="font-size:1.5rem;font-weight:500;margin-bottom:18px">What happens next</h2>
+      <ol class="next-steps">
+        <li><strong>A reply, usually within one working day.</strong> Jason reads your message and replies personally.</li>
+        <li><strong>A short call, if it helps.</strong> A conversation about the problem and what is already known. No obligation and no sales pitch.</li>
+        <li><strong>A written proposal, if there is a fit.</strong> Scope, approach, deliverables and cost are set out before any work starts.</li>
+      </ol>
+      <div class="contact-info" style="margin-top:34px">
+        <div class="ci-item"><h3>Email</h3><a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a></div>
+        <div class="ci-item"><h3>Based in</h3><p>United Kingdom. Specialist experience in Defence and public services; working with organisations of every size and sector.</p></div>
+        <div class="ci-item"><h3>Consultancy partners</h3><p>Available as a specialist or associate on TNA, DSAT, capability and business analysis work.</p></div>
+        <div class="ci-item"><h3>Clearance</h3><p>Active SC clearance held (former DV). Comfortable in secure, regulated environments.</p></div>
       </div>
       <div class="cred-strip" style="margin-top:30px">
         <div class="cred-badge">{CHECK}Active SC Clearance</div>
@@ -4028,8 +4030,7 @@ contact_body = f'''<header class="page-hero" id="book">
     </div>
   </div>
 </section>
-
-{cta('"Jason understands my environment, my problem, and has solved this before."', "That's the conversation I want to have with you.")}'''
+'''
 
 # ================================================================== CRR
 CRR_QUESTIONS = [
@@ -4461,7 +4462,7 @@ def about_strip():
     <div class="reveal" data-d="1">
       <div class="eyebrow">Who you work with</div>
       <h2 class="section-title">Jason Smith, founder</h2>
-      <p>Jason served for 23 years in the Royal Navy, rising to senior operations, training and capability roles. Since leaving the Navy he has led national learning and development operations for a healthcare provider supporting around 15,000 colleagues, designed leadership and onboarding programmes in social housing and led DSAT-aligned Training Needs Analysis on the Ministry of Defence&rsquo;s Digital Skills for Defence programme.</p>
+      <p>Jason served for 23 years in the Royal Navy, rising to senior operations, training and capability roles. Since leaving the Navy he has led national learning and development operations for a provider of NHS-commissioned healthcare services, supporting around 15,000 colleagues, designed leadership and onboarding programmes in social housing and led DSAT-aligned Training Needs Analysis on the Ministry of Defence&rsquo;s Digital Skills for Defence programme.</p>
       <p>You work with him directly, from the first conversation to the final recommendation.</p>
       <ul class="fact-list">{facts}</ul>
       <a class="text-link" href="about.html">More about Jason {ARROW}</a>
@@ -4751,7 +4752,7 @@ book_body = f'''<header class="page-hero book-hero">
       <div class="prose">
         <p>Jason Smith is the founder of Prelude Learning &amp; Consultancy, an independent capability, readiness and workforce development consultancy.</p>
         <p>He served for 23 years in the Royal Navy, in the Above Water Tactical branch, rising to senior operations, training and capability roles in ships including HMS Diamond, HMS Defender and HMS Kent, and in joint maritime headquarters. Along the way he spent nearly three years designing and delivering technical training at HMS Collingwood.</p>
-        <p>Since leaving the Navy he has led national learning and development operations for a healthcare provider supporting around 15,000 colleagues, designed leadership and onboarding programmes in social housing and, most recently, led DSAT-aligned Training Needs Analysis and learning architecture work on the Ministry of Defence&rsquo;s Digital Skills for Defence programme.</p>
+        <p>Since leaving the Navy he has led national learning and development operations for a provider of NHS-commissioned healthcare services, supporting around 15,000 colleagues, designed leadership and onboarding programmes in social housing and, most recently, led DSAT-aligned Training Needs Analysis and learning architecture work on the Ministry of Defence&rsquo;s Digital Skills for Defence programme.</p>
         <p>He is a DSAT specialist and a PRINCE2 Practitioner, and holds CMI Level 6 Leadership &amp; Management and CMI Level 5 Coaching &amp; Mentoring qualifications.</p>
       </div>
     </div>
@@ -5366,15 +5367,6 @@ crr_body = _rep(crr_body,
     '<p class="placeholder-note reveal" style="margin-top:22px">This self-assessment runs entirely in your browser — nothing is sent or stored. A full, facilitated Capability Readiness Review goes deeper, with evidence-gathering and stakeholder input.</p>',
     '<p class="placeholder-note reveal" style="margin-top:22px">This is an indicative self-assessment: the result reflects only your own answers. It is not an audit or an independently validated measure. It runs entirely in your browser; nothing is sent or stored. A facilitated review tests the answers against evidence and stakeholder input.</p>')
 
-# ---- contact: open to every sector
-contact_body = _rep(contact_body, 
-    '<select id="sector" name="sector"><option>Defence</option><option>Healthcare / NHS</option><option>Housing</option><option>Public sector / Government</option><option>Other</option></select>',
-    '<select id="sector" name="sector"><option>Defence</option><option>Public sector / Government</option><option>Healthcare / NHS</option><option>Housing</option><option>Commercial business</option><option>SME or owner-managed business</option><option>Technology / start-up</option><option>Engineering / manufacturing</option><option>Professional services</option><option>Charity / social enterprise</option><option>Education</option><option>Consultancy partner</option><option>Other</option></select>')
-contact_body = _rep(contact_body, '<label for="message">What capability challenge are you facing?</label>', '<label for="message">What challenge are you facing?</label>')
-contact_body = _rep(contact_body, 
-    '<div class="ci-item"><h4>Based in</h4><p>United Kingdom. Working with Defence and public sector organisations nationally.</p></div>',
-    '<div class="ci-item"><h4>Based in</h4><p>United Kingdom. Specialist experience in Defence and public services; working with organisations of every size and sector.</p></div>\n        <div class="ci-item"><h4>Consultancy partners</h4><p>Available as a specialist or associate on TNA, DSAT, capability and business analysis work.</p></div>')
-
 # ---- who I help: commercial and SME route
 whoihelp_body = _rep(whoihelp_body, '''    </div>
   </div>
@@ -5681,7 +5673,7 @@ privacy_body = f'''<header class="page-hero">
     <h2 class="reveal">What we collect</h2>
     <p class="reveal">We only collect personal data you choose to give us, through two forms on this site:</p>
     <ul style="color:var(--stone);line-height:1.75;margin:0 0 8px 20px">
-      <li>The <strong>contact form</strong> — name, email address, organisation, sector, and the message you write.</li>
+      <li>The <strong>contact form</strong> — your name, email address, the nature of your enquiry and the message you write, and optionally your organisation and timescale.</li>
       <li>The <strong>resource request form</strong> — email address and the resource you've asked for.</li>
     </ul>
     <p class="reveal">We do not use analytics, advertising or tracking cookies on this site. No personal data is collected automatically beyond what you submit directly.</p>

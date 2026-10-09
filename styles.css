@@ -1126,3 +1126,13 @@ fieldset.crr-q:first-of-type{border-top:0}
 fieldset.crr-q legend.q{padding:0;float:left;width:100%}
 fieldset.crr-q .crr-opts{clear:both}
 .field-hint{color:var(--stone-dim);font-size:.88rem;margin-top:6px}
+
+/* ---- 2026-10 Phase 1: contact page ---- */
+.ci-item h3{font-family:var(--display);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;line-height:1.4}
+.form .opt{font-family:var(--body);font-weight:400;color:var(--stone-dim);font-size:.85rem}
+.next-steps{list-style:none;counter-reset:ns;padding:0;margin:0;display:grid;gap:18px}
+.next-steps li{counter-increment:ns;position:relative;padding-left:46px;color:var(--stone-dim);font-size:15px;line-height:1.6}
+.next-steps li::before{content:counter(ns);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;border:1px solid rgba(200,169,106,.5);color:var(--gold);font-family:var(--display);font-size:14px;display:flex;align-items:center;justify-content:center}
+.next-steps strong{color:#fff;font-weight:500;display:block}
+.contact-grid>*,.form .field{min-width:0}
+.form select{max-width:100%}

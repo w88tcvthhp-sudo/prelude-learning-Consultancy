@@ -151,7 +151,7 @@
   <div class="wrap">
     <div class="eyebrow reveal in">Contact</div>
     <h1 class="reveal in" data-d="1">Discuss a challenge.</h1>
-    <p class="hero-sub reveal in" data-d="2">A practical, problem-first conversation — no sales pitch. Tell me what's going on and we'll work out what's really driving it, and whether I'm the right person to help.</p>
+    <p class="hero-sub reveal in" data-d="2">A practical, problem-first conversation, not a sales pitch. Tell us what is happening and we&rsquo;ll work out what is really driving it, and whether Prelude is the right fit.</p>
   </div>
 </header>
 
@@ -161,49 +161,48 @@
   <div class="wrap contact-grid">
     <div class="reveal">
       <h2 style="font-size:1.5rem;font-weight:500;margin-bottom:8px">Send a message</h2>
-      <p class="muted" style="margin-bottom:26px">I read every enquiry personally and aim to reply within one working day.</p>
+      <p class="muted" style="margin-bottom:26px">Jason reads every enquiry personally and aims to reply within one working day.</p>
       <form class="form" action="https://formspree.io/f/xeeyazed" method="POST">
-        <input type="hidden" name="_subject" value="Prelude website: New capability enquiry">
+        <input type="hidden" name="_subject" value="Prelude website: new enquiry">
         <input type="hidden" name="_next" value="https://www.prelude-learning.com/thank-you.html?from=contact">
+        <div class="hp" aria-hidden="true"><label for="contact-gotcha">Leave this field empty</label><input id="contact-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
         <div class="row">
-          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required placeholder="you@organisation.gov.uk"><span class="field-error">Please enter a valid email address.</span></div>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@organisation.co.uk"><span class="field-error">Please enter a valid email address.</span></div>
         </div>
         <div class="row">
-          <div class="field"><label for="org">Organisation</label><input id="org" name="organisation" type="text" placeholder="Your organisation"></div>
-          <div class="field"><label for="sector">Sector</label>
-            <select id="sector" name="sector"><option>Defence</option><option>Public sector / Government</option><option>Healthcare / NHS</option><option>Housing</option><option>Commercial business</option><option>SME or owner-managed business</option><option>Technology / start-up</option><option>Engineering / manufacturing</option><option>Professional services</option><option>Charity / social enterprise</option><option>Education</option><option>Consultancy partner</option><option>Other</option></select>
+          <div class="field"><label for="org">Organisation <span class="opt">(optional)</span></label><input id="org" name="organisation" type="text" autocomplete="organization" placeholder="Your organisation"></div>
+          <div class="field"><label for="enquiry">Nature of enquiry</label>
+            <select id="enquiry" name="enquiry_type" required><option value="" selected disabled>Choose one</option><option>Diagnosing a performance or capability problem</option><option>Training Needs Analysis or DSAT</option><option>Business analysis or process improvement</option><option>Learning, leadership or workforce development</option><option>Capability Readiness Review</option><option>Associate or consultancy partner work</option><option>The book or its toolkit</option><option>Something else</option></select><span class="field-error">Please choose the closest match.</span>
           </div>
         </div>
-        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you're trying to solve..."></textarea><span class="field-error">Please tell me a little about the challenge you're facing.</span></div>
-        <button type="submit" class="btn btn-primary">Send enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="field"><label for="timescale">Timescale <span class="opt">(optional)</span></label>
+          <select id="timescale" name="timescale"><option value="" selected>Not sure yet</option><option>No fixed timescale</option><option>As soon as possible</option><option>Within three months</option><option>In three to six months</option><option>Exploring for later</option></select>
+        </div>
+        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you&rsquo;re trying to solve..."></textarea><span class="field-error">Please tell us a little about the challenge you&rsquo;re facing.</span></div>
+        <p class="fine-print">We use these details only to reply to your enquiry and keep a record of it. They reach us through Formspree, our form provider. We won&rsquo;t add you to a mailing list. See our <a href="privacy.html">Privacy Policy</a>.</p>
+        <button type="submit" class="btn btn-primary" data-event="contact_submit">Send enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <p class="form-note">Prefer email? Write to <a href="mailto:jason.smith@prelude-learning.com" style="color:var(--gold)">jason.smith@prelude-learning.com</a>.</p>
       </form>
     </div>
     <div class="reveal" data-d="2">
-      <div class="contact-info">
-        <div class="ci-item"><h4>No sales pitch</h4><p>A practical conversation about your problem — not a pitch for a product.</p></div>
-        <div class="ci-item"><h4>Problem-first</h4><p>We start with what's really going on, then talk about whether and how I can help.</p></div>
-        <div class="ci-item"><h4>Email</h4><a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a></div>
-        <div class="ci-item"><h4>Based in</h4><p>United Kingdom. Specialist experience in Defence and public services; working with organisations of every size and sector.</p></div>
-        <div class="ci-item"><h4>Consultancy partners</h4><p>Available as a specialist or associate on TNA, DSAT, capability and business analysis work.</p></div>
-        <div class="ci-item"><h4>Clearance</h4><p>Active SC clearance held (former DV). Comfortable in secure, regulated environments.</p></div>
+      <h2 style="font-size:1.5rem;font-weight:500;margin-bottom:18px">What happens next</h2>
+      <ol class="next-steps">
+        <li><strong>A reply, usually within one working day.</strong> Jason reads your message and replies personally.</li>
+        <li><strong>A short call, if it helps.</strong> A conversation about the problem and what is already known. No obligation and no sales pitch.</li>
+        <li><strong>A written proposal, if there is a fit.</strong> Scope, approach, deliverables and cost are set out before any work starts.</li>
+      </ol>
+      <div class="contact-info" style="margin-top:34px">
+        <div class="ci-item"><h3>Email</h3><a href="mailto:jason.smith@prelude-learning.com">jason.smith@prelude-learning.com</a></div>
+        <div class="ci-item"><h3>Based in</h3><p>United Kingdom. Specialist experience in Defence and public services; working with organisations of every size and sector.</p></div>
+        <div class="ci-item"><h3>Consultancy partners</h3><p>Available as a specialist or associate on TNA, DSAT, capability and business analysis work.</p></div>
+        <div class="ci-item"><h3>Clearance</h3><p>Active SC clearance held (former DV). Comfortable in secure, regulated environments.</p></div>
       </div>
       <div class="cred-strip" style="margin-top:30px">
         <div class="cred-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>Active SC Clearance</div>
         <div class="cred-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>DSAT Specialist</div>
         <div class="cred-badge"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" aria-hidden="true"><path d="M4 12l5 5L20 6"/></svg>PRINCE2 Practitioner</div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="cta-band">
-  <div class="wrap">
-    <h2 class="reveal">"Jason understands my environment, my problem, and has solved this before."</h2>
-    <p class="reveal" data-d="1">That's the conversation I want to have with you.</p>
-    <div class="cta-actions reveal" data-d="2">
-      <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>

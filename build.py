@@ -5220,31 +5220,33 @@ WIDER = ["Large commercial organisations", "SMEs and owner-managed businesses", 
          "Professional services", "Health and social care providers", "Education", "Charities and social enterprises"]
 
 HOME_PROBLEMS = [
-    ("Training requested, need unclear",
-     "A course has been asked for, but nobody has yet shown what is causing the performance problem it is meant to fix.",
+    ("Training isn&rsquo;t solving the problem",
+     "Organisations invest in learning without understanding whether skills, processes, systems or leadership are the underlying constraint.",
      "training-needs-analysis.html", "Training Needs Analysis"),
-    ("Performance held back",
-     "Unclear roles, inefficient processes or missing capability keep results below what the organisation needs, however hard people work.",
+    ("Capability isn&rsquo;t translating into performance",
+     "Workforce capability gaps, unclear responsibilities and inefficient processes prevent organisations from delivering expected outcomes.",
      "business-analysis/", "Business Analysis &amp; Improvement"),
-    ("No proof that it is working",
-     "Money and effort have gone into programmes and change, but nobody can show whether performance has actually improved.",
+    ("Improvement isn&rsquo;t delivering measurable value",
+     "Change initiatives and development programmes lack clear outcomes, effective governance or meaningful evaluation.",
      "learning-strategy.html", "Learning strategy and evaluation"),
 ]
 HOME_SERVICES = [
     ("capability-consulting/", "Capability Consulting",
-     "Training Needs Analysis, DSAT and capability frameworks that establish what people must be able to do, where the gaps are and what is really causing them."),
+     "Diagnosing organisational capability requirements, identifying gaps through Training Needs Analysis and DSAT, and developing practical frameworks, strategies and assurance arrangements."),
     ("business-analysis/", "Business Analysis &amp; Improvement",
-     "Problem definition, requirements, process mapping and options appraisal, so you know what needs to change before committing time and money to a solution."),
+     "Examining business problems, processes and operating models to identify opportunities for proportionate, sustainable improvement, before time and money are committed to a solution."),
     ("workforce-development/", "Learning &amp; Workforce Development",
-     "Learning strategy, leadership development and digital learning, designed around a defined performance need and evaluated against the outcome it was meant to change."),
+     "Designing evidence-led learning strategies, workforce development solutions and evaluation approaches that support measurable performance, with learning used where it is genuinely part of the answer."),
 ]
-HOME_CASES = [
-    ("mod-digital-skills-for-defence", "Defence", "MOD Digital Skills for Defence (DS4D)",
+HOME_CASES = [  # (href, badge, category, title, challenge, contribution, link text)
+    ("mod-digital-skills-for-defence.html", CASE_BASIS["founder"][0], "Defence &middot; capability and TNA", "MOD Digital Skills for Defence (DS4D)",
      "Defence was framing a digital skills problem as a training problem, when the real question was what digital capability it actually required.",
-     "Jason led the DSAT-aligned Training Needs Analysis, then helped define the capability requirement, a skills and behaviours framework and a learning architecture aligned to strategic outcomes."),
-    ("healthcare-learning-transformation", "Healthcare", "Healthcare Learning Transformation",
-     "Learning compliance data across around 15,000 colleagues could not be trusted, so leaders were managing risk without reliable visibility.",
-     "Redesigned Totara dashboards, role-based learning pathways and information management, so leaders could rely on their own compliance reporting."),
+     "Jason led the DSAT-aligned Training Needs Analysis, then helped define the capability requirement, a skills and behaviours framework and a learning architecture aligned to strategic outcomes.",
+     "Read the case study"),
+    ("case-studies.html#business-analysis", CASE_BASIS["anonymised"][0], "Owner-led business &middot; business analysis", "Owner-led service business",
+     "The request was to improve the digital presence and generate more enquiries. The more important question was what would happen if demand actually increased.",
+     "Analysis showed the binding constraints were owner dependency, pricing, systems, capacity, delegation and quality control, so the work expanded into growth strategy, the operating model, systems and implementation planning.",
+     "Read the example"),
 ]
 DS4D_QUOTE = ("&ldquo;In ten weeks, Jason and his team achieved more progress on the DS4D programme than had been delivered in the previous twelve months. "
               "Their ability to cut through complexity, identify the real capability issues, and turn analysis into practical action accelerated the programme significantly.&rdquo;")
@@ -5263,22 +5265,22 @@ _services = "".join(f'''      <article class="pillar reveal" data-d="{n}">
       </article>
 ''' for n, (h, t, d) in enumerate(HOME_SERVICES))
 _cases = "".join(f'''      <article class="cs-card home-case reveal" data-d="{n}">
-        <p class="cs-meta"><span class="cs-badge">{CASE_BASIS["founder"][0]}</span><span>{sec}</span></p>
-        <h3><a href="{slug}.html">{title}</a></h3>
+        <p class="cs-meta"><span class="cs-badge">{badge}</span><span>{cat}</span></p>
+        <h3><a href="{href}">{title}</a></h3>
         <p><strong>Challenge.</strong> {ch}</p>
         <p><strong>Contribution.</strong> {co}</p>
-        <a class="text-link" href="{slug}.html" aria-hidden="true" tabindex="-1">Read the case study {ARROW}</a>
+        <a class="text-link" href="{href}" aria-hidden="true" tabindex="-1">{more} {ARROW}</a>
       </article>
-''' for n, (slug, sec, title, ch, co) in enumerate(HOME_CASES))
+''' for n, (href, badge, cat, title, ch, co, more) in enumerate(HOME_CASES))
 _svc_intro = 'Every engagement begins with the problem and the evidence, then chooses the smallest intervention that will work. <a class="inline-link" href="approach/">See how we work</a>.'
-_facts = "".join(f"<li>{f}</li>" for f in ["DSAT specialist", "PRINCE2 Practitioner", "CMI Level 6 Leadership &amp; Management", "Active SC clearance"])
+_facts = "".join(f"<li>{f}</li>" for f in ["23 years in the Royal Navy", "DSAT specialist", "PRINCE2 Practitioner", "Active SC clearance"])
 
 home_body = f'''<header class="hero-2026 hero-compact" id="top">
   <div class="wrap">
     <div class="eyebrow reveal in">Independent UK consultancy</div>
     <h1 class="reveal in" data-d="1">Solving problems training alone can&rsquo;t fix.</h1>
     <p class="hero-pillars reveal in" data-d="2">Capability Consulting <span aria-hidden="true">&middot;</span> Business Analysis &amp; Improvement <span aria-hidden="true">&middot;</span> Learning &amp; Workforce Development</p>
-    <p class="hero-sub reveal in" data-d="2">We help organisations find the real cause of performance and capability problems, then make proportionate, evidence-based improvements. Specialist experience in Defence and public services; organisations of every size.</p>
+    <p class="hero-sub reveal in" data-d="2">Prelude diagnoses capability gaps, gets to the cause of performance challenges and delivers evidence-based improvement, so time and money go where they change results.</p>
     <div class="hero-actions reveal in" data-d="3">
       <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
       <a href="case-studies.html" class="btn btn-ghost">Explore our work</a>
@@ -5302,13 +5304,13 @@ home_body = f'''<header class="hero-2026 hero-compact" id="top">
 
 <section class="sec sec-tint home-evidence">
   <div class="wrap">
-{section_head("Evidence of experience", "Founder-led work in complex, high-stakes environments.")}    <div class="cs-grid two">
+{section_head("Evidence of experience", "From Defence programmes to growing businesses.")}    <div class="cs-grid two">
 {_cases}    </div>
     <figure class="quote-2026 home-quote reveal">
       <blockquote><p>{DS4D_QUOTE}</p></blockquote>
       <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
     </figure>
-    <p class="fine-print reveal">These studies come from Jason Smith&rsquo;s previous roles. Prelude&rsquo;s own recent engagements, with an owner-led service business and a digital start-up, are summarised anonymously on the <a href="case-studies.html#business-analysis">case studies page</a>.</p>
+    <p class="fine-print reveal">The DS4D work was part of Jason Smith&rsquo;s previous role with Korn Ferry. The owner-led business is a recent Prelude engagement, shared without client details.</p>
   </div>
 </section>
 
@@ -5318,8 +5320,8 @@ home_body = f'''<header class="hero-2026 hero-compact" id="top">
     <div class="reveal" data-d="1">
       <div class="eyebrow">Who you work with</div>
       <h2 class="section-title small">Senior-led, from first conversation to final recommendation.</h2>
-      <p>Prelude is led by its founder, Jason Smith. Before founding Prelude he served 23 years in the Royal Navy, rising to senior operations, training and capability roles, then led national learning and development operations in healthcare, designed leadership programmes in social housing and led Training Needs Analysis on the MOD&rsquo;s Digital Skills for Defence programme.</p>
-      <p>You work with Jason directly. The person you meet is the person who does the work.</p>
+      <p>Prelude is led by Jason Smith, who brings more than 23 years of leadership and operational experience. He served in the Royal Navy in senior operations, training and capability roles, then led learning and capability work in healthcare, social housing and on the MOD&rsquo;s Digital Skills for Defence programme. You work with Jason directly: the person you meet is the person who does the work.</p>
+      <p class="home-reach">Prelude has particular expertise in Defence and the public sector, and works with organisations of every size, across every industry.</p>
       <ul class="fact-list">{_facts}</ul>
       <a class="text-link" href="about.html">More about Jason {ARROW}</a>
     </div>
@@ -5329,11 +5331,10 @@ home_body = f'''<header class="hero-2026 hero-compact" id="top">
 <section class="cta-band">
   <div class="wrap">
     <h2 class="reveal">What challenge are you trying to solve?</h2>
-    <p class="reveal" data-d="1">Whether you need a focused diagnostic, specialist support or help shaping a wider programme, start with a conversation about the problem.</p>
+    <p class="reveal" data-d="1">Whether you need a focused diagnostic, specialist consultancy support or help shaping a wider programme, start with a conversation about the problem.</p>
     <div class="cta-actions reveal" data-d="2">
       <a href="contact.html#book" class="btn btn-primary" data-event="contact_click">Discuss a challenge {ARROW}</a>
     </div>
-    <p class="cta-aside reveal" data-d="3">Not ready to talk yet? Try the free <a href="capability-readiness-review.html">Capability Readiness Review</a>, a ten-question self-assessment.</p>
   </div>
 </section>'''
 

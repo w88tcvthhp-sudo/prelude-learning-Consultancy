@@ -1,5 +1,12 @@
 # 07 · Change log
 
+## Homepage final remediation · 9 October 2026 (not yet committed)
+
+- **Hero, problems, services, founder and final CTA:** copy updated to the final brief.
+- **Evidence:** DS4D (founder-led) and the owner-led service business (anonymised Prelude example). The healthcare card has been removed from the homepage only.
+- **Final CTA:** the CRR link has been removed.
+- **Further detail:** see `08-homepage-mvp.md`, section 4.
+
 ## Homepage MVP · 9 October 2026
 
 Details, before-and-after map and test results are in `08-homepage-mvp.md`.

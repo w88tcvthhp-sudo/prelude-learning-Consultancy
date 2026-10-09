@@ -203,3 +203,29 @@ No redirects were needed, because no URLs changed.
 
    The anonymised SME work is Prelude's own contract but has no full page yet (backlog C7).
 5. **DS4D testimonial.** The wording is unchanged. Written permission to use it is still an open action in `03-content-evidence-register.md`.
+
+## 4. Second pass (final homepage remediation brief, 9 October 2026)
+
+**Structure:** six sections (unchanged).
+
+| Measure | Before | After |
+|---|---|---|
+| Visible body words | 632 | 629 |
+| Button CTAs | 3 | 3 |
+
+**What changed:**
+- **Hero:** the supporting copy is now 25 words, about diagnosing capability gaps, getting to the cause of performance challenges and evidence-based improvement. The sector line moves to the founder section.
+- **Problems:** the three problems now use the brief's wording:
+  - "Training isn't solving the problem";
+  - "Capability isn't translating into performance";
+  - "Improvement isn't delivering measurable value".
+- **Services:** the brief's descriptions are used, extended slightly to 20–24 words so that Training Needs Analysis, DSAT and learning strategy stay on the page.
+- **Evidence:** the healthcare card is replaced by the owner-led service business, labelled as an anonymised Prelude example. It links to its entry on the case studies page, because it has no dedicated page and the brief rules out creating new ones. The DS4D card and testimonial are unchanged. A note now says which work was founder-led and which was Prelude's.
+- **Founder:**
+  - The biography is about 65 words.
+  - The credentials are 23 years in the Royal Navy, DSAT specialist, PRINCE2 Practitioner and Active SC clearance.
+  - The sector statement is new: "Prelude has particular expertise in Defence and the public sector, and works with organisations of every size, across every industry."
+- **Final CTA:** the Capability Readiness Review text link has been removed (no secondary links), and the copy says "specialist consultancy support".
+- **CSS:** the unused `.cta-aside` rules have been removed and a `.home-reach` style added.
+
+**Where the CRR is still reachable:** the footer, the three pillar pages, the services hub and About.

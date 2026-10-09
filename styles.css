@@ -1151,9 +1151,8 @@ fieldset.crr-q .crr-opts{clear:both}
 .home-case p strong{color:#fff;font-weight:600}
 .home-quote{margin:clamp(44px,6vw,64px) auto 0;max-width:860px}
 .home-evidence .fine-print{margin-top:36px}
-.home-evidence .fine-print a,.cta-aside a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
 @media(min-width:901px){.home-founder .about-strip{grid-template-columns:minmax(140px,220px) 1fr}}
 @media(max-width:900px){.home-founder .about-photo{max-width:160px}}
-.cta-band .cta-aside{margin:24px auto 0;font-size:.95rem;color:var(--stone-dim)}
 .inline-link{color:var(--gold);text-decoration:underline;text-underline-offset:3px}.inline-link:hover{color:#fff}
 .home-founder p + p{margin-top:12px}
+.home-founder .home-reach{color:#fff;font-family:var(--display);margin-top:16px}

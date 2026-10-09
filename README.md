@@ -24,10 +24,16 @@ Public Sector. No build dependencies to deploy — plain HTML/CSS/JS/SVG. Brand 
 - assets/logo, assets/icons, assets/favicon.svg
 - PHOTOGRAPHY-BRIEF.md . art direction + ready-to-use image prompts for every photo slot
 
-## Proprietary framework graphics (inline SVG, brand-styled)
-Capability Readiness Review(TM), Capability Improvement Approach(TM),
-Training vs Capability Decision Model(TM), Readiness Maturity Model(TM),
-Capability Diagnostic Framework(TM) — used across home, defence, services, how-i-work and the CRR page.
+## Framework graphics (inline SVG, brand-styled)
+Aligned with the book *Training Isn't Always the Answer* (October 2026):
+- Prelude Performance & Capability Cycle (the method): `cycle_svg()`, `fw_cycle()`, `methodology()`
+- Golden Thread: `fw_golden_thread()`
+- Capability Diagnostic (eight domains): `fw_capability_diagnostic()`
+- Should We Train? decision tree: `fw_decision_model()`
+- Capability Readiness Review(TM) and Capability Readiness Maturity Model(TM): website only
+
+Retired: Capability Improvement Approach, Prelude Capability Model, Capability Diagnostic Framework,
+Training vs Capability Decision Model. Remediation records are in `docs/`.
 
 ## Hosting note (October 2026)
 The site is deployed from GitHub to Vercel. Every static page, the Formspree forms and

@@ -315,26 +315,61 @@ def cta(title, text, secondary=None):
 </section>
 '''
 
-METHOD_STEPS = [
-    ("01", "Understand the Mission", "Get clear on what the organisation actually needs to achieve, and the standard performance has to meet."),
-    ("02", "Analyse the Capability Gap", "Measure the real distance between current capability and what the mission demands — with evidence, not assumption."),
-    ("03", "Identify Root Causes", "Separate genuine training needs from problems of structure, governance, leadership or process."),
-    ("04", "Design the Right Intervention", "Build the solution that fits the cause — learning where it helps, but also structure, assurance or workforce design."),
-    ("05", "Measure Impact", "Track the outcomes that matter: readiness, performance, compliance, completion and time-to-competence."),
-    ("06", "Improve Continuously", "Feed results back in, so capability keeps improving rather than decaying once the project ends."),
+# ------------------------------------------------------------------ cycle
+CYCLE = [
+    ("Understand", "What are we trying to achieve?",
+     "Agree the outcome, the context and what good performance looks like before anyone discusses solutions."),
+    ("Diagnose", "Why isn&rsquo;t it happening now?",
+     "Gather evidence, separate symptoms from causes and test whether the problem is knowledge, skill, process, system, structure or something else."),
+    ("Define", "What needs to be different?",
+     "Turn the diagnosis into clear requirements: the performance, behaviours, capabilities and conditions the solution must deliver."),
+    ("Intervene", "What is the smallest effective combination of changes?",
+     "Choose the interventions that close the gap. Sometimes that is training. Often it is a process, a tool, a role, a decision or a combination."),
+    ("Prove", "Did performance actually improve?",
+     "Measure against the baseline agreed at the start, so the organisation knows what worked and what to do next."),
 ]
 
+def cycle_svg():
+    import math
+    cx, cy, r = 210, 200, 140
+    nodes, labels = "", ""
+    for i, (name, _, _) in enumerate(CYCLE):
+        a = -math.pi / 2 + i * 2 * math.pi / 5
+        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+        nodes += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" class="cy-node{" cy-first" if i == 0 else ""}"/>'
+        lx, ly = cx + (r + 34) * math.cos(a), cy + (r + 34) * math.sin(a) + 5
+        anchor = "middle" if abs(math.cos(a)) < .3 else ("start" if math.cos(a) > 0 else "end")
+        labels += f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" class="cy-label">{i+1}. {name.upper()}</text>'
+    return f'''<svg class="cycle-svg" viewBox="-70 0 560 400" role="img" aria-labelledby="cycle-title cycle-desc">
+  <title id="cycle-title">The Prelude Performance &amp; Capability Cycle</title>
+  <desc id="cycle-desc">A five-stage cycle: Understand, Diagnose, Define, Intervene, Prove, then back to Understand.</desc>
+  <circle cx="{cx}" cy="{cy}" r="{r}" class="cy-ring"/>
+  <circle cx="{cx}" cy="{cy}" r="{r - 46}" class="cy-ring cy-inner"/>
+  <text x="{cx}" y="{cy - 6}" text-anchor="middle" class="cy-core">PERFORMANCE</text>
+  <text x="{cx}" y="{cy + 14}" text-anchor="middle" class="cy-core">&amp; CAPABILITY</text>
+  {nodes}{labels}
+</svg>'''
+
+def cycle_list(detail=True):
+    items = ""
+    for i, (name, q, d) in enumerate(CYCLE, 1):
+        body = f'<p>{d}</p>' if detail else ""
+        items += f'<li class="cycle-step reveal"><span class="cs-num">{i:02d}</span><div><h3>{name}</h3><p class="cs-q">{q}</p>{body}</div></li>\n'
+    return f'<ol class="cycle-steps">\n{items}</ol>'
+
 def methodology(intro=True):
+    """The Prelude Performance & Capability Cycle as five steps (sector pages)."""
     steps = ""
-    for n, t, p in METHOD_STEPS:
-        steps += f'      <div class="mstep reveal"><div class="mnum">{n}</div><h3>{t}</h3><p>{p}</p></div>\n'
+    for n, (t, q, p) in enumerate(CYCLE, 1):
+        steps += f'      <div class="mstep reveal"><div class="mnum">{n:02d}</div><h3>{t}</h3><p>{p}</p></div>\n'
     lead = ('    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">'
-            'A proprietary, repeatable method for turning capability problems into measurable performance.</h2>\n') if intro else ""
+            'One method, five stages, every engagement.</h2>\n') if intro else ""
     return f'''<section>
   <div class="wrap">
-    <div class="eyebrow reveal">The Capability Improvement Approach</div>
-{lead}    <div class="method-steps">
+    <div class="eyebrow reveal">The Prelude Performance &amp; Capability Cycle</div>
+{lead}    <div class="method-steps cycle-5">
 {steps}    </div>
+    <p class="reveal" style="margin-top:28px"><a class="text-link" href="approach/">How the approach works {ARROW}</a></p>
   </div>
 </section>
 '''
@@ -454,47 +489,41 @@ def fw_readiness_review():
     return framework("Capability Readiness Review&trade;", "Six dimensions. One real problem.",
                      "Before investing in a solution, the Review tests performance across the six places the problem actually lives.", svg)
 
-def fw_improvement_approach():
-    steps = [("01","Mission"),("02","Gap"),("03","Root Cause"),("04","Intervention"),("05","Impact"),("06","Improve")]
-    boxes = ""
-    x = 8; w = 142; gap = 24
-    for i,(n,t) in enumerate(steps):
-        boxes += f'<rect x="{x}" y="34" width="{w}" height="84" rx="6" fill="rgba(255,255,255,.02)" stroke="rgba(200,198,189,.16)" stroke-width="1"/>'
-        boxes += f'<text class="fw-dg-num" x="{x+18}" y="68" font-size="15">{n}</text>'
-        boxes += f'<text class="fw-dg-label" x="{x+18}" y="96" font-size="15">{t}</text>'
-        if i < len(steps)-1:
-            ax = x+w+gap/2
-            boxes += f'<path d="M{x+w+5} 76 h{gap-10}" stroke="#C8A96A" stroke-width="1.4" marker-end="url(#fwar)"/>'
-        x += w+gap
-    svg = f'''<svg class="fw-svg" viewBox="0 0 1004 150" role="img" aria-label="Capability Improvement Approach: Mission, Gap, Root Cause, Intervention, Impact, Improve">
-  <defs><marker id="fwar" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#C8A96A"/></marker></defs>
-  {boxes}
-</svg>'''
-    return framework("Capability Improvement Approach&trade;", "A repeatable route from problem to performance.",
-                     "Every engagement follows the same disciplined path — so improvement is structured, evidenced and sustained.", svg)
+BOOK_FRAMEWORK = "From the book <em>Training Isn&rsquo;t Always the Answer</em>"
+
+def fw_cycle():
+    return framework("Prelude Method &middot; the working method", "The Prelude Performance &amp; Capability Cycle",
+                     "Understand, Diagnose, Define, Intervene, Prove. Every engagement follows the same five stages, so the solution is chosen only after the cause is understood, and judged by whether performance actually improved. " + BOOK_FRAMEWORK + ".",
+                     f'<div class="fw-cycle">{cycle_svg()}</div>')
 
 def fw_decision_model():
-    svg = '''<svg class="fw-svg" viewBox="0 0 820 430" role="img" aria-label="Training vs Capability Decision Model">
-  <rect x="285" y="20" width="250" height="58" rx="8" fill="rgba(255,255,255,.02)" stroke="rgba(200,198,189,.2)" stroke-width="1"/>
-  <text class="fw-dg-label" x="410" y="54" text-anchor="middle" font-size="15">Performance gap identified</text>
-  <line x1="410" y1="78" x2="410" y2="118" stroke="#C8A96A" stroke-width="1.4" marker-end="url(#dm)"/>
+    svg = '''<svg class="fw-svg" viewBox="0 0 820 470" role="img" aria-labelledby="swt-t swt-d">
+  <title id="swt-t">Should We Train? decision tree</title>
+  <desc id="swt-d">Could the person perform the task to the required standard under ideal conditions? If no, they can&rsquo;t: there may be a learning need, once information, task design and practice have been checked. If yes, they can but don&rsquo;t: the cause is in the environment, such as expectations, feedback, obstacles, consequences, leadership or culture.</desc>
   <defs><marker id="dm" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#C8A96A"/></marker></defs>
-  <polygon points="410,124 540,200 410,276 280,200" fill="rgba(200,169,106,.06)" stroke="rgba(200,169,106,.5)" stroke-width="1.4"/>
-  <text class="fw-dg-label" x="410" y="194" text-anchor="middle" font-size="14">Is the knowledge</text>
-  <text class="fw-dg-label" x="410" y="214" text-anchor="middle" font-size="14">or skill missing?</text>
-  <line x1="540" y1="200" x2="640" y2="200" stroke="#0E7A5A" stroke-width="1.4" marker-end="url(#dm)"/>
-  <text class="fw-dg-num" x="590" y="190" text-anchor="middle" font-size="12">YES</text>
-  <line x1="410" y1="276" x2="410" y2="330" stroke="#0E7A5A" stroke-width="1.4" marker-end="url(#dm)"/>
-  <text class="fw-dg-num" x="424" y="306" text-anchor="start" font-size="12">NO</text>
-  <rect x="648" y="172" width="160" height="56" rx="8" fill="rgba(14,122,90,.12)" stroke="rgba(14,122,90,.6)" stroke-width="1"/>
-  <text class="fw-dg-label" x="728" y="198" text-anchor="middle" font-size="14">Training or</text>
-  <text class="fw-dg-label" x="728" y="216" text-anchor="middle" font-size="14">knowledge solution</text>
-  <rect x="200" y="330" width="420" height="76" rx="8" fill="rgba(255,255,255,.02)" stroke="rgba(200,169,106,.4)" stroke-width="1"/>
-  <text class="fw-dg-num" x="410" y="360" text-anchor="middle" font-size="12" letter-spacing="2">CAPABILITY PROBLEM</text>
-  <text class="fw-dg-label" x="410" y="384" text-anchor="middle" font-size="14">Structure &middot; Governance &middot; Leadership &middot; Process</text>
+  <rect x="270" y="14" width="280" height="54" rx="8" fill="rgba(255,255,255,.02)" stroke="rgba(200,198,189,.2)" stroke-width="1"/>
+  <text class="fw-dg-label" x="410" y="47" text-anchor="middle" font-size="15">Performance gap identified</text>
+  <line x1="410" y1="68" x2="410" y2="104" stroke="#C8A96A" stroke-width="1.4" marker-end="url(#dm)"/>
+  <polygon points="410,110 570,200 410,290 250,200" fill="rgba(200,169,106,.06)" stroke="rgba(200,169,106,.5)" stroke-width="1.4"/>
+  <text class="fw-dg-label" x="410" y="186" text-anchor="middle" font-size="14">Could they do it now,</text>
+  <text class="fw-dg-label" x="410" y="205" text-anchor="middle" font-size="14">to standard, under</text>
+  <text class="fw-dg-label" x="410" y="224" text-anchor="middle" font-size="14">ideal conditions?</text>
+  <line x1="570" y1="200" x2="618" y2="200" stroke="#0E7A5A" stroke-width="1.4" marker-end="url(#dm)"/>
+  <text class="fw-dg-num" x="594" y="188" text-anchor="middle" font-size="12">NO</text>
+  <rect x="624" y="150" width="188" height="100" rx="8" fill="rgba(14,122,90,.12)" stroke="rgba(14,122,90,.6)" stroke-width="1"/>
+  <text class="fw-dg-num" x="718" y="176" text-anchor="middle" font-size="12" letter-spacing="1.5">CAN&#8217;T</text>
+  <text class="fw-dg-label" x="718" y="198" text-anchor="middle" font-size="13">Possible learning need.</text>
+  <text class="fw-dg-sub" x="718" y="218" text-anchor="middle" font-size="12">Check information, task</text>
+  <text class="fw-dg-sub" x="718" y="234" text-anchor="middle" font-size="12">design and practice first</text>
+  <line x1="410" y1="290" x2="410" y2="338" stroke="#0E7A5A" stroke-width="1.4" marker-end="url(#dm)"/>
+  <text class="fw-dg-num" x="424" y="320" text-anchor="start" font-size="12">YES</text>
+  <rect x="150" y="344" width="520" height="106" rx="8" fill="rgba(255,255,255,.02)" stroke="rgba(200,169,106,.4)" stroke-width="1"/>
+  <text class="fw-dg-num" x="410" y="372" text-anchor="middle" font-size="12" letter-spacing="1.5">CAN, BUT DON&#8217;T &middot; NOT A LEARNING NEED</text>
+  <text class="fw-dg-label" x="410" y="398" text-anchor="middle" font-size="14">Expectations &middot; Feedback &middot; Obstacles</text>
+  <text class="fw-dg-label" x="410" y="422" text-anchor="middle" font-size="14">Consequences &middot; Leadership &amp; culture</text>
 </svg>'''
-    return framework("Training vs Capability Decision Model&trade;", "When training isn't the answer.",
-                     "A simple test that stops organisations spending on courses when the real issue is structure, governance or leadership.", svg)
+    return framework("Adapted from Mager &amp; Pipe", "The Should We Train? decision tree",
+                     "One question, two branches, and a decision you can defend. If people could do it under ideal conditions, training will not fix it. " + BOOK_FRAMEWORK + ".", svg)
 
 def fw_maturity_model():
     levels = [("1","Reactive"),("2","Compliant"),("3","Structured"),("4","Measured"),("5","Optimised")]
@@ -516,26 +545,40 @@ def fw_maturity_model():
     return framework("Capability Readiness Maturity Model&trade;", "Know where you are. See where to go.",
                      "Five stages of capability maturity — from reactive and ad-hoc to measured, optimised and continuously improving.", svg)
 
-def fw_prelude_model():
-    tiers = ["Mission &amp; Outcomes","Required Capability","Behaviours","Skills &amp; Knowledge","Governance &amp; Assurance","Performance Evidence"]
-    x = 60; w = 500; h = 54; gap = 30; y = 16; parts = ""
-    for i,t in enumerate(tiers):
-        top = (i == 0)
-        stroke = "#C8A96A" if top else "rgba(14,122,90,.6)"
-        fill = "rgba(200,169,106,.12)" if top else "rgba(44,74,63,.4)"
-        cls = "fw-dg-num" if top else "fw-dg-label"
-        parts += f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="7" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>'
-        parts += f'<text class="{cls}" x="{x+w/2}" y="{y+h/2+5}" text-anchor="middle" font-size="14.5" letter-spacing="1.5">{t.upper()}</text>'
-        if i < len(tiers)-1:
-            parts += f'<path d="M{x+w/2} {y+h+4} v{gap-9}" stroke="#C8A96A" stroke-width="1.4" marker-end="url(#pcm)"/>'
-        y += h+gap
-    vh = y - gap + 16
-    svg = f'''<svg class="fw-svg" viewBox="0 0 620 {vh}" role="img" aria-label="Prelude Capability Model: Mission and Outcomes, Required Capability, Behaviours, Skills and Knowledge, Governance and Assurance, Performance Evidence">
-  <defs><marker id="pcm" markerWidth="9" markerHeight="9" refX="4.5" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 z" fill="#C8A96A"/></marker></defs>
+GOLDEN_THREAD = [
+    ("Business Need", "What the organisation needs to achieve or change"),
+    ("Performance Outcome", "What people need to be doing, differently or better"),
+    ("Role / Task", "Which roles, and which tasks within them"),
+    ("Capability Requirement", "What role holders must be capable of, to standard"),
+    ("Intervention Requirement", "What must change: training, tools, process, resources"),
+    ("Learning Requirement", "Where applicable: what people need to learn, find or practise"),
+    ("Objective", "The observable performance the learning must produce"),
+    ("Assessment", "How achievement of the objective is checked"),
+    ("Performance Measure", "How change in the real job is checked"),
+    ("Business Outcome", "How the original need is shown to be met"),
+]
+
+def fw_golden_thread():
+    x = 40; w = 540; h = 44; gap = 14; y = 12; parts = ""
+    for i, (t, d) in enumerate(GOLDEN_THREAD):
+        end = i in (0, len(GOLDEN_THREAD) - 1)
+        stroke = "#C8A96A" if end else "rgba(14,122,90,.6)"
+        fill = "rgba(200,169,106,.12)" if end else "rgba(44,74,63,.4)"
+        parts += f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="1.3"/>'
+        parts += f'<text class="fw-dg-num" x="{x+18}" y="{y+27}" font-size="12">{i+1:02d}</text>'
+        parts += f'<text class="fw-dg-label" x="{x+52}" y="{y+20}" font-size="14">{t}</text>'
+        parts += f'<text class="fw-dg-sub" x="{x+52}" y="{y+36}" font-size="11.5">{d}</text>'
+        if i < len(GOLDEN_THREAD) - 1:
+            parts += f'<path d="M{x+w/2} {y+h+2} v{gap-5}" stroke="#C8A96A" stroke-width="1.4" marker-end="url(#gth)"/>'
+        y += h + gap
+    vh = y - gap + 12
+    names = ", ".join(t for t, _ in GOLDEN_THREAD)
+    svg = f'''<svg class="fw-svg fw-narrow" viewBox="0 0 620 {vh}" role="img" aria-label="The Golden Thread, ten links from top to bottom: {names}">
+  <defs><marker id="gth" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#C8A96A"/></marker></defs>
   {parts}
 </svg>'''
-    return framework("Prelude Capability Model&trade;", "How capability actually delivers performance.",
-                     "Our primary framework. Performance is traced from mission down to evidence — when any layer is missing, capability fails, and no amount of training fixes it.", svg)
+    return framework("Prelude Method &middot; building on DSAT traceability", "The Golden Thread",
+                     "One unbroken line from business need to business outcome. Read top to bottom, it is a design method; bottom to top, an audit tool. If an activity can&rsquo;t be traced back to a performance requirement, why is it being done? " + BOOK_FRAMEWORK + ".", svg)
 
 def snapshot(title, kind="map"):
     # lightweight branded "diagnostic output" visuals used as supporting artefacts
@@ -570,23 +613,35 @@ def snapshot(title, kind="map"):
   <svg class="fw-svg" viewBox="0 0 600 160" role="img" aria-label="{title}">{body}</svg>
 </div>'''
 
-def fw_diagnostic_framework():
-    tiers = [("Mission &amp; Outcomes",40,112,60,120),
-             ("Required Capability",112,184,120,180),
-             ("Behaviours",184,256,180,240),
-             ("Evidence",256,328,240,300),
-             ("Measurement &amp; Assurance",328,400,300,360)]
-    cx = 400; polys = ""
-    for i,(t,y0,y1,hw0,hw1) in enumerate(tiers):
-        col = "#C8A96A" if i == 0 else "rgba(14,122,90,.55)"
-        fill = "rgba(200,169,106,.10)" if i == 0 else "rgba(44,74,63,.34)"
-        polys += f'<polygon points="{cx-hw0},{y0} {cx+hw0},{y0} {cx+hw1},{y1} {cx-hw1},{y1}" fill="{fill}" stroke="{col}" stroke-width="1.3"/>'
-        polys += f'<text class="fw-dg-label" x="{cx}" y="{(y0+y1)/2+5}" text-anchor="middle" font-size="15">{t}</text>'
-    svg = f'''<svg class="fw-svg" viewBox="0 0 800 440" role="img" aria-label="Capability Diagnostic Framework tiers from Mission to Measurement">
-  {polys}
+CAPABILITY_DIAGNOSTIC = ["Knowledge &amp; Skill", "Role &amp; Expectations", "Process &amp; Workflow", "Tools &amp; Technology",
+                         "Resources &amp; Capacity", "Leadership &amp; Management", "Motivation &amp; Incentives", "Environment &amp; Culture"]
+
+def fw_capability_diagnostic():
+    import math
+    cx, cy, r = 410, 235, 150
+    nodes, labels, spokes = "", "", ""
+    for i, t in enumerate(CAPABILITY_DIAGNOSTIC):
+        a = -math.pi / 2 + i * 2 * math.pi / 8
+        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+        first = i == 0
+        spokes += f'<line x1="{cx}" y1="{cy}" x2="{x:.1f}" y2="{y:.1f}" stroke="rgba(200,198,189,.14)" stroke-width="1"/>'
+        nodes += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{9 if first else 7}" fill="{"#C8A96A" if first else "#0E7A5A"}"/>'
+        lx, ly = cx + (r + 26) * math.cos(a), cy + (r + 26) * math.sin(a) + 5
+        anchor = "middle" if abs(math.cos(a)) < .3 else ("start" if math.cos(a) > 0 else "end")
+        labels += f'<text class="fw-dg-label" x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-size="15">{t}</text>'
+    names = ", ".join(t.replace("&amp;", "and") for t in CAPABILITY_DIAGNOSTIC)
+    svg = f'''<svg class="fw-svg" viewBox="0 0 820 480" role="img" aria-label="The Capability Diagnostic: eight domains around a performance gap: {names}. Knowledge and Skill is the only domain primarily fixed by training.">
+  <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="rgba(200,169,106,.25)" stroke-width="1.4"/>
+  {spokes}
+  <circle cx="{cx}" cy="{cy}" r="56" fill="rgba(200,169,106,.06)" stroke="rgba(200,169,106,.5)" stroke-width="1.4"/>
+  <text class="fw-dg-num" x="{cx}" y="{cy-4}" text-anchor="middle" font-size="12" letter-spacing="2">PERFORMANCE</text>
+  <text class="fw-dg-num" x="{cx}" y="{cy+14}" text-anchor="middle" font-size="12" letter-spacing="2">GAP</text>
+  {nodes}{labels}
+  <circle cx="300" cy="462" r="6" fill="#C8A96A"/><text class="fw-dg-sub" x="312" y="466" font-size="12">Primarily fixed by training</text>
+  <circle cx="486" cy="462" r="5" fill="#0E7A5A"/><text class="fw-dg-sub" x="498" y="466" font-size="12">Usually fixed elsewhere</text>
 </svg>'''
-    return framework("Capability Diagnostic Framework&trade;", "Trace performance from mission to measurement.",
-                     "Capability only delivers when every layer aligns — outcomes, capability, behaviours, evidence and assurance.", svg)
+    return framework("Adapted from Gilbert&rsquo;s Behaviour Engineering Model", "The Capability Diagnostic",
+                     "Eight places to look before you blame the people. Only one is primarily fixed by training, and most real performance problems have causes in two, three or four at once. " + BOOK_FRAMEWORK + ".", svg)
 
 # ------------------------------------------------------------------ sections
 ROLES = ["Defence Programme Leaders","Capability Managers","Heads of Learning &amp; Development","HR Directors",
@@ -776,11 +831,11 @@ defence_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Proprietary frameworks</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every Defence engagement.</h2>
-    {fw_prelude_model()}
+    <div class="eyebrow reveal">Frameworks we use</div>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking we bring to every Defence engagement.</h2>
+    {fw_golden_thread()}
     {fw_decision_model()}
-    {fw_diagnostic_framework()}
+    {fw_capability_diagnostic()}
   </div>
 </section>
 
@@ -868,9 +923,9 @@ healthcare_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Proprietary frameworks</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every healthcare engagement.</h2>
-    {fw_prelude_model()}
+    <div class="eyebrow reveal">Frameworks we use</div>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking we bring to every healthcare engagement.</h2>
+    {fw_golden_thread()}
     {fw_decision_model()}
   </div>
 </section>
@@ -957,9 +1012,9 @@ housing_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Proprietary frameworks</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every housing engagement.</h2>
-    {fw_prelude_model()}
+    <div class="eyebrow reveal">Frameworks we use</div>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking we bring to every housing engagement.</h2>
+    {fw_golden_thread()}
     {fw_maturity_model()}
   </div>
 </section>
@@ -1045,10 +1100,10 @@ public_sector_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Proprietary frameworks</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every public sector engagement.</h2>
-    {fw_prelude_model()}
-    {fw_diagnostic_framework()}
+    <div class="eyebrow reveal">Frameworks we use</div>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking we bring to every public sector engagement.</h2>
+    {fw_golden_thread()}
+    {fw_capability_diagnostic()}
   </div>
 </section>
 
@@ -1079,7 +1134,7 @@ public_sector_body = f'''<header class="page-hero">
 # ================================================================== PROFESSIONAL SERVICES
 PROFESSIONAL_SERVICES_FAQ = [
     ("You mostly work with Defence and public sector — do you understand professional services firms?", "Yes. Before founding Prelude, Jason worked inside a professional services firm: Korn Ferry, as Lead Learning &amp; Development Consultant on the Ministry of Defence&rsquo;s Digital Skills for Defence programme. That sits alongside the operational and Defence background this site describes."),
-    ("We're a partnership, not a corporate hierarchy — does your approach still apply?", "Yes. The Prelude Capability Model traces performance from mission to evidence regardless of structure — it adapts to partnership and track-based progression models as readily as to line-management hierarchies."),
+    ("We're a partnership, not a corporate hierarchy — does your approach still apply?", "Yes. The Golden Thread traces performance from business need to business outcome regardless of structure — it adapts to partnership and track-based progression models as readily as to line-management hierarchies."),
     ("Can this help with associate or graduate retention?", "Talent leaving before it matures is a capability and pathway problem more often than a pay problem. Structured development pathways and clearer progression are directly in scope."),
     ("Do you have case studies specifically from professional services firms?", "Not yet published on this site — the case studies here are drawn from Defence, Healthcare and Housing engagements. The method and the Korn Ferry background transfer directly; I'm happy to discuss relevant experience and references in a first conversation."),
     ("What does a first engagement usually look like?", "The same as any sector: a Capability Readiness Review to find where the real problem sits, before recommending anything — never a course or programme sold before the diagnosis is done."),
@@ -1130,9 +1185,9 @@ professional_services_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">Proprietary frameworks</div>
-    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking I bring to every professional services engagement.</h2>
-    {fw_prelude_model()}
+    <div class="eyebrow reveal">Frameworks we use</div>
+    <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">The thinking we bring to every professional services engagement.</h2>
+    {fw_golden_thread()}
     {fw_decision_model()}
   </div>
 </section>
@@ -1605,13 +1660,10 @@ services_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">How the work fits together</div>
-    {fw_improvement_approach()}
+    {fw_cycle()}
   </div>
 </section>
 
-<div class="divider"></div>
-
-{methodology()}
 {cta("Not sure which of these you need?", "That's normal — and it's exactly what a first conversation is for. We'll work out the real problem together.", secondary=("View case studies", "case-studies.html"))}'''
 
 # ================================================================== CASE STUDY PAGES
@@ -1825,9 +1877,8 @@ CASE_EVIDENCE_NOTE = ("Figures were measured and reported by the organisation at
 GLOSSARY_TERMS = [
     ("active-sc-dv-clearance", "Active SC / DV Clearance", "UK Government security clearance levels — Security Check (SC) and the higher Developed Vetting (DV) — required to work on sensitive Defence and government programmes. Jason holds Active SC clearance and is a former DV holder.", "about.html", "About Jason's clearances"),
     ("apprenticeship-funding-compliance", "Apprenticeship Funding Compliance", "The evidence and audit trail required to protect government-funded apprenticeship investment — proving that funded time, off-the-job training and progress tracking meet the rules, not just that someone eventually qualified.", "apprenticeships.html", "Apprenticeships service"),
-    ("capability-diagnostic-framework", "Capability Diagnostic Framework&trade;", "Prelude's framework for tracing performance from mission and outcomes down through required capability, behaviours and evidence — used to identify exactly which layer is missing when capability fails.", "defence.html", "See it applied on the Defence page"),
+    ("capability-diagnostic", "Capability Diagnostic", "The eight places to look for the cause of a performance gap before deciding on a solution: knowledge and skill; role and expectations; process and workflow; tools and technology; resources and capacity; leadership and management; motivation and incentives; environment and culture. Only the first is primarily fixed by training. Adapted from Gilbert&rsquo;s Behaviour Engineering Model and set out in <em>Training Isn&rsquo;t Always the Answer</em>.", "training-isnt-always-the-answer/", "About the book"),
     ("capability-framework", "Capability Framework", "A defined, consistent standard of competence for a role or specialisation, used for assessment, development and workforce planning. Unlike a job description, a capability framework is meant to be applied the same way by every assessor, not interpreted locally by every team.", "what-is-a-capability-framework.html", "Read the full definition"),
-    ("capability-improvement-approach", "Capability Improvement Approach&trade;", "Prelude's six-stage method for turning a capability problem into measurable performance: understand the mission, analyse the gap, identify root causes, design the right intervention, measure impact, and improve continuously.", "how-i-work.html", "How I Work"),
     ("capability-readiness-maturity-model", "Capability Readiness Maturity Model&trade;", "Five stages of organisational capability maturity, from Reactive (ad-hoc, no evidence) through Compliant and Structured to Measured and Optimised. Most organisations can place themselves on this scale within one conversation.", "how-i-work.html", "How I Work"),
     ("capability-readiness-review", "Capability Readiness Review&trade;", "Prelude's ten-question diagnostic for identifying which of six areas — capability, leadership, process, governance, workforce or training — a performance problem actually sits in, before any solution is designed.", "capability-readiness-review.html", "Take the free self-assessment"),
     ("capability-vs-competency", "Capability vs Competency", "Related but distinct: competency usually describes an individual's skill or behaviour, while capability describes whether the organisation as a whole — people, governance, structure and process together — can reliably deliver the outcome. An organisation can have competent individuals and still lack capability.", "capability-vs-competency-explained.html", "Read the full explanation"),
@@ -1835,20 +1886,22 @@ GLOSSARY_TERMS = [
     ("cmi", "CMI", "The Chartered Management Institute — the UK's professional body for management and leadership, awarding recognised qualifications in leadership and coaching.", "about.html", "About Jason's qualifications"),
     ("dsat", "DSAT", "The Defence Systems Approach to Training — the methodology set out in JSP 822 for designing, delivering and assuring training across UK Defence. In practice, it's a structured way of answering five questions: what capability is required, how will training be designed, developed and delivered to build it, and how will you know it worked.", "dsat-explained.html", "Read: DSAT Explained"),
     ("evaluation-kirkpatrick", "Evaluation (Kirkpatrick Model)", "The standard four-level model for measuring training effectiveness: reaction, learning, behaviour and results. Most organisations measure only the first level (did people enjoy it) and call it evaluation — genuine evaluation asks whether behaviour and results actually changed.", "kirkpatricks-model-in-practice.html", "Read the full article"),
+    ("golden-thread", "Golden Thread", "A single, unbroken line of traceability from business need to business outcome, in ten links: business need, performance outcome, role and task, capability requirement, intervention requirement, learning requirement (where applicable), objective, assessment, performance measure and business outcome. Read top to bottom it is a design method; bottom to top, an audit tool. Builds on DSAT traceability and benefits mapping.", "approach/", "The approach"),
     ("jsp-822", "JSP 822", "The Ministry of Defence Joint Service Publication that sets out DSAT requirements — the policy document behind Defence training governance, assurance and audit.", "dsat-explained.html", "Read: DSAT Explained"),
     ("learning-governance", "Learning Governance", "The decision rights and evidence trail behind how training and learning are assured, audited and held accountable — who owns which decision, and what evidence proves it was made well.", "training-governance-complete-guide.html", "Read the complete guide"),
     ("learning-strategy", "Learning Strategy", "The document connecting capability investment to organisational goals — what's being invested in, why, and how impact will be measured — as distinct from a training plan, which just lists what's being delivered.", "learning-strategy-complete-guide.html", "Read the complete guide"),
     ("lms", "LMS (Learning Management System)", "The platform used to deliver, track and report on training. An LMS produces data by default, but data isn't the same as trustworthy reporting — most LMS problems are configuration and information management issues, not platform failures.", "what-is-an-lms.html", "Read the full definition"),
     ("organisational-development", "Organisational Development", "The discipline of improving how an organisation functions structurally — roles, governance, culture and process — rather than only developing individual skills. Capability work often surfaces organisational development needs that training alone can't address.", "services.html", "Explore services"),
     ("performance-consulting", "Performance Consulting", "Diagnosing why organisational performance is falling short before prescribing a solution — testing whether the cause is genuinely a skills gap, or something structural, before recommending training, restructuring or anything else.", "performance-consulting-complete-guide.html", "Read the complete guide"),
-    ("prelude-capability-model", "Prelude Capability Model&trade;", "Prelude's primary framework, tracing performance from mission and outcomes down through required capability, behaviours, skills and knowledge, governance and assurance, to performance evidence. When any layer is missing, capability fails — and no amount of training fixes it.", "how-i-work.html", "How I Work"),
+    ("prelude-method", "Prelude Method", "The label used in <em>Training Isn&rsquo;t Always the Answer</em> for Prelude&rsquo;s own syntheses and frameworks, such as the Performance &amp; Capability Cycle and the Golden Thread. They bring together established disciplines (TNA, DSAT, business analysis and performance consulting) rather than inventing new theory.", "training-isnt-always-the-answer/", "About the book"),
+    ("performance-capability-cycle", "Prelude Performance &amp; Capability Cycle", "Prelude&rsquo;s working method, in five stages: Understand, Diagnose, Define, Intervene, Prove. Training is treated as one possible intervention among many, chosen only after the cause of a performance gap is understood.", "approach/", "The approach"),
     ("prince2", "PRINCE2", "A structured project management methodology widely used across UK government and Defence programmes. Jason is a PRINCE2 Practitioner.", "about.html", "About Jason's qualifications"),
+    ("should-we-train", "Should We Train? decision tree", "A test for whether a performance gap needs learning: could the person perform the task to the required standard under ideal conditions? If not, there may be a learning need, once information, task design and practice have been checked. If they could, the cause is in the environment, and training will not fix it. Adapted from Mager and Pipe.", "training-vs-capability-decision-model-explained.html", "Read the full explanation"),
     ("skills-framework", "Skills Framework", "A map of the specific skills required for particular roles — narrower and more operational than a capability framework, which sets the broader standard a role needs to meet. Skills frameworks are what make workforce planning and succession possible in practice.", "what-is-a-skills-framework.html", "Read the full definition"),
     ("succession-planning", "Succession Planning", "Preparing the pipeline for critical roles before a vacancy forces a rushed decision — identifying and developing likely successors ahead of need, rather than reacting when someone leaves.", "succession-planning-critical-roles.html", "Read the article"),
     ("tna", "TNA (Training Needs Analysis)", "The structured process of testing whether a performance gap is genuinely a training gap, or whether it's being held back by something else — unclear roles, weak governance, or a structure working against the outcome. A properly run TNA can conclude that training isn't the answer.", "training-needs-analysis-complete-guide.html", "Read the complete guide"),
     ("totara", "Totara", "An open-source Learning Management System, built on Moodle, widely used across UK healthcare and public sector organisations for its flexibility around compliance reporting and structured learning pathways.", "totara-vs-off-the-shelf-lms.html", "Read the comparison"),
     ("training-governance", "Training Governance", "Governance applied specifically to training delivery and compliance — audit-ready evidence, clear decision rights, and defensible assurance that training is meeting the standard it's supposed to.", "training-governance-complete-guide.html", "Read the complete guide"),
-    ("training-vs-capability-decision-model", "Training vs Capability Decision Model&trade;", "Prelude's test for whether a performance gap needs training or something structural: if the knowledge or skill is genuinely missing, it's a training problem. If it isn't, the real issue is usually structure, governance, leadership or process.", "training-vs-capability-decision-model-explained.html", "Read the full explanation"),
     ("workforce-planning", "Workforce Planning", "Aligning roles, skills and structure to actual operational demand, so an organisation is ready for what's coming, not just resourced for what's here today.", "workforce-planning.html", "Workforce Planning service"),
 ]
 
@@ -2173,7 +2226,7 @@ INSIGHTS_FULL = [
                "Closing that gap means measuring learning against the same outcomes leaders are actually accountable for, not against a parallel set of activity metrics that only make sense within L&D."]),
              ("What readiness actually means",
               ["Readiness isn't a training outcome — it's an organisational one, built from people, behaviours, governance, leadership, structure, assurance and learning all working together. Training is one input among several, which is exactly why training completion, on its own, rarely predicts readiness reliably.",
-               "This is the thinking behind the Prelude Capability Model — tracing performance from mission and outcomes down through required capability, behaviours, skills and knowledge, governance and assurance, to the evidence that proves it's actually working."]),
+               "This is the thinking behind the Golden Thread: one unbroken line from the business need, through performance and capability, to the evidence that the outcome was actually achieved."]),
              ("Applying the model",
               ["In practice, this means starting any capability investment by asking what the mission actually requires, then tracing backwards through which layer is genuinely missing — rather than starting from an assumption that training is the fix and working forwards.",
                "Where any layer in that chain is missing — unclear mission link, undefined capability requirement, absent governance — no amount of training closes the gap, because training was never the layer that was broken."]),
@@ -2188,7 +2241,7 @@ INSIGHTS_FULL = [
          related_slug="capability-readiness-review", related_title="Take the Capability Readiness Review",
          related_reading=[
              ("Performance Consulting: The Complete Guide", "performance-consulting-complete-guide"),
-             ("The Training vs Capability Decision Model, Explained", "training-vs-capability-decision-model-explained"),
+             ("The Should We Train? Decision Tree, Explained", "training-vs-capability-decision-model-explained"),
              ("How to Tell If Your Performance Problem Is Really a Training Problem", "is-your-performance-problem-really-a-training-problem"),
          ]),
     dict(slug="training-needs-analysis-complete-guide", category="Method", kind="Complete Guide",
@@ -3097,10 +3150,10 @@ INSIGHTS_FULL = [
          sections=[
              ("What performance consulting actually is",
               ["Performance consulting is the discipline of diagnosing why organisational performance is falling short before recommending a fix — testing whether the cause is genuinely a skills gap, or something structural, rather than defaulting to whichever intervention is easiest to commission."]),
-             ("The Training vs Capability Decision Model",
-              ["The core diagnostic question is simple to state and easy to skip under pressure: is the knowledge or skill genuinely missing, or is something else — structure, governance, leadership, process — holding performance back? The dedicated article sets out how to apply this test properly."]),
+             ("The Should We Train? decision tree",
+              ["The core diagnostic question is simple to state and easy to skip under pressure: could people do it now, under ideal conditions? If they could, the cause sits in the environment (expectations, feedback, tools, process, incentives or leadership), not in a lack of knowledge or skill. The dedicated article sets out how to apply this test properly."]),
              ("How to tell if your performance problem is really a training problem",
-              ["Beyond the model itself, there are concrete signs that distinguish a genuine training gap from a structural one — evidence that's often available internally but rarely gathered before training gets commissioned. The dedicated article walks through what to look for."]),
+              ["Beyond the decision tree itself, there are concrete signs that distinguish a genuine training gap from a structural one — evidence that's often available internally but rarely gathered before training gets commissioned. The dedicated article walks through what to look for."]),
              ("Performance consulting for the public sector",
               ["Public sector performance problems carry constraints private-sector diagnosis rarely has to account for — budget scrutiny, political visibility, and the requirement that recommendations survive audit, not just internal review. The dedicated article covers what's genuinely different."]),
              ("From training to readiness — measuring what matters",
@@ -3117,28 +3170,33 @@ INSIGHTS_FULL = [
          related_slug="capability-readiness-review", related_title="Take the Capability Readiness Review",
          related_reading=[
              ("From Training to Readiness", "from-training-to-readiness"),
-             ("The Training vs Capability Decision Model, Explained", "training-vs-capability-decision-model-explained"),
+             ("The Should We Train? Decision Tree, Explained", "training-vs-capability-decision-model-explained"),
              ("How to Tell If Your Performance Problem Is Really a Training Problem", "is-your-performance-problem-really-a-training-problem"),
              ("Performance Consulting for the Public Sector: What's Different", "performance-consulting-public-sector"),
          ]),
     dict(slug="training-vs-capability-decision-model-explained", category="Performance",
-         title="The Training vs Capability Decision Model, Explained",
-         h1="The Training vs Capability Decision Model, Explained",
-         hero_sub="One question decides whether a performance gap needs training or something structural — here's how to apply it properly.",
+         title="The Should We Train? Decision Tree, Explained",
+         h1="The Should We Train? Decision Tree, Explained",
+         hero_sub="One question decides whether a performance gap needs learning: could people do it now, under ideal conditions? Here is how to apply it.",
          sections=[
-             ("The one question the model asks",
-              ["The model reduces to a single test: is the knowledge or skill required to perform genuinely missing? Not 'would more training help' — almost anything can be marginally helped by more training — but whether its specific absence is what's actually causing the performance gap."]),
-             ("If the answer is yes: it's a training problem",
-              ["Where the required knowledge or skill genuinely doesn't exist yet, training is the correct intervention, and the next step is a proper Training Needs Analysis to define exactly what's needed and how to build it defensibly."]),
-             ("If the answer is no: what it usually is instead",
-              ["Where the skill or knowledge already exists but performance still falls short, the cause is usually structural: unclear roles, weak governance, a process working against the outcome, or leadership not creating the conditions for people to apply what they already know. None of these are fixed by more training, however well-intentioned."]),
-             ("Using the model without overcomplicating it",
-              ["The model is deliberately simple, and that's the point — it's meant to be applied quickly, before budget is committed, not turned into its own lengthy analytical exercise. Where the answer isn't obvious, that uncertainty itself is the signal to run a proper diagnostic, like the Capability Readiness Review, rather than guessing."]),
+             ("The one question the tree asks",
+              ["Could the person perform the task to the required standard right now, under ideal conditions: the right tools, enough time, no distractions and a clear understanding of what is wanted? This tests capability, not everyday behaviour. The best way to answer it is to ask people to show you.",
+               "The decision tree is adapted from Robert Mager and Peter Pipe&rsquo;s performance analysis and extended with the Capability Diagnostic, as set out in <em>Training Isn&rsquo;t Always the Answer</em>."]),
+             ("If the answer is no: they can&rsquo;t",
+              ["There may be a learning need, but don&rsquo;t book a course yet. First check whether they could ever do it (skill fade), whether what is missing is information that could be provided at the point of need rather than memorised, whether the task could be made simpler, and whether the gap is really one of practice rather than knowledge.",
+               "Only a genuine gap that survives those questions is a learning requirement. The next step is a proper Training Needs Analysis to define exactly what is needed and how to build it."]),
+             ("If the answer is yes: they can, but don&rsquo;t",
+              ["If people can perform to the standard under ideal conditions but don&rsquo;t in practice, something in the environment is getting in the way. Do they know it is expected? Do they get feedback? Are tools, processes, time or resources in the way? What are the consequences of doing it properly? What do managers and colleagues do?",
+               "The answer on this branch is almost always a non-training intervention: clarifying expectations, providing feedback, removing obstacles, fixing processes and tools, changing incentives, or acting on leadership and culture."]),
+             ("The grey areas",
+              ["Real groups are rarely tidy. Some people can and some can&rsquo;t, so the two groups need different responses. Some can in a calm room but not under pressure, which points to practice. Some can&rsquo;t because of the system, such as missing access or broken equipment, which training will not fix. A brand-new task means nobody can do it yet, which is exactly the moment to check that processes, tools and roles are ready too."]),
+             ("Using the tree without overcomplicating it",
+              ["The tree is deliberately simple. It is meant to be applied quickly, before budget is committed, and it makes the decision easy to explain to the person who asked for training. Where the answer isn&rsquo;t obvious, run a fuller diagnosis with the Capability Diagnostic, or start with the Capability Readiness Review."]),
          ],
          faqs=[
-             ("Can a performance gap be partly training and partly structural?", "Yes, and it's a common finding — the model doesn't require a single cause, only that each contributing cause is honestly tested rather than training being assumed as the whole answer by default."),
-             ("Who should apply this test — L&D or the business?", "Ideally both together — L&D alone may be biased toward finding a training answer, and the business alone may lack the framework to test the alternative structural explanations systematically."),
-             ("Does this model replace a Training Needs Analysis?", "No — it's the test that decides whether a TNA is the right next step at all, not a substitute for the analysis itself once training is confirmed as relevant."),
+             ("Can a performance gap be partly training and partly something else?", "Yes, and it is a common finding. Different groups often need different answers: targeted learning for those who can&rsquo;t, and environmental fixes for those who can but don&rsquo;t."),
+             ("Who should apply this test — L&D or the business?", "Ideally both together — L&D alone may be biased toward finding a training answer, and the business alone may lack the framework to test the alternative explanations systematically."),
+             ("Does the decision tree replace a Training Needs Analysis?", "No. It decides whether a TNA is the right next step at all. Once a genuine learning need is confirmed, the TNA defines what is needed and how to build it."),
          ],
          related_slug="capability-readiness-review", related_title="Take the Capability Readiness Review",
          related_reading=[
@@ -3168,7 +3226,7 @@ INSIGHTS_FULL = [
          related_slug="capability-readiness-review", related_title="Take the Capability Readiness Review",
          related_reading=[
              ("Performance Consulting: The Complete Guide", "performance-consulting-complete-guide"),
-             ("The Training vs Capability Decision Model, Explained", "training-vs-capability-decision-model-explained"),
+             ("The Should We Train? Decision Tree, Explained", "training-vs-capability-decision-model-explained"),
              ("Performance Consulting for the Public Sector: What's Different", "performance-consulting-public-sector"),
          ]),
     dict(slug="performance-consulting-public-sector", category="Performance",
@@ -3193,7 +3251,7 @@ INSIGHTS_FULL = [
          related_slug="capability-readiness-review", related_title="Take the Capability Readiness Review",
          related_reading=[
              ("Performance Consulting: The Complete Guide", "performance-consulting-complete-guide"),
-             ("The Training vs Capability Decision Model, Explained", "training-vs-capability-decision-model-explained"),
+             ("The Should We Train? Decision Tree, Explained", "training-vs-capability-decision-model-explained"),
              ("How to Tell If Your Performance Problem Is Really a Training Problem", "is-your-performance-problem-really-a-training-problem"),
          ]),
     dict(slug="defence-learning-capability-guide", category="Defence", kind="Complete Guide",
@@ -3734,7 +3792,7 @@ for _art in INSIGHTS_FULL:
 
 # ================================================================== INSIGHTS
 RES = [
-    ("assets/icons/insight.svg", "The Capability Readiness Playbook&trade;", "Our consultancy-grade guide: the Prelude Capability Model&trade;, the Capability Readiness Review&trade;, common capability mistakes and the diagnostic questions we use."),
+    ("assets/icons/insight.svg", "The Capability Readiness Playbook&trade;", "Our practical guide: the Golden Thread, the Capability Diagnostic, the Capability Readiness Review&trade;, common capability mistakes and the diagnostic questions we use."),
     ("assets/icons/readiness.svg", "Capability Readiness Review", "The full ten-point diagnostic as a printable workbook — with scoring and guidance to find the real problem."),
     ("assets/icons/assurance.svg", "Defence Training Needs Analysis Checklist", "A practical checklist for running a DSAT-aligned TNA that finds the real gap, not just the symptom."),
     ("assets/icons/governance.svg", "Learning Governance Health Check", "Twelve questions to test whether your training governance would stand up to audit."),
@@ -3926,8 +3984,8 @@ crr_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">What it is</div>
-    <p class="lead reveal" data-d="1">A diagnostic, not a sales tool. <span class="dim">The Capability Readiness Review tests how clearly you can answer the ten questions that determine whether an intervention will actually work — and shows where the risk really sits. It's built on the Prelude Capability Model&trade;.</span></p>
-    {fw_prelude_model()}
+    <p class="lead reveal" data-d="1">A diagnostic, not a sales tool. <span class="dim">The Capability Readiness Review tests how clearly you can answer the ten questions that determine whether an intervention will actually work — and shows where the risk really sits. The questions follow the Golden Thread, from the problem itself to how success will be measured.</span></p>
+    {fw_golden_thread()}
     {fw_readiness_review()}
   </div>
 </section>
@@ -3941,7 +3999,7 @@ crr_body = f'''<header class="page-hero">
     <div class="ladder reveal" data-d="2">
       <div class="rung"><div class="rung-tag">Free</div><h3>Capability Readiness Self-Assessment</h3><p>The ten-question self-assessment on this page. An immediate, honest read on where your readiness gaps sit — in two minutes, in your browser.</p><a class="read" href="#crr">Start below →</a></div>
       <div class="rung featured"><div class="rung-tag">Facilitated</div><h3>Capability Readiness Review&trade;</h3><p>A facilitated review with evidence-gathering and stakeholder input, producing a prioritised, board-ready picture of the real problem and what to do about it.</p><a class="read" href="contact.html#book">Enquire →</a></div>
-      <div class="rung"><div class="rung-tag">Consultancy</div><h3>Capability Diagnostic&trade;</h3><p>A full diagnostic engagement — root-cause analysis, capability mapping and an evidence-based plan aligned to the Prelude Capability Model&trade;.</p><a class="read" href="contact.html#book">Enquire →</a></div>
+      <div class="rung"><div class="rung-tag">Consultancy</div><h3>Full diagnostic</h3><p>A full diagnostic engagement — root-cause analysis, capability mapping and an evidence-based plan aligned to the Prelude Capability Model&trade;.</p><a class="read" href="contact.html#book">Enquire →</a></div>
     </div>
   </div>
 </section>
@@ -4014,7 +4072,7 @@ howiwork_body = f'''<header class="page-hero">
 <section>
   <div class="wrap">
     <div class="eyebrow reveal">The method behind it</div>
-    {fw_improvement_approach()}
+    {fw_cycle()}
     {fw_maturity_model()}
   </div>
 </section>
@@ -4065,7 +4123,7 @@ manifesto_body = f'''<header class="page-hero">
 
     <h2 class="reveal">Capability is a system, not a course</h2>
     <p class="reveal">Real capability comes from people, behaviours, governance, leadership, structure, assurance and learning working together. Training is one part of that system. When the other parts are missing, no amount of training will deliver the result — which is exactly why so much training appears to "fail".</p>
-    {fw_prelude_model()}
+    {fw_capability_diagnostic()}
 
     <h2 class="reveal">Diagnosis before prescription</h2>
     <p class="reveal">No serious adviser prescribes before they diagnose. The same discipline applies to capability: understand the mission, find the real gap, separate cause from symptom — and only then decide what the right intervention is. Sometimes it's learning. Often it's something more structural.</p>
@@ -4186,48 +4244,6 @@ def section_head(eyebrow, h2, intro="", h="h2"):
 
 def book_cover(cls="book-cover", loading="lazy"):
     return f'''<picture class="{cls}"><source srcset="{BOOK_COVER_WEBP}" type="image/webp"><img src="{BOOK_COVER}" alt="Cover of {BOOK_TITLE} by Jason Smith" width="560" height="733" loading="{loading}"></picture>'''
-
-# ------------------------------------------------------------------ cycle
-CYCLE = [
-    ("Understand", "What are we trying to achieve?",
-     "Agree the outcome, the context and what good performance looks like before anyone discusses solutions."),
-    ("Diagnose", "Why isn&rsquo;t it happening now?",
-     "Gather evidence, separate symptoms from causes and test whether the problem is knowledge, skill, process, system, structure or something else."),
-    ("Define", "What needs to be different?",
-     "Turn the diagnosis into clear requirements: the performance, behaviours, capabilities and conditions the solution must deliver."),
-    ("Intervene", "What is the smallest effective combination of changes?",
-     "Choose the interventions that close the gap. Sometimes that is training. Often it is a process, a tool, a role, a decision or a combination."),
-    ("Prove", "Did performance actually improve?",
-     "Measure against the baseline agreed at the start, so the organisation knows what worked and what to do next."),
-]
-
-def cycle_svg():
-    import math
-    cx, cy, r = 210, 200, 140
-    nodes, labels = "", ""
-    for i, (name, _, _) in enumerate(CYCLE):
-        a = -math.pi / 2 + i * 2 * math.pi / 5
-        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
-        nodes += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="9" class="cy-node{" cy-first" if i == 0 else ""}"/>'
-        lx, ly = cx + (r + 34) * math.cos(a), cy + (r + 34) * math.sin(a) + 5
-        anchor = "middle" if abs(math.cos(a)) < .3 else ("start" if math.cos(a) > 0 else "end")
-        labels += f'<text x="{lx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" class="cy-label">{i+1}. {name.upper()}</text>'
-    return f'''<svg class="cycle-svg" viewBox="-70 0 560 400" role="img" aria-labelledby="cycle-title cycle-desc">
-  <title id="cycle-title">The Prelude Performance &amp; Capability Cycle</title>
-  <desc id="cycle-desc">A five-stage cycle: Understand, Diagnose, Define, Intervene, Prove, then back to Understand.</desc>
-  <circle cx="{cx}" cy="{cy}" r="{r}" class="cy-ring"/>
-  <circle cx="{cx}" cy="{cy}" r="{r - 46}" class="cy-ring cy-inner"/>
-  <text x="{cx}" y="{cy - 6}" text-anchor="middle" class="cy-core">PERFORMANCE</text>
-  <text x="{cx}" y="{cy + 14}" text-anchor="middle" class="cy-core">&amp; CAPABILITY</text>
-  {nodes}{labels}
-</svg>'''
-
-def cycle_list(detail=True):
-    items = ""
-    for i, (name, q, d) in enumerate(CYCLE, 1):
-        body = f'<p>{d}</p>' if detail else ""
-        items += f'<li class="cycle-step reveal"><span class="cs-num">{i:02d}</span><div><h3>{name}</h3><p class="cs-q">{q}</p>{body}</div></li>\n'
-    return f'<ol class="cycle-steps">\n{items}</ol>'
 
 # ------------------------------------------------------------------ pillars
 PILLARS = [
@@ -4849,7 +4865,7 @@ CS_NOTE = f'''<div class="cs-note reveal">
         <div><dt><span class="cs-badge">{CASE_BASIS["anonymised"][0]}</span></dt><dd>{CASE_BASIS["anonymised"][1]} Full case studies will be published only with the client&rsquo;s permission.</dd></div>
       </dl>
       <p>{CASE_EVIDENCE_NOTE}</p>
-      <p>The Prelude Capability Model&trade; and the Prelude Performance &amp; Capability Cycle were formalised after much of this work was delivered. Where a study uses their language, it is a retrospective reading of the work, not a claim that the named model was applied at the time.</p>
+      <p>The Prelude Performance &amp; Capability Cycle, the Golden Thread and the Capability Diagnostic were formalised after much of this work was delivered. Where a study uses their language, it is a retrospective reading of the work, not a claim that the named model was applied at the time.</p>
     </div>'''
 
 def cs_pillar_section(key, tint):
@@ -5016,7 +5032,7 @@ RESOURCE_CONSENT = "I&rsquo;d also like occasional practical insights and resour
 # (id, title, description, file, pages, gated, icon)
 RESOURCES = [
     ("playbook", "The Capability Readiness Playbook&trade;",
-     "Our flagship guide: what capability means, why training isn&rsquo;t always the answer, the Prelude Capability Model&trade;, root-cause analysis, options appraisal and evaluation, with six practical worksheets.",
+     "Our flagship guide: what capability means, why training isn&rsquo;t always the answer, the Golden Thread, the Capability Diagnostic, root-cause analysis, options appraisal and evaluation, with six practical worksheets.",
      "prelude-capability-readiness-playbook.pdf", 23, True, "assets/icons/insight.svg"),
     ("crr-workbook", "Capability Readiness Review",
      "The ten-question self-assessment as a printable workbook, with the same scoring as the online version, evidence prompts, interpretation and an action plan.",
@@ -5151,7 +5167,7 @@ insights_body = _rep(insights_body, "read plain-English thinking on the problems
 manifesto_body = _rep(manifesto_body, '<a class="read" href="insights.html#get-resources">Get the Playbook →</a>',
                                         '<a class="read" href="resources/#r-playbook">Get the Playbook →</a>')
 manifesto_body = _rep(manifesto_body, 'The Capability Readiness Playbook&trade;</h3><p>A consultancy-grade guide to the Prelude Capability Model&trade;, the Capability Readiness Review&trade;, common capability mistakes and the diagnostic questions I use.</p>',
-                                        'The Capability Readiness Playbook&trade;</h3><p>The flagship guide to the Prelude Capability Model&trade;, root-cause analysis, options appraisal and evaluation, with practical worksheets.</p>')
+                                        'The Capability Readiness Playbook&trade;</h3><p>The flagship guide to the Golden Thread, the Capability Diagnostic, root-cause analysis, options appraisal and evaluation, with practical worksheets.</p>')
 
 # ---- Capability Readiness Review page: three levels, indicative nature, workbook
 crr_body = _rep(crr_body, 
@@ -5165,10 +5181,10 @@ crr_body = _rep(crr_body,
     '<p>Your answers tested through structured evidence-gathering and stakeholder input, producing a prioritised picture of the real problem and what to do about it.</p>')
 crr_body = _rep(crr_body, 
     '<div class="rung"><div class="rung-tag">Consultancy</div>',
-    '<div class="rung"><div class="rung-tag">Full diagnostic</div>')
+    '<div class="rung"><div class="rung-tag">Consultancy</div>')
 crr_body = _rep(crr_body, 
     '<p>A full diagnostic engagement — root-cause analysis, capability mapping and an evidence-based plan aligned to the Prelude Capability Model&trade;.</p>',
-    '<p>A more comprehensive investigation: root-cause analysis, capability mapping and evidence-based recommendations, using the Prelude Capability Model&trade;.</p>')
+    '<p>A more comprehensive investigation: root-cause analysis across the eight domains of the Capability Diagnostic, and evidence-based recommendations traced along the Golden Thread.</p>')
 crr_body = _rep(crr_body, 
     'This is the structured diagnosis I run with every client, now available free as a self-assessment.',
     'The ten questions behind it are available here free, as an indicative self-assessment.')
@@ -5456,9 +5472,9 @@ page("how-i-work.html", "How I Work — A Clear Five-Stage Capability Engagement
      howiwork_body, "how-i-work", breadcrumb="How I Work")
 
 page("why-training-isnt-the-problem.html", "Why Training Isn't the Problem — The Prelude Manifesto",
-     "Training is rarely the problem. Capability is. The Prelude manifesto on why performance gaps aren't training gaps, why diagnosis must come before prescription, and how the Prelude Capability Model works.",
+     "Training is rarely the problem. Capability is. The Prelude manifesto on why performance gaps aren't training gaps, why diagnosis must come before prescription, and how to diagnose before you prescribe.",
      manifesto_body, "insights",
-     keywords="capability not training, performance gap, training needs analysis, capability diagnosis, Prelude Capability Model",
+     keywords="capability not training, performance gap, training needs analysis, capability diagnosis, Capability Diagnostic, Golden Thread",
      breadcrumb="Why Training Isn't the Problem")
 
 page("who-i-help.html", "Who I Help — Capability Support by Role | Prelude",

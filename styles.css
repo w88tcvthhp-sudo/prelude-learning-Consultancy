@@ -1136,3 +1136,4 @@ fieldset.crr-q .crr-opts{clear:both}
 .next-steps strong{color:#fff;font-weight:500;display:block}
 .contact-grid>*,.form .field{min-width:0}
 .form select{max-width:100%}
+.framework .fw-svg.fw-narrow{max-width:560px;margin:0 auto}

@@ -45,7 +45,7 @@ body{margin:0}
 .cover .foot span.strap{color:#fff;letter-spacing:1pt;text-transform:none;font:italic 400 9pt var(--body)}
 
 /* ---------- headings ---------- */
-h1,h2,h3,h4{font-family:var(--head);color:var(--forest);break-after:avoid}
+h1,h2,h3,h4{font-family:var(--head);color:var(--forest);break-after:avoid;break-inside:avoid}
 h2{font-size:16pt;line-height:1.15;margin:0 0 3mm;font-weight:700;letter-spacing:-.1pt}
 h2 .num{display:block;font-size:9pt;letter-spacing:2.4pt;color:var(--emerald);margin-bottom:2mm}
 h3{font-size:11pt;margin:4.5mm 0 1.6mm;font-weight:600}

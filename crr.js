@@ -68,7 +68,7 @@
 
     var steps = [];
     if (low.indexOf(0) !== -1) steps.push("Define the single problem you're solving before commissioning any solution.");
-    if (low.indexOf(6) !== -1) steps.push("Test whether training is genuinely the answer using the Training vs Capability Decision Model.");
+    if (low.indexOf(6) !== -1) steps.push("Test whether training is genuinely the answer with the Should We Train? decision tree: could people do it now, under ideal conditions?");
     if (low.indexOf(4) !== -1 || low.indexOf(5) !== -1) steps.push("Agree how success will be measured, and gather a baseline, up front.");
     if (low.indexOf(7) !== -1) steps.push("Map the organisational barriers before designing any intervention.");
     if (low.indexOf(9) !== -1) steps.push("Define the capability actually required to achieve the outcome.");

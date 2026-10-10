@@ -178,7 +178,28 @@ def defined_term_set_schema(name, description, canonical_url, terms):
     }
     return json.dumps(data, indent=2)
 
-def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False, terms=None, schema=None):
+# Inline head script. Its sha256 goes into the Content-Security-Policy, so it is defined once, here.
+# 1. Adds the 'js' class used by the reveal animations; removed again if script.js has not run within 3 s (QA-03).
+# 2. Injects the Fontshare stylesheets so they no longer block rendering (QA-07). One request per family:
+#    the Fontshare API ignores a second f[] parameter, which is why General Sans never loaded before.
+FONT_CSS = ["satoshi@400,500,700", "general-sans@400,401,500,600,700"]
+FONT_CSS_URLS = [f"https://api.fontshare.com/v2/css?f[]={f}&display=swap" for f in FONT_CSS]
+HEAD_JS = ("(function(d){var e=d.documentElement;e.classList.add('js');"
+           "setTimeout(function(){if(!window.preludeReady)e.classList.remove('js')},3000);"
+           + "[" + ",".join("'" + u + "'" for u in FONT_CSS_URLS) + "]"
+           + ".forEach(function(u){var l=d.createElement('link');l.rel='stylesheet';l.href=u;d.head.appendChild(l)})})(document)")
+FONT_NOSCRIPT = "<noscript>" + "".join(f'<link rel="stylesheet" href="{u.replace("&", "&amp;")}">' for u in FONT_CSS_URLS) + "</noscript>"
+
+FOUNDER_JPG = "assets/photos/professional-photograph-of-jason-smith.jpeg"
+FOUNDER_WEBP = ", ".join(f"assets/photos/professional-photograph-of-jason-smith-{w}.webp {w}w" for w in (320, 480, 640, 803))
+
+def founder_img(alt, sizes, cls=""):
+    """Below-the-fold founder photo: lazy, never preloaded, same image in every context."""
+    c = f' class="{cls}"' if cls else ""
+    return (f'<picture class="pic"><source type="image/webp" srcset="{FOUNDER_WEBP}" sizes="{sizes}">'
+            f'<img{c} src="{FOUNDER_JPG}" alt="{alt}" width="803" height="1200" loading="lazy" decoding="async"></picture>')
+
+def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=None, article=None, noindex=False, terms=None, schema=None, head_extra=""):
     kw = f'\n<meta name="keywords" content="{keywords}">' if keywords else ""
     if filename == "index.html":
         canonical_url = SITE_URL + "/"
@@ -200,11 +221,12 @@ def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=
     if article:
         schema_scripts += f'\n<script type="application/ld+json">\n{article_schema(article[0], article[1], canonical_url)}\n</script>'
     return f'''<!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#081D16">
+<script>{HEAD_JS}</script>
 <title>{title}</title>
 <meta name="description" content="{desc}">{kw}{canonical}{robots}
 <meta property="og:type" content="{og}">
@@ -220,9 +242,10 @@ def head(filename, title, desc, keywords="", og="website", breadcrumb=None, faq=
 <meta name="twitter:description" content="{desc}">
 <meta name="twitter:image" content="{OG_IMAGE}">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="styles.css">{head_extra}
+{FONT_NOSCRIPT}
 {schema_scripts}
 </head>
 <body>
@@ -696,15 +719,21 @@ def photo_grid(items, cols="3"):
     cls = "photo-grid" + (" cols-2" if cols == "2" else "")
     return f'<div class="{cls} reveal">{cells}</div>'
 
-_REL = re.compile(r'(\s(?:href|src|srcset|action)=")(?!https?:|mailto:|tel:|#|/|data:|javascript:)')
+_REL = re.compile(r'(\s(?:href|src|action)=")(?!https?:|mailto:|tel:|#|/|data:|javascript:)')
+_SRCSET = re.compile(r'(\ssrcset=")([^"]*)"')
+def _rel_srcset(m, depth):
+    parts = [p.strip() for p in m.group(2).split(",")]
+    fixed = [p if re.match(r'(https?:|/|data:)', p) else "../" * depth + p for p in parts]
+    return m.group(1) + ", ".join(fixed) + '"'
 
-def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False, terms=None, schema=None, prologue=""):
-    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex, terms, schema) + nav(active)
+def page(filename, title, desc, body, active, keywords="", og="website", extra_body="", breadcrumb=None, faq=None, article=None, noindex=False, terms=None, schema=None, prologue="", head_extra=""):
+    html = (head(filename, title, desc, keywords, og, breadcrumb, faq, article, noindex, terms, schema, head_extra) + nav(active)
             + f'<main id="main">{body}</main>' + extra_body + footer())
     depth = filename.count("/")
     if depth:
         # nested routes (e.g. book-toolkit/index.html): keep every site-relative link working
         html = _REL.sub(lambda m: m.group(1) + "../" * depth, html)
+        html = _SRCSET.sub(lambda m: _rel_srcset(m, depth), html)
         os.makedirs(os.path.dirname(filename), exist_ok=True)
     with open(filename, "w") as f:
         f.write(prologue + html)
@@ -717,7 +746,7 @@ def acc_item(num, title, ch, appr, out, ex, is_open=False, slug=None):
     op = " open" if is_open else ""
     read_more = f'<div class="acc-block full"><a class="read" href="{slug}.html">Full service page: problem, approach, deliverables &amp; FAQs {ARROW}</a></div>' if slug else ""
     return f'''      <div class="acc-item{op}">
-        <button class="acc-head"><span class="acc-num">{num}</span><span class="acc-title">{title}</span><span class="plus" aria-hidden="true"></span></button>
+        <h3 class="acc-h"><button class="acc-head"><span class="acc-num">{num}</span><span class="acc-title">{title}</span><span class="plus" aria-hidden="true"></span></button></h3>
         <div class="acc-body"><div class="acc-body-inner">
           <div class="acc-block"><h4>Client challenges</h4><ul>{chli}</ul></div>
           <div class="acc-block"><h4>My approach</h4><p>{appr}</p></div>
@@ -1238,7 +1267,7 @@ about_body = f'''<header class="page-hero">
       <p>He founded Prelude to bring the same discipline to organisations of every size: diagnose the problem first, then use learning as one of several tools to fix it. When you work with Prelude, you work with Jason directly.</p>
     </div>
     <div class="reveal" data-d="2">
-      <div class="photo-frame has-photo"><img src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy"></div>
+      <div class="photo-frame has-photo">{founder_img("Jason Smith, founder of Prelude Learning &amp; Consultancy", "(max-width: 1000px) calc(100vw - 46px), 560px")}</div>
     </div>
   </div>
 </section>
@@ -3911,19 +3940,19 @@ contact_body = f'''<header class="page-hero" id="book">
         <input type="hidden" name="_next" value="{SITE_URL}/thank-you.html?from=contact">
         <div class="hp" aria-hidden="true"><label for="contact-gotcha">Leave this field empty</label><input id="contact-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
         <div class="row">
-          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@organisation.co.uk"><span class="field-error">Please enter a valid email address.</span></div>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required aria-describedby="name-error" autocomplete="name" placeholder="Your name"><span class="field-error" id="name-error">Please enter your name.</span></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required aria-describedby="email-error" autocomplete="email" placeholder="you@organisation.co.uk"><span class="field-error" id="email-error">Please enter a valid email address.</span></div>
         </div>
         <div class="row">
           <div class="field"><label for="org">Organisation <span class="opt">(optional)</span></label><input id="org" name="organisation" type="text" autocomplete="organization" placeholder="Your organisation"></div>
           <div class="field"><label for="enquiry">Nature of enquiry</label>
-            <select id="enquiry" name="enquiry_type" required><option value="" selected disabled>Choose one</option>{_enq_opts}</select><span class="field-error">Please choose the closest match.</span>
+            <select id="enquiry" name="enquiry_type" required aria-describedby="enquiry-error"><option value="" selected disabled>Choose one</option>{_enq_opts}</select><span class="field-error" id="enquiry-error">Please choose the closest match.</span>
           </div>
         </div>
         <div class="field"><label for="timescale">Timescale <span class="opt">(optional)</span></label>
           <select id="timescale" name="timescale"><option value="" selected>Not sure yet</option>{_time_opts}</select>
         </div>
-        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you&rsquo;re trying to solve..."></textarea><span class="field-error">Please tell us a little about the challenge you&rsquo;re facing.</span></div>
+        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required aria-describedby="message-error" placeholder="A few lines on the problem you&rsquo;re trying to solve..."></textarea><span class="field-error" id="message-error">Please tell us a little about the challenge you&rsquo;re facing.</span></div>
         <p class="fine-print">We use these details only to reply to your enquiry and keep a record of it. They reach us through Formspree, our form provider. We won&rsquo;t add you to a mailing list. See our <a href="privacy.html">Privacy Policy</a>.</p>
         <button type="submit" class="btn btn-primary" data-event="contact_submit">Send enquiry {ARROW}</button>
         <p class="form-note">Prefer email? Write to <a href="mailto:jason.smith@prelude-learning.com" style="color:var(--gold)">jason.smith@prelude-learning.com</a>.</p>
@@ -3983,7 +4012,7 @@ crr_body = f'''<header class="page-hero">
 
 <section>
   <div class="wrap">
-    <div class="eyebrow reveal">What it is</div>
+    <h2 class="eyebrow reveal">What it is</h2>
     <p class="lead reveal" data-d="1">A diagnostic, not a sales tool. <span class="dim">The Capability Readiness Review tests how clearly you can answer the ten questions that determine whether an intervention will actually work — and shows where the risk really sits. The questions follow the Golden Thread, from the problem itself to how success will be measured.</span></p>
     {fw_golden_thread()}
     {fw_readiness_review()}
@@ -4085,7 +4114,7 @@ howiwork_body = f'''<header class="page-hero">
     <h2 class="section-intro lead reveal" data-d="1" style="font-size:clamp(1.4rem,2.6vw,2rem)">No surprises. No junior hand-offs. No lock-in.</h2>
     <div class="feature-grid cols-2">
       <div class="feature-card reveal"><h3>Clear scope &amp; milestones</h3><p>You'll know what's being done, by when, and what each stage delivers — agreed up front.</p></div>
-      <div class="feature-card reveal" data-d="1"><h3>Senior delivery throughout</h3><p>You work directly with me. The person you meet is the person who does the work.</p></div>
+      <div class="feature-card reveal" data-d="1"><h3>Senior delivery throughout</h3><p>The person you meet is the person accountable for the work. You&rsquo;ll work directly with an experienced practitioner who brings the expertise, ownership and commitment to see it through.</p></div>
       <div class="feature-card reveal"><h3>Evidence at every stage</h3><p>Recommendations are backed by analysis you can see, question and take to your board.</p></div>
       <div class="feature-card reveal" data-d="1"><h3>No lock-in</h3><p>I build your capability to stand on its own — not a dependency on me.</p></div>
     </div>
@@ -4336,7 +4365,7 @@ def about_strip():
     facts = "".join(f"<li>{f}</li>" for f in ABOUT_FACTS)
     return f'''<section class="sec">
   <div class="wrap about-strip">
-    <img class="about-photo reveal" src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy">
+    {founder_img("Jason Smith, founder of Prelude Learning &amp; Consultancy", "(max-width: 1000px) 240px, 320px", "about-photo reveal")}
     <div class="reveal" data-d="1">
       <div class="eyebrow">Who you work with</div>
       <h2 class="section-title">Jason Smith, founder</h2>
@@ -4572,7 +4601,7 @@ book_body = f'''<header class="page-hero book-hero">
 
 <section class="sec sec-tint">
   <div class="wrap about-strip">
-    <img class="about-photo reveal" src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith" width="803" height="1200" loading="lazy">
+    {founder_img("Jason Smith", "(max-width: 1000px) 240px, 320px", "about-photo reveal")}
     <div class="reveal" data-d="1">
       <div class="eyebrow">About the author</div>
       <h2 class="section-title">Jason Smith</h2>
@@ -4835,7 +4864,8 @@ def case_card(cs, d=0, figure=False):
 
 def anon_card(ex, d=0):
     rows = "".join(f'<div class="ex-row"><dt>{k}</dt><dd>{v}</dd></div>' for k, v in ex["rows"])
-    return f'''      <article class="cs-card reveal" data-d="{d}">
+    anchor = "example-" + re.sub(r"[^a-z0-9]+", "-", ex["kind"].lower()).strip("-")
+    return f'''      <article class="cs-card reveal" data-d="{d}" id="{anchor}">
         <p class="cs-meta"><span class="cs-badge">{CASE_BASIS["anonymised"][0]}</span><span>Business Analysis &amp; Improvement</span></p>
         <h3>{ex["kind"]}</h3>
         <dl>{rows}</dl>
@@ -5238,12 +5268,16 @@ HOME_SERVICES = [
     ("workforce-development/", "Learning &amp; Workforce Development",
      "Designing evidence-led learning strategies, workforce development solutions and evaluation approaches that support measurable performance, with learning used where it is genuinely part of the answer."),
 ]
-HOME_CASES = [  # (href, badge, category, title, challenge, contribution, link text)
-    ("mod-digital-skills-for-defence.html", CASE_BASIS["founder"][0], "Defence &middot; capability and TNA", "MOD Digital Skills for Defence (DS4D)",
+HOME_CASES = [  # (href, badge, sector label, title, challenge, intervention and outcome, link text)
+    ("mod-digital-skills-for-defence.html", CASE_BASIS["founder"][0], "Defence &middot; public sector", "MOD Digital Skills for Defence (DS4D)",
      "Defence was framing a digital skills problem as a training problem, when the real question was what digital capability it actually required.",
      "Jason led the DSAT-aligned Training Needs Analysis, then helped define the capability requirement, a skills and behaviours framework and a learning architecture aligned to strategic outcomes.",
      "Read the case study"),
-    ("case-studies.html#business-analysis", CASE_BASIS["anonymised"][0], "Owner-led business &middot; business analysis", "Owner-led service business",
+    ("healthcare-learning-transformation.html", CASE_BASIS["founder"][0], "Healthcare", "Healthcare Learning Transformation",
+     "Learning compliance data across around 15,000 colleagues could not be trusted, so leaders were managing risk without reliable visibility.",
+     "Redesigned Totara dashboards, role-based learning pathways and information management, so leaders could rely on their own compliance reporting.",
+     "Read the case study"),
+    ("case-studies.html#example-owner-led-service-business", CASE_BASIS["anonymised"][0], "Commercial &middot; SME", "Owner-led service business",
      "The request was to improve the digital presence and generate more enquiries. The more important question was what would happen if demand actually increased.",
      "Analysis showed the binding constraints were owner dependency, pricing, systems, capacity, delegation and quality control, so the work expanded into growth strategy, the operating model, systems and implementation planning.",
      "Read the example"),
@@ -5304,24 +5338,24 @@ home_body = f'''<header class="hero-2026 hero-compact" id="top">
 
 <section class="sec sec-tint home-evidence">
   <div class="wrap">
-{section_head("Evidence of experience", "From Defence programmes to growing businesses.")}    <div class="cs-grid two">
+{section_head("Evidence of experience", "From Defence programmes to growing businesses.")}    <div class="cs-grid three home-cases">
 {_cases}    </div>
     <figure class="quote-2026 home-quote reveal">
       <blockquote><p>{DS4D_QUOTE}</p></blockquote>
       <figcaption>Senior client, Digital Skills for Defence (DS4D)</figcaption>
     </figure>
-    <p class="fine-print reveal">The DS4D work was part of Jason Smith&rsquo;s previous role with Korn Ferry. The owner-led business is a recent Prelude engagement, shared without client details.</p>
+    <p class="fine-print reveal">The DS4D and healthcare work come from Jason Smith&rsquo;s previous roles. The owner-led business is a recent Prelude engagement, shared without client details.</p>
   </div>
 </section>
 
 <section class="sec home-founder">
   <div class="wrap about-strip">
-    <img class="about-photo reveal" src="assets/photos/professional-photograph-of-jason-smith.jpeg" alt="Jason Smith, founder of Prelude Learning &amp; Consultancy" width="803" height="1200" loading="lazy">
+    {founder_img("Jason Smith, founder of Prelude Learning &amp; Consultancy", "(max-width: 1000px) 240px, 320px", "about-photo reveal")}
     <div class="reveal" data-d="1">
       <div class="eyebrow">Who you work with</div>
       <h2 class="section-title small">Senior-led, from first conversation to final recommendation.</h2>
-      <p>Prelude is led by Jason Smith, who brings more than 23 years of leadership and operational experience. He served in the Royal Navy in senior operations, training and capability roles, then led learning and capability work in healthcare, social housing and on the MOD&rsquo;s Digital Skills for Defence programme. You work with Jason directly: the person you meet is the person who does the work.</p>
-      <p class="home-reach">Prelude has particular expertise in Defence and the public sector, and works with organisations of every size, across every industry.</p>
+      <p>Prelude is led by Jason Smith, who brings more than 23 years of leadership and operational experience. He served in the Royal Navy in senior operations, training and capability roles, then led learning and capability work in healthcare, social housing and on the MOD&rsquo;s Digital Skills for Defence programme. The person you meet is the person accountable for the work. You&rsquo;ll work directly with an experienced practitioner who brings the expertise, ownership and commitment to see it through.</p>
+      <p class="home-reach">With specialist experience in Defence and public services, we work with organisations of every size and across every sector.</p>
       <ul class="fact-list">{_facts}</ul>
       <a class="text-link" href="about.html">More about Jason {ARROW}</a>
     </div>
@@ -5431,7 +5465,9 @@ print("wrote api/_lib/toolkit-manifest.js")
 
 page("index.html", "Prelude Learning &amp; Consultancy | Capability Consulting, Business Analysis &amp; Workforce Development",
      "Solving problems training alone can't fix. Independent UK consultancy for capability consulting, TNA and DSAT, business analysis and improvement, and learning and workforce development. Defence and public-sector specialists; organisations of every size.",
-     home_body, "home", schema=[WEBSITE_SCHEMA])
+     home_body, "home", schema=[WEBSITE_SCHEMA],
+     head_extra=('\n<link rel="preload" as="image" type="image/webp" href="assets/brand/prelude-landscape-640.webp" media="(max-width: 900px)">'
+                 '\n<link rel="preload" as="image" type="image/webp" href="assets/brand/prelude-landscape.webp" media="(min-width: 901px)">'))
 
 page("defence.html", "DSAT Consultant | JSP 822 &amp; Defence Training Governance | Prelude",
      "Defence capability and DSAT consultancy for MOD, Defence Digital, DE&S, Front Line Commands and prime contractors. JSP 822, Training Needs Analysis, capability frameworks, training governance and readiness.",
@@ -5768,5 +5804,24 @@ def build_sitemap():
     print("wrote sitemap.xml")
 
 build_sitemap()
+
+def sync_csp_hashes():
+    """Hash every inline executable <script> in the generated pages and write the hashes into the
+    script-src of the Content-Security-Policy(-Report-Only) header in vercel.json. JSON-LD blocks are
+    data, not script, so CSP does not apply to them."""
+    import glob, hashlib, base64
+    hashes = set()
+    for f in glob.glob("**/*.html", recursive=True):
+        if f.startswith(("node_modules", "resources-src", "docs")) or re.search(r" \d\.html$", f):
+            continue
+        for body in re.findall(r"<script>(.*?)</script>", open(f, encoding="utf-8").read(), re.S):
+            hashes.add("'sha256-" + base64.b64encode(hashlib.sha256(body.encode("utf-8")).digest()).decode() + "'")
+    src = open("vercel.json", encoding="utf-8").read()
+    new = re.sub(r"script-src 'self'[^;]*;", "script-src 'self' " + " ".join(sorted(hashes)) + ";", src)
+    if new != src:
+        open("vercel.json", "w", encoding="utf-8").write(new)
+    print(f"CSP script-src: {len(hashes)} inline script hash(es) in vercel.json")
+
+sync_csp_hashes()
 
 print("done")

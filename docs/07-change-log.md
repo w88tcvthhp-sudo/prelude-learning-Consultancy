@@ -1,5 +1,37 @@
 # 07 · Change log
 
+## Final remediation and optimisation · 10 October 2026 (not yet committed)
+
+Full details are in `10-final-remediation-report.md`.
+
+**Content and UX**
+- **Homepage evidence:** three cards. DS4D comes first, then Healthcare Learning Transformation, then the owner-led service business (linked to its anchor). They sit in one row on desktop and stack one per row at 1,000px and below.
+- **Founder section:** the approved sector statement and the approved accountability wording. How I Work has been updated to match.
+- **Mobile menu:** all top-level items are now 20px and all sub-links 16px. The root cause was an unscoped desktop font-size rule. The first item is no longer clipped on short screens.
+
+**Technical**
+- **Fonts (QA-07):** one Fontshare request per family, which fixes General Sans never loading. Fonts now load without blocking the first paint. Satoshi 900 has been dropped, preconnects corrected, and metric-matched fallbacks added.
+- **Hero image (QA-07):** WebP via `image-set()`, with a 640px mobile variant and a homepage-only preload.
+- **Headings (QA-08):** fixed on CRR (eyebrow H2) and Services (accordion buttons inside H3s).
+- **Founder photo (QA-09):** responsive WebP (320–803w) with a JPEG fallback, lazy loading and intrinsic dimensions. `srcset` paths are now prefixed correctly on nested pages.
+- **Language (QA-10):** `lang="en-GB"` on every page.
+- **Content Security Policy (QA-12):** a `Content-Security-Policy-Report-Only` header in `vercel.json`. `build.py` keeps the script hashes in step automatically. There is no reporting endpoint yet.
+- **Reduced motion:** smooth scrolling is turned off when a visitor's device asks for reduced motion.
+
+## QA fixes · 9 October 2026 (not yet committed)
+
+Full details are in `09-qa-report.md`.
+
+**P1 fixes:**
+- **Links:** breadcrumb and footer sector links are now underlined (WCAG 1.4.1).
+- **Mobile menu:** the closed overlay menu is removed from the Tab order. The open menu now holds focus: the page behind becomes `inert`, and Escape and resizing close it cleanly.
+- **Hidden content:** content no longer stays hidden if `script.js` fails or JavaScript is off. An inline flag in `<head>` falls back after 3 s.
+- **Internal files:** a new `.vercelignore` stops `/docs`, `/resources-src`, `build.py` and the root `.md` files being served on the live site.
+
+**P2 fixes:**
+- **Owner-led example:** it now has its own anchor, and the homepage links straight to it.
+- **Contact form:** errors are linked to their fields with `aria-describedby`.
+
 ## Homepage final remediation · 9 October 2026 (not yet committed)
 
 - **Hero, problems, services, founder and final CTA:** copy updated to the final brief.

@@ -1,0 +1,6 @@
+# Files that are part of the repository but not the public website.
+# Without this, Vercel serves them at www.prelude-learning.com/<path> (checked 9 October 2026).
+/docs
+/resources-src
+/build.py
+/*.md

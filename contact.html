@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#081D16">
+<script>(function(d){var e=d.documentElement;e.classList.add('js');setTimeout(function(){if(!window.preludeReady)e.classList.remove('js')},3000);['https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap','https://api.fontshare.com/v2/css?f[]=general-sans@400,401,500,600,700&display=swap'].forEach(function(u){var l=d.createElement('link');l.rel='stylesheet';l.href=u;d.head.appendChild(l)})})(document)</script>
 <title>Contact | Prelude Learning &amp; Consultancy</title>
 <meta name="description" content="Discuss your capability, readiness or training governance challenge with Jason Smith. A practical, problem-first conversation — no sales pitch. Defence, Healthcare, Housing and public sector.">
 <link rel="canonical" href="https://www.prelude-learning.com/contact.html">
@@ -20,9 +21,10 @@
 <meta name="twitter:description" content="Discuss your capability, readiness or training governance challenge with Jason Smith. A practical, problem-first conversation — no sales pitch. Defence, Healthcare, Housing and public sector.">
 <meta name="twitter:image" content="https://www.prelude-learning.com/assets/og/prelude-og-image.jpg">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
-<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="stylesheet" href="styles.css">
+<noscript><link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&amp;display=swap"><link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=general-sans@400,401,500,600,700&amp;display=swap"></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -167,19 +169,19 @@
         <input type="hidden" name="_next" value="https://www.prelude-learning.com/thank-you.html?from=contact">
         <div class="hp" aria-hidden="true"><label for="contact-gotcha">Leave this field empty</label><input id="contact-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off"></div>
         <div class="row">
-          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required autocomplete="name" placeholder="Your name"><span class="field-error">Please enter your name.</span></div>
-          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@organisation.co.uk"><span class="field-error">Please enter a valid email address.</span></div>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" required aria-describedby="name-error" autocomplete="name" placeholder="Your name"><span class="field-error" id="name-error">Please enter your name.</span></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" required aria-describedby="email-error" autocomplete="email" placeholder="you@organisation.co.uk"><span class="field-error" id="email-error">Please enter a valid email address.</span></div>
         </div>
         <div class="row">
           <div class="field"><label for="org">Organisation <span class="opt">(optional)</span></label><input id="org" name="organisation" type="text" autocomplete="organization" placeholder="Your organisation"></div>
           <div class="field"><label for="enquiry">Nature of enquiry</label>
-            <select id="enquiry" name="enquiry_type" required><option value="" selected disabled>Choose one</option><option>Diagnosing a performance or capability problem</option><option>Training Needs Analysis or DSAT</option><option>Business analysis or process improvement</option><option>Learning, leadership or workforce development</option><option>Capability Readiness Review</option><option>Associate or consultancy partner work</option><option>The book or its toolkit</option><option>Something else</option></select><span class="field-error">Please choose the closest match.</span>
+            <select id="enquiry" name="enquiry_type" required aria-describedby="enquiry-error"><option value="" selected disabled>Choose one</option><option>Diagnosing a performance or capability problem</option><option>Training Needs Analysis or DSAT</option><option>Business analysis or process improvement</option><option>Learning, leadership or workforce development</option><option>Capability Readiness Review</option><option>Associate or consultancy partner work</option><option>The book or its toolkit</option><option>Something else</option></select><span class="field-error" id="enquiry-error">Please choose the closest match.</span>
           </div>
         </div>
         <div class="field"><label for="timescale">Timescale <span class="opt">(optional)</span></label>
           <select id="timescale" name="timescale"><option value="" selected>Not sure yet</option><option>No fixed timescale</option><option>As soon as possible</option><option>Within three months</option><option>In three to six months</option><option>Exploring for later</option></select>
         </div>
-        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required placeholder="A few lines on the problem you&rsquo;re trying to solve..."></textarea><span class="field-error">Please tell us a little about the challenge you&rsquo;re facing.</span></div>
+        <div class="field"><label for="message">What challenge are you facing?</label><textarea id="message" name="message" required aria-describedby="message-error" placeholder="A few lines on the problem you&rsquo;re trying to solve..."></textarea><span class="field-error" id="message-error">Please tell us a little about the challenge you&rsquo;re facing.</span></div>
         <p class="fine-print">We use these details only to reply to your enquiry and keep a record of it. They reach us through Formspree, our form provider. We won&rsquo;t add you to a mailing list. See our <a href="privacy.html">Privacy Policy</a>.</p>
         <button type="submit" class="btn btn-primary" data-event="contact_submit">Send enquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <p class="form-note">Prefer email? Write to <a href="mailto:jason.smith@prelude-learning.com" style="color:var(--gold)">jason.smith@prelude-learning.com</a>.</p>

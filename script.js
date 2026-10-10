@@ -4,6 +4,7 @@
    ===================================================================== */
 (function () {
   'use strict';
+  window.preludeReady = true; // read by the inline fallback in <head>
 
   /* ---- Sticky nav: add .scrolled once the page is scrolled ---- */
   var nav = document.getElementById('nav');
@@ -27,6 +28,9 @@
     links.classList.toggle('open', willOpen);
     nav.classList.toggle('menu-open', willOpen);
     document.body.style.overflow = willOpen ? 'hidden' : '';
+    // keep keyboard and screen-reader users inside the open menu
+    document.querySelectorAll('main, footer, .skip-link').forEach(function (el) { el.inert = willOpen; });
+    if (willOpen) { var first = links.querySelector('a, button'); if (first) first.focus(); }
     if (burger) {
       burger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
       burger.setAttribute('aria-label', willOpen ? 'Close menu' : 'Open menu');
@@ -47,6 +51,9 @@
   if (burger) {
     burger.addEventListener('click', function () { toggleMenu(); });
   }
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 1180 && links && links.classList.contains('open')) toggleMenu(false);
+  });
   if (links) {
     links.querySelectorAll('a').forEach(function (a) {
       a.addEventListener('click', function () { toggleMenu(false); });

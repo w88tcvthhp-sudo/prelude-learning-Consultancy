@@ -6,6 +6,13 @@
    Type:  Satoshi (display) · General Sans (body)
    ===================================================================== */
 
+/* Metric-matched fallbacks (QA-07): local Arial scaled to the width, ascent and descent of the brand
+   fonts, so text barely moves when Satoshi and General Sans swap in. Measured 10 Oct 2026. */
+@font-face{font-family:'Satoshi Fallback';font-weight:400;src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('LiberationSans');size-adjust:101.6%;ascent-override:99.4%;descent-override:23.6%;line-gap-override:0%}
+@font-face{font-family:'Satoshi Fallback';font-weight:700;src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('LiberationSans-Bold');size-adjust:97.6%;ascent-override:103.5%;descent-override:24.6%;line-gap-override:0%}
+@font-face{font-family:'General Sans Fallback';font-weight:400;src:local('Arial'),local('ArialMT'),local('Liberation Sans'),local('LiberationSans');size-adjust:100.4%;ascent-override:100.6%;descent-override:23.9%;line-gap-override:0%}
+@font-face{font-family:'General Sans Fallback';font-weight:700;src:local('Arial Bold'),local('Arial-BoldMT'),local('Liberation Sans Bold'),local('LiberationSans-Bold');size-adjust:99.1%;ascent-override:101.9%;descent-override:24.2%;line-gap-override:0%}
+
 :root{
   --forest:#081D16;
   --forest-2:#0a241b;
@@ -17,8 +24,8 @@
   --gold:#C8A96A;
   --error:#E68A7C;
   --paper:#f3f2ec;
-  --display:'Satoshi',-apple-system,sans-serif;
-  --body:'General Sans',-apple-system,sans-serif;
+  --display:'Satoshi','Satoshi Fallback',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --body:'General Sans','General Sans Fallback',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --maxw:1180px;
   --ease:cubic-bezier(.16,1,.3,1);
 }
@@ -675,7 +682,7 @@ header.page-hero .hero-sub{max-width:680px}
   .nav-dropdown a{text-align:center;font-size:16px;padding:9px 0;color:var(--stone-dim)}
 }
 .nav-links{gap:24px}
-.nav-links a{font-size:13.5px}
+@media(min-width:1181px){.nav-links a{font-size:13.5px}} /* desktop only: unscoped, this overrode the mobile menu sizes */
 
 /* ---- framework graphic wrapper ---- */
 .framework{border:1px solid rgba(200,169,106,.2);border-radius:8px;background:linear-gradient(150deg,rgba(44,74,63,.22),rgba(8,29,22,.12));padding:40px;margin-top:46px}
@@ -1015,9 +1022,10 @@ button.burger{background:none;border:0;padding:10px;cursor:pointer;color:inherit
 .hero-2026{position:relative;overflow:hidden}
 .hero-2026::before{content:"";position:absolute;inset:0 0 0 38%;z-index:0;pointer-events:none;
   background:url(assets/brand/prelude-landscape.jpg) center 35%/cover no-repeat;opacity:.55;
+  background-image:image-set(url(assets/brand/prelude-landscape.webp) type("image/webp"),url(assets/brand/prelude-landscape.jpg) type("image/jpeg"));
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 45%);mask-image:linear-gradient(90deg,transparent 0,#000 45%)}
 .hero-2026 .wrap{position:relative;z-index:2}
-@media(max-width:900px){.hero-2026::before{inset:0;opacity:.22;-webkit-mask-image:linear-gradient(180deg,#000 20%,transparent 85%);mask-image:linear-gradient(180deg,#000 20%,transparent 85%)}}
+@media(max-width:900px){.hero-2026::before{inset:0;opacity:.22;background-image:image-set(url(assets/brand/prelude-landscape-640.webp) type("image/webp"),url(assets/brand/prelude-landscape.jpg) type("image/jpeg"));-webkit-mask-image:linear-gradient(180deg,#000 20%,transparent 85%);mask-image:linear-gradient(180deg,#000 20%,transparent 85%)}}
 button.burger{min-width:44px;min-height:44px;align-items:center;justify-content:center}
 .nav-drop-btn{min-height:44px}
 @media(max-width:1180px){.nav-links a,.nav-drop-btn{min-height:44px;display:flex;align-items:center;justify-content:center}}
@@ -1145,8 +1153,6 @@ fieldset.crr-q .crr-opts{clear:both}
 .home-problem h3{font-size:clamp(1.15rem,1.05rem + .4vw,1.35rem);line-height:1.25;margin:0 0 10px}
 .home-problem{border-top-color:rgba(200,198,189,.22)}
 .home-problem p,.pillar>p{color:var(--stone)}
-.cs-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-@media(max-width:760px){.cs-grid.two{grid-template-columns:minmax(0,1fr)}}
 .home-case>p{margin-top:8px}
 .home-case p strong{color:#fff;font-weight:600}
 .home-quote{margin:clamp(44px,6vw,64px) auto 0;max-width:860px}
@@ -1156,3 +1162,47 @@ fieldset.crr-q .crr-opts{clear:both}
 .inline-link{color:var(--gold);text-decoration:underline;text-underline-offset:3px}.inline-link:hover{color:#fff}
 .home-founder p + p{margin-top:12px}
 .home-founder .home-reach{color:#fff;font-family:var(--display);margin-top:16px}
+
+/* ---- 2026-10 QA fixes (docs/09-qa-report.md) ---- */
+/* P1: content stays visible when script.js is unavailable */
+html:not(.js) .reveal{opacity:1;transform:none;transition:none}
+/* P1: the closed overlay menu is removed from the tab order and the accessibility tree */
+@media(max-width:1180px){
+  .nav-links{visibility:hidden;transition:transform .5s var(--ease),visibility 0s linear .5s}
+  .nav-links.open{visibility:visible;transition:transform .5s var(--ease),visibility 0s linear 0s}
+}
+@media(prefers-reduced-motion:reduce){.nav-links,.nav-links.open{transition:none}}
+/* P1: links inside text are distinguishable without colour (WCAG 1.4.1) */
+.crumbs a,.foot-sectors a{text-decoration:underline;text-decoration-color:rgba(200,198,189,.5);text-underline-offset:3px}
+.crumbs a:hover,.foot-sectors a:hover{text-decoration-color:currentColor}
+/* anchored case cards clear the fixed header */
+.cs-card[id],section[id]{scroll-margin-top:100px}
+
+/* ---- 2026-10 final remediation: three homepage case studies ---- */
+.cs-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:1000px){.cs-grid.three{grid-template-columns:minmax(0,1fr);gap:36px}.cs-grid.three .cs-card>p{max-width:68ch}}
+
+/* ---- 2026-10 final remediation: mobile menu typography and layout (<=1180px) ---- */
+@media(max-width:1180px){
+  /* top-aligned scrolling list that still centres when short; centring alone clipped the first items */
+  .nav-links{justify-content:flex-start;gap:4px;padding:96px 24px 40px}
+  .nav-links>:first-child{margin-top:auto}
+  .nav-links>:last-child{margin-bottom:auto}
+  /* one treatment for every top-level item, link or button */
+  .nav-links>a:not(.nav-cta),.nav-links .nav-drop-btn{font-family:var(--body);font-size:20px;font-weight:400;line-height:1.3;letter-spacing:.01em;color:var(--stone);min-height:48px;width:100%;padding:8px 0;justify-content:center;text-align:center}
+  .nav-links>a.active,.nav-links>a:not(.nav-cta):hover,.nav-links .nav-drop-btn:hover{color:#fff}
+  .nav-links a::after{display:none}
+  .nav-item.has-dropdown{padding:0}
+  /* nested links: one smaller, consistent size */
+  .nav-links .nav-dropdown{padding:2px 0 8px}
+  .nav-links .nav-dropdown a{font-family:var(--body);font-size:16px;font-weight:400;line-height:1.35;letter-spacing:.01em;min-height:44px;padding:8px 0;color:var(--stone-dim);white-space:normal}
+  .nav-links .nav-dropdown a:hover,.nav-links .nav-dropdown a.active{color:#fff;background:none}
+  .nav-links a.nav-cta{font-size:16px;min-height:48px;margin-top:20px;padding:12px 30px}
+}
+
+/* ---- 2026-10 final remediation: headings and images ---- */
+h2.eyebrow,h3.eyebrow{line-height:inherit;text-wrap:wrap}
+h3.acc-h{font:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0}
+.pic{display:contents}.pic source{display:none}
+.home-cases .cs-meta{flex-direction:column;align-items:flex-start;gap:8px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
